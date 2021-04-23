@@ -5,16 +5,14 @@ def create_protein_groups(protein_peptide_dict, peptide_protein_dict):
     # protein_group_id is a simple integer
     protein_group_id = 0
     # create list of protein_id from proteins-dict which we will exhaust
-    remaining_proteins = list()
-    for protein_entry in protein_peptide_dict:
-        remaining_proteins.append(protein_entry)
+    remaining_proteins = set(protein_peptide_dict.keys())
     # continue until no proteins remaining for processing
-    while remaining_proteins.count() > 0:
+    while len(remaining_proteins) > 0:
         # take another protein
         protein = remaining_proteins.pop()
         # create new protein_group from current protein (i.e. entry in dict)
         protein_group_id += 1
-        protein_groups.update({protein_group_id: {protein}})
+        protein_groups[protein_group_id] = set(protein)
         # remove current protein from list
         remaining_proteins.remove(protein)
         # check for more linked proteins with recursive call
@@ -34,7 +32,7 @@ def recursion_check_for_more_linked_proteins(protein_group_id, remaining_protein
     peptide_set = set()
     for protein in protein_groups[protein_group_id]:
         # go through list of peptides in the protein_peptide_dict and add them to set
-        current_protein_set.update(protein)
+        current_protein_set.add(protein)
         peptide_set.update(protein_peptide_dict[protein])
     # 3. for all peptides in the peptide_set collect a new protein set, possibly catching new ones
     new_protein_set = set()
@@ -46,7 +44,7 @@ def recursion_check_for_more_linked_proteins(protein_group_id, remaining_protein
     for protein in new_protein_set:
         remaining_proteins.remove(protein)
     # 4a. if current_protein_set is not equal to new_protein_set call recursion_check_for_more_linked_proteins again
-    if not current_protein_set.difference(new_protein_set):
+    if not (current_protein_set.difference(new_protein_set) and new_protein_set.difference(current_protein_set)):
         # make recursive call
         recursion_check_for_more_linked_proteins(protein_group_id, remaining_proteins, protein_peptide_dict,
                                                  protein_groups, peptide_protein_dict)
