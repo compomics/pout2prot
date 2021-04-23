@@ -1,4 +1,4 @@
-def create_protein_subgroups(protein_groups, protein_peptide_dict, peptide_protein_dict):
+def create_protein_subgroups(protein_groups, protein_peptide_dict):
     """takes the protein-groups and divides them into subgroups"""
     # protein_subgroups
     protein_subgroups = dict()
@@ -11,7 +11,7 @@ def create_protein_subgroups(protein_groups, protein_peptide_dict, peptide_prote
         # counter to name the subgroups
         subgroup_count = 0
         # take proteins from list until it is empty, which means all proteins are now in a subgroup
-        while protein_list.count() > 0:
+        while len(protein_list) > 0:
             # remove a protein from the list
             current_protein = protein_list.pop()
             # create a new protein subgroup, first create the list of proteins
@@ -23,6 +23,8 @@ def create_protein_subgroups(protein_groups, protein_peptide_dict, peptide_prote
             protein_subgroups[subgroup_id] = subgroup_protein_list
             # also create a set for all the peptides of this group
             peptide_set_1_group = protein_peptide_dict[current_protein]
+            # create a list of proteins to be removed after loop
+            list_of_proteins_to_remove = set()
             for compare_protein in protein_list:
                 # compare the peptide sets
                 peptide_set_2_compare = protein_peptide_dict[compare_protein]
@@ -31,12 +33,16 @@ def create_protein_subgroups(protein_groups, protein_peptide_dict, peptide_prote
                     # if peptide_set_2_compare is the bigger one, replace subgroup_peptides with it
                     peptide_set_1_group = peptide_set_2_compare
                     subgroup_protein_list.add(compare_protein)
-                    # remove from protein_list
-                    protein_list.remove(compare_protein)
+                    # store for removal from protein_list
+                    list_of_proteins_to_remove.add(compare_protein)
                 elif peptide_set_2_compare.issubset(peptide_set_1_group):
                     # add to subgroup
                     subgroup_protein_list.add(compare_protein)
-                    # remove from protein_list
-                    protein_list.remove(compare_protein)
+                    # store for removal from protein_list
+                    list_of_proteins_to_remove.add(compare_protein)
+
+            # remove proteins that were added to the subgroup
+            for remove_protein in list_of_proteins_to_remove:
+                protein_list.remove(remove_protein)
 
         return protein_subgroups
