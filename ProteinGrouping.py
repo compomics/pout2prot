@@ -13,8 +13,6 @@ def create_protein_groups(protein_peptide_dict, peptide_protein_dict):
         # create new protein_group from current protein (i.e. entry in dict)
         protein_group_id += 1
         protein_groups[protein_group_id] = set(protein)
-        # remove current protein from list
-        remaining_proteins.remove(protein)
         # check for more linked proteins with recursive call
         recursion_check_for_more_linked_proteins(protein_group_id, remaining_proteins, protein_peptide_dict,
                                                  protein_groups, peptide_protein_dict)
@@ -42,9 +40,11 @@ def recursion_check_for_more_linked_proteins(protein_group_id, remaining_protein
     protein_groups[protein_group_id].update(new_protein_set)
     # update the remaining_proteins-list by removing the newly added proteins
     for protein in new_protein_set:
-        remaining_proteins.remove(protein)
+        if protein in remaining_proteins:
+            remaining_proteins.remove(protein)
     # 4a. if current_protein_set is not equal to new_protein_set call recursion_check_for_more_linked_proteins again
-    if not (current_protein_set.difference(new_protein_set) and new_protein_set.difference(current_protein_set)):
+    if (len(current_protein_set.difference(new_protein_set)) != 0
+            or len(new_protein_set.difference(current_protein_set)) != 0):
         # make recursive call
         recursion_check_for_more_linked_proteins(protein_group_id, remaining_proteins, protein_peptide_dict,
                                                  protein_groups, peptide_protein_dict)
