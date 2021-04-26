@@ -44,7 +44,7 @@ def parser(my_path, fdr_threshold, decoy_flag):
                     for i, protein in enumerate(proteins):
                         # SwissProt proteins: # >sp|<accession>|<description>
                         try:
-                            protein = protein.split("|", maxsplit=3)[1]
+                            protein = protein.split("|", maxsplit=2)[1]
                             if protein != "" and protein != "sp" and protein != "tr":  # could be the case in typo,
                                 # e.g. >generic||<accession>|<description>; sometimes empty with sp or tr
                                 proteins[i] = protein
