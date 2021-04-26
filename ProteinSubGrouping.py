@@ -3,7 +3,7 @@ def create_protein_subgroups(protein_groups, protein_peptide_dict):
     # protein_subgroups
     protein_subgroups = dict()
     # loop through the protein groups
-    for protein_group_id in protein_groups:
+    for protein_group_id in protein_groups.keys():
         # protein_subgroup_id will be a string with format "group-id_subgroup-id"
         protein_subgroup_id_first_half = str(protein_group_id) + "_"
         # get the list of proteins from this group and create a copy
@@ -15,7 +15,7 @@ def create_protein_subgroups(protein_groups, protein_peptide_dict):
             # remove a protein from the list
             current_protein = protein_list.pop()
             # create a new protein subgroup, first create the list of proteins
-            subgroup_protein_list = set(current_protein)
+            subgroup_protein_list = {current_protein}
             # then its id
             subgroup_count += 1
             subgroup_id = protein_subgroup_id_first_half + str(subgroup_count)
@@ -45,4 +45,4 @@ def create_protein_subgroups(protein_groups, protein_peptide_dict):
             for remove_protein in list_of_proteins_to_remove:
                 protein_list.remove(remove_protein)
 
-        return protein_subgroups
+    return protein_subgroups

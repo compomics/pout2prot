@@ -1,12 +1,5 @@
 import glob
 import re
-import pprint
-
-### User variables ###
-my_path = ".\\data\\*.pout"  # be careful with / (linux) and \\ (windows)
-fdr_threshold = 0.01
-decoy_flag = "decoy"
-
 
 def parser(my_path, fdr_threshold, decoy_flag):
 
@@ -14,7 +7,7 @@ def parser(my_path, fdr_threshold, decoy_flag):
     PSM - experiment; peptide - PSMs; peptide - proteins; proteins - peptides"""
 
     ### Initiate dictionaries ###
-    # 1) PSM -> experiment dict(PSM : exp (string of file name), …)
+    # 1) PSM -> experiment dict(PSM : exp (string of file name), ...)
     psm_exp = dict()
 
     # 2) Peptide -> Set<PSM>
@@ -48,6 +41,7 @@ def parser(my_path, fdr_threshold, decoy_flag):
                             if protein != "" and protein != "sp" and protein != "tr":  # could be the case in typo,
                                 # e.g. >generic||<accession>|<description>; sometimes empty with sp or tr
                                 proteins[i] = protein
+
 
                         except IndexError:
                             pass  # leave protein name just as complete header
@@ -83,7 +77,3 @@ def parser(my_path, fdr_threshold, decoy_flag):
                                 prot_pep[protein].add(peptide)
 
     return psm_exp, pep_psm, pep_prot, prot_pep
-
-
-psm_exp, pep_psm, pep_prot, prot_pep = parser(my_path, fdr_threshold, decoy_flag)
-

@@ -12,7 +12,7 @@ def create_protein_groups(protein_peptide_dict, peptide_protein_dict):
         protein = remaining_proteins.pop()
         # create new protein_group from current protein (i.e. entry in dict)
         protein_group_id += 1
-        protein_groups[protein_group_id] = set(protein)
+        protein_groups[protein_group_id] = {protein}
         # check for more linked proteins with recursive call
         recursion_check_for_more_linked_proteins(protein_group_id, remaining_proteins, protein_peptide_dict,
                                                  protein_groups, peptide_protein_dict)
@@ -28,10 +28,12 @@ def recursion_check_for_more_linked_proteins(protein_group_id, remaining_protein
     current_protein_set = set()
     # 2. And collect all the peptides of these proteins into a set
     peptide_set = set()
+
     for protein in protein_groups[protein_group_id]:
         # go through list of peptides in the protein_peptide_dict and add them to set
         current_protein_set.add(protein)
         peptide_set.update(protein_peptide_dict[protein])
+
     # 3. for all peptides in the peptide_set collect a new protein set, possibly catching new ones
     new_protein_set = set()
     for peptide in peptide_set:
