@@ -1,4 +1,4 @@
-def create_protein_subgroups(protein_groups, protein_peptide_dict):
+def create_protein_subgroups(occam_flag, protein_groups, protein_peptide_dict):
     """takes the protein-groups and divides them into subgroups"""
     # protein_subgroups
     protein_subgroups = dict()
@@ -29,17 +29,42 @@ def create_protein_subgroups(protein_groups, protein_peptide_dict):
                 # compare the peptide sets
                 peptide_set_2_compare = protein_peptide_dict[compare_protein]
                 if peptide_set_1_group.issubset(peptide_set_2_compare):
+                    # for anti-occam we need to check if peptide_set_1 is subset of another protein
+                    add = True
+                    if not occam_flag:
+                        # loop through the remaining proteins
+                        for other_protein in protein_list:
+                            # and compare the peptide set, we only need to check if its subset of the other
+                            peptide_set_3_other = protein_peptide_dict[other_protein]
+                            if peptide_set_1_group.issubset(peptide_set_3_other):
+                                # new subgroup for this protein, which will be done at the end
+                                add = False
+                                break
                     # add to subgroup
-                    # if peptide_set_2_compare is the bigger one, replace subgroup_peptides with it
-                    peptide_set_1_group = peptide_set_2_compare
-                    subgroup_protein_list.add(compare_protein)
-                    # store for removal from protein_list
-                    list_of_proteins_to_remove.add(compare_protein)
+                    if add:
+                        # if peptide_set_2_compare is the bigger one, replace subgroup_peptides with it
+                        peptide_set_1_group = peptide_set_2_compare
+                        subgroup_protein_list.add(compare_protein)
+                        # store for removal from protein_list
+                        list_of_proteins_to_remove.add(compare_protein)
                 elif peptide_set_2_compare.issubset(peptide_set_1_group):
+                    # for anti-occam we need to check if peptide_set_1 is subset of another protein
+                    add = True
+                    if not occam_flag:
+                        # loop through the remaining proteins
+                        for other_protein in protein_list:
+                            # and compare the peptide set, we only need to check if its subset of the other
+                            peptide_set_3_other = protein_peptide_dict[other_protein]
+                            if peptide_set_2_compare.issubset(peptide_set_3_other):
+                                # new subgroup for this protein, which will be done at the end
+                                add = False
+                                break
                     # add to subgroup
-                    subgroup_protein_list.add(compare_protein)
-                    # store for removal from protein_list
-                    list_of_proteins_to_remove.add(compare_protein)
+                    if add:
+                        # add to subgroup
+                        subgroup_protein_list.add(compare_protein)
+                        # store for removal from protein_list
+                        list_of_proteins_to_remove.add(compare_protein)
 
             # remove proteins that were added to the subgroup
             for remove_protein in list_of_proteins_to_remove:

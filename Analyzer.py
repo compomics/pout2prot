@@ -13,6 +13,6 @@ def protein_grouping_analysis(occam_flag, protein_peptide_dict, peptide_protein_
     # Call ProteinGrouping
     protein_groups = create_protein_groups(protein_peptide_dict, peptide_protein_dict)
     # Call ProteinSubGrouping
-    protein_subgroups = create_protein_subgroups(protein_groups, protein_peptide_dict)
+    protein_subgroups = create_protein_subgroups(occam_flag, protein_groups, protein_peptide_dict)
     # output protein group and subgroup dicts
     return protein_groups, protein_subgroups
