@@ -4,7 +4,7 @@ from OutputWriter import write_to_file
 
 # handling of command line (or config file) arguments
 
-my_path = "./data/toy-examples/Examples_GroupingTest.pout"  # be careful with / (linux) and \\ (windows)
+my_path = "./data/*.pout"  # be careful with / (linux) and \\ (windows)
 fdr_threshold = 0.01
 decoy_flag = "decoy"
 occam_flag = True
