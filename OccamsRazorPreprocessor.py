@@ -23,24 +23,27 @@ def occam_filter(peptides_to_proteins, proteins_to_peptides):
 
     # Keep track of which proteins are marked for removal (these will be removed after the algorithm has been run).
     proteins_marked_for_removal = set()
-    peptides_marked_for_removal = set()
-
+    peptides_marked_for_update = set()
+    
+    # Filtering step: check which proteins should be removed, and which kept
     for [prot, pepts] in proteins_to_peptides.items():
         prots_to_check = set()
         for pept in pepts:
             prots_to_check.update(peptides_to_proteins[pept])
         prots_to_check.discard(prot)
 
+        # proteins that have to be checked, actually check if the peptides are a subset
         for otherProt in prots_to_check:
             otherPepts = proteins_to_peptides[otherProt]
-            if pepts.issubset(otherPepts) and len(pepts) < len(otherPepts):
+            if pepts.issubset(otherPepts) and len(pepts) < len(otherPepts):  # to make sure that it's a strict subset (if both sets are the same, keep both)
                 proteins_marked_for_removal.add(prot)
-                peptides_marked_for_removal.update(pepts)
+                peptides_marked_for_update.update(pepts)
 
+    # Removing step: check which proteins should be removed, and which kept
     for prot in proteins_marked_for_removal:
         del proteins_to_peptides[prot]
 
-    for pept in peptides_marked_for_removal:
+    for pept in peptides_marked_for_update:
         peptides_to_proteins[pept] = peptides_to_proteins[pept].difference(proteins_marked_for_removal)
 
 
