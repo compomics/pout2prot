@@ -22,8 +22,24 @@ def parser(my_path, fdr_threshold, decoy_flag):
     # UniProtKB accession if possible, otherwise complete name
     prot_pep = dict()
 
-    ### Iterate over pout files ###
-    pout_files = glob.glob(my_path)
+    ### Iterate over subdirectories (sample_categories) files and pout_files in that folder (replicates) ###
+    pout_files = list()
+    sample_categories = glob.glob(my_path + "/**/")
+    rep_cat = dict()  # maps all replicates or experiments to the sample category
+
+    # First, map all experiments/replicates to the sample_category
+    if sample_categories:
+        for category in sample_categories:
+            pouts = glob.glob(category + "/*.pout")
+            for pout in pouts:
+                rep_cat[pout] = category
+                pout_files.append(pout)
+    else:
+        pout_files = glob.glob(my_path + "/*.pout")
+        for pout in pout_files:
+            rep_cat[pout] = pout
+
+    # iterate over all pout_files
     for pout_file in pout_files:
         with open(pout_file, "r") as f:
             next(f)  # skip header
@@ -41,7 +57,6 @@ def parser(my_path, fdr_threshold, decoy_flag):
                             if protein != "" and protein != "sp" and protein != "tr":  # could be the case in typo,
                                 # e.g. >generic||<accession>|<description>; sometimes empty with sp or tr
                                 proteins[i] = protein
-
 
                         except IndexError:
                             pass  # leave protein name just as complete header
@@ -76,4 +91,5 @@ def parser(my_path, fdr_threshold, decoy_flag):
                             else:
                                 prot_pep[protein].add(peptide)
 
-    return psm_exp, pep_psm, pep_prot, prot_pep
+    return psm_exp, pep_psm, pep_prot, prot_pep, rep_cat
+

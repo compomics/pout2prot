@@ -4,14 +4,14 @@ from OutputWriter import write_to_file
 
 # handling of command line (or config file) arguments
 
-my_path = "./data/*.pout"  # be careful with / (linux) and \\ (windows)
+my_path = "./data/"  # be careful with / (linux) and \\ (windows)
 fdr_threshold = 0.01
 decoy_flag = "decoy"
 occam_flag = True
 
 # Parsing - input: folder, output: dicts
 # calls Parser
-psm_exp, pep_psm, pep_prot, prot_pep = parser(my_path, fdr_threshold, decoy_flag)
+psm_exp, pep_psm, pep_prot, prot_pep, rep_cat = parser(my_path, fdr_threshold, decoy_flag)
 
 # Running grouping algorithm - input: dicts and parameters (occam, anti-occam), output: new dicts with groups
 # calls Analyzer
