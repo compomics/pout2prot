@@ -1,9 +1,10 @@
 from Parser import parser
 from Analyzer import protein_grouping_analysis
+from OutputWriter import write_to_file
 
 # handling of command line (or config file) arguments
 
-my_path = "./data/toy-examples/Examples_OccamsRazor_1.pout"  # be careful with / (linux) and \\ (windows)
+my_path = "./data/toy-examples/Examples_GroupingTest.pout"  # be careful with / (linux) and \\ (windows)
 fdr_threshold = 0.01
 decoy_flag = "decoy"
 occam_flag = True
@@ -18,5 +19,5 @@ protein_groups, protein_subgroups = protein_grouping_analysis(occam_flag, prot_p
 
 # Output writer - input: all dicts, output: file
 # calls OutputWriter
-print(protein_groups)
-print(protein_subgroups)
+write_to_file(protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, "groups.tsv")
+write_to_file(protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, "subgroups.tsv")
