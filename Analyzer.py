@@ -7,8 +7,6 @@ def protein_grouping_analysis(occam_flag, protein_peptide_dict, peptide_protein_
     # Inspect parameters, decide which grouping to output
     if occam_flag:
         occam_filter(peptide_protein_dict, protein_peptide_dict)
-        print(peptide_protein_dict)
-        print(protein_peptide_dict)
 
     # Call ProteinGrouping
     protein_groups = create_protein_groups(protein_peptide_dict, peptide_protein_dict)
