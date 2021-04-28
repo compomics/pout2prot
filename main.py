@@ -3,7 +3,7 @@ from Analyzer import protein_grouping_analysis
 
 # handling of command line (or config file) arguments
 
-my_path = ".\\data\\toy-examples\\*.pout"  # be careful with / (linux) and \\ (windows)
+my_path = "./data/toy-examples/Examples_OccamsRazor.pout"  # be careful with / (linux) and \\ (windows)
 fdr_threshold = 0.01
 decoy_flag = "decoy"
 occam_flag = False
