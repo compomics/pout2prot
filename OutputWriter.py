@@ -13,4 +13,3 @@ def write_to_file(groups, psm_exp, pep_psm, pep_prot, prot_pept, file):
                 psms.update(pep_psm[pept])
             exps = {psm_exp[p] for p in psms}
             f.write(f"{group}\t{','.join(exps)}\t{','.join(prots)}\t{len(pepts)}\n")
-

@@ -2,12 +2,27 @@ from Parser import parser
 from Analyzer import protein_grouping_analysis
 from OutputWriter import write_to_file
 
-# handling of command line (or config file) arguments
+import argparse
 
-my_path = "./data/"  # be careful with / (linux) and \\ (windows)
-fdr_threshold = 0.01
-decoy_flag = "decoy"
-occam_flag = True
+
+# handling of command line (or config file) arguments
+def parse_args():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("input_folder", help="Folder containing all input files that should be processed.")
+    parser.add_argument("groups_output_file", help="File to which the found protein groups should be written to.")
+    parser.add_argument("subgroups_output_file", help="File to which the found protein subgroups should be written to.")
+    parser.add_argument("--occam", action="store_true", help="Use Occam's razor during the computation of the grouping process.", default=False)
+    parser.add_argument("--decoy_flag", default="decoy", help="Flag that should be used to filter out decoy proteins.", type=str)
+    parser.add_argument("--fdr_threshold", default=0.01, help="Maximum FDR rate.", type=float)
+    return parser.parse_args()
+
+
+args = parse_args()
+
+my_path = args.input_folder  # be careful with / (linux) and \\ (windows)
+fdr_threshold = args.fdr_threshold
+decoy_flag = args.decoy_flag
+occam_flag = args.occam
 
 # Parsing - input: folder, output: dicts
 # calls Parser
@@ -19,5 +34,5 @@ protein_groups, protein_subgroups = protein_grouping_analysis(occam_flag, prot_p
 
 # Output writer - input: all dicts, output: file
 # calls OutputWriter
-write_to_file(protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, "groups.tsv")
-write_to_file(protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, "subgroups.tsv")
+write_to_file(protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, args.groups_output_file)
+write_to_file(protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
