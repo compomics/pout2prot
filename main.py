@@ -34,5 +34,5 @@ protein_groups, protein_subgroups = protein_grouping_analysis(occam_flag, prot_p
 
 # Output writer - input: all dicts, output: file
 # calls OutputWriter
-write_to_file(protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, args.groups_output_file)
-write_to_file(protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
+write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, args.groups_output_file)
+write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
