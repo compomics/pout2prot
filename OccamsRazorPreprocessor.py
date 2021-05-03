@@ -22,28 +22,41 @@ def occam_filter(peptides_to_proteins, proteins_to_peptides):
     """
 
     # Keep track of which proteins are marked for removal (these will be removed after the algorithm has been run).
-    proteins_marked_for_removal = set()
-    peptides_marked_for_update = set()
-    
-    # Filtering step: check which proteins should be removed, and which kept
-    for [prot, pepts] in proteins_to_peptides.items():
-        prots_to_check = set()
-        for pept in pepts:
-            prots_to_check.update(peptides_to_proteins[pept])
-        prots_to_check.discard(prot)
+    remove_proteins = set()
+    unique_peptides = set()
+    # check if a peptide is unique
+    for [pep, prots] in peptides_to_proteins.items():
+        is_unique = False
+        if len(prots) == 1:
+            is_unique = True
+        else:
+            exact_duplicates = set()
+            for prot1 in prots:
+                for prot2 in prots:
+                    if prot1 != prot2:
+                        if proteins_to_peptides[prot1] == proteins_to_peptides[prot2]:
+                            exact_duplicates.add(prot1)
+                            exact_duplicates.add(prot2)
+            if exact_duplicates == prots:
+                is_unique = True
+        if is_unique:
+            unique_peptides.add(pep)
 
-        # proteins that have to be checked, actually check if the peptides are a subset
-        for otherProt in prots_to_check:
-            otherPepts = proteins_to_peptides[otherProt]
-            if pepts.issubset(otherPepts) and len(pepts) < len(otherPepts):  # to make sure that it's a strict subset (if both sets are the same, keep both)
-                proteins_marked_for_removal.add(prot)
-                peptides_marked_for_update.update(pepts)
+    # check if proteins have a unique peptide
+    for prot2, peps2 in proteins_to_peptides.items():
+        has_unique = False
+        for pep_test in peps2:
+            if pep_test in unique_peptides:
+                has_unique = True
+        if not has_unique:
+            remove_proteins.add(prot2)
 
     # Removing step: check which proteins should be removed, and which kept
-    for prot in proteins_marked_for_removal:
-        del proteins_to_peptides[prot]
+    peptides_marked_for_update = set()
+    for prot_remove in remove_proteins:
+        for pep in proteins_to_peptides[prot_remove]:
+            peptides_marked_for_update.add(pep)
+        del proteins_to_peptides[prot_remove]
 
-    for pept in peptides_marked_for_update:
-        peptides_to_proteins[pept] = peptides_to_proteins[pept].difference(proteins_marked_for_removal)
-
-
+    for pept_marked in peptides_marked_for_update:
+        peptides_to_proteins[pept_marked] = peptides_to_proteins[pept_marked].difference(remove_proteins)
