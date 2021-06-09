@@ -1,7 +1,5 @@
 # pout2prot
 
-![](logo.png)
-
 pout2prot converts Percolator output files to protein group and subgroup files (Occam or anti-Occam) as input for Prophane. 
 
 Meeting notes: https://docs.google.com/document/d/12etWvbd9oKIEFXSZ44v1uHhZxaaMiZPX9JuAAHh7c7c/edit
