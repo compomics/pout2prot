@@ -1,6 +1,7 @@
 import glob
 import re
 
+
 def parser(my_path, fdr_threshold, decoy_flag):
 
     """Read in data from output files, return 4 dicts:

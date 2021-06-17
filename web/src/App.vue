@@ -1,60 +1,58 @@
 <template>
-  <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
+    <v-app>
+        <v-app-bar
+            app
+            color="primary"
+            dark
+        >
+            <div class="d-flex align-center">
+                <span class="font-weight-bold">
+                  Pout2Prot
+                </span>
+            </div>
 
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
+            <v-spacer></v-spacer>
 
-      <v-spacer></v-spacer>
+            <v-btn
+                href="https://github.com/tivdnbos/proteingrouping"
+                target="_blank"
+                text
+            >
+                <span class="mr-2">Find us on GitHub</span>
+                <v-icon>mdi-open-in-new</v-icon>
+            </v-btn>
+        </v-app-bar>
 
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
-    <v-main>
-      <HelloWorld/>
-    </v-main>
-  </v-app>
+        <v-main>
+            <HomePage/>
+        </v-main>
+        <v-footer padless>
+            <v-card flat tile class="grey lighten-3 text-center" style="width: 100%;">
+                <v-card-text>
+                    <div class="d-flex justify-center" style="width: 100%;">
+                        <v-img src="@/assets/logo.svg" max-width="75" max-height="75">
+                        </v-img>
+                    </div>
+                    <v-divider class="my-2"></v-divider>
+                    {{ new Date().getUTCFullYear() }} — <strong>Pout2Prot</strong>
+                </v-card-text>
+            </v-card>
+        </v-footer>
+    </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import HomePage from './components/HomePage.vue';
 
 export default {
-  name: 'App',
+    name: 'App',
 
-  components: {
-    HelloWorld,
-  },
+    components: {
+        HomePage,
+    },
 
-  data: () => ({
-    //
-  }),
+    data: () => ({
+        //
+    }),
 };
 </script>
