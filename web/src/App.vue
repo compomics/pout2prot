@@ -30,7 +30,7 @@
             <v-card flat tile class="grey lighten-3 text-center" style="width: 100%;">
                 <v-card-text>
                     <div class="d-flex justify-center" style="width: 100%;">
-                        <v-img src="@/assets/logo.svg" max-width="75" max-height="75">
+                        <v-img src="@/assets/logo.png" max-width="75" max-height="75">
                         </v-img>
                     </div>
                     <v-divider class="my-2"></v-divider>

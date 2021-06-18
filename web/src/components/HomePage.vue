@@ -7,8 +7,8 @@
                 </h1>
                 <div class="mb-2">
                     This application can be used to perform protein grouping and subgrouping on the
-                    proteins recorded in a .pout-file. Complete all steps in the wizard below to fulfil the analysis.
-                    All conversion steps take place on the clientside. This means that none of your files are sent to
+                    proteins recorded in a .pout file. Complete all steps in the wizard below to fulfil the analysis.
+                    All conversion steps take place on the client side. This means that none of your files are sent to
                     our web server and that they are only used by the browser itself to perform the requested analysis.
                 </div>
                 <v-stepper vertical v-model="currentStep">
