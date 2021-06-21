@@ -39,7 +39,8 @@
     },
     "rules": {
       "no-unused-vars": "off",
-      "no-debugger": "off"
+      "no-debugger": "off",
+      "no-redeclare": "off"
     }
   },
   "browserslist": [

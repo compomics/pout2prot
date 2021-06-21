@@ -23,9 +23,10 @@ export default class Parser {
             const psmIdIndex = header.indexOf("PSMId");
 
             for (const line of lines.splice(1)) {
-                const items = line.rstrip().split("\t", 6);
+                const items = line.rstrip().split("\t");
                 const peptide = items[peptideIndex].replace(/\[.*\]/g, "").split(".")[1];
-                const proteins = items[proteinsIndex].split("\t");
+                const proteins = items.splice(proteinsIndex);
+
                 const psmId = items[psmIdIndex];
 
                 for (const [i, protein] of Object.entries(proteins)) {

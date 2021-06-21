@@ -20,6 +20,7 @@ export var recursion_check_for_more_linked_proteins = function (protein_group_id
 		current_protein_set.add (protein);
 		peptide_set.py_update (protein_peptide_dict [protein]);
 	}
+
 	var new_protein_set = set ();
 	for (var peptide of peptide_set) {
 		new_protein_set.py_update (peptide_protein_dict [peptide]);
@@ -30,7 +31,7 @@ export var recursion_check_for_more_linked_proteins = function (protein_group_id
 			remaining_proteins.remove (protein);
 		}
 	}
-	debugger;
+
 	if (len (current_protein_set.difference (new_protein_set)) != 0 || len (new_protein_set.difference (current_protein_set)) != 0) {
 		recursion_check_for_more_linked_proteins (protein_group_id, remaining_proteins, protein_peptide_dict, protein_groups, peptide_protein_dict);
 	}

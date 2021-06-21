@@ -5,7 +5,8 @@ export var create_protein_subgroups = function (occam_flag, protein_groups, prot
 	var protein_subgroups = dict ();
 	for (var protein_group_id of protein_groups.py_keys ()) {
 		var protein_subgroup_id_first_half = str (protein_group_id) + '_';
-		var protein_list = protein_groups [protein_group_id].copy ();
+		console.log(protein_groups [protein_group_id]);
+		var protein_list = protein_groups [protein_group_id].slice();
 		var subgroup_count = 0;
 		while (len (protein_list) > 0) {
 			var current_protein = protein_list.py_pop ();

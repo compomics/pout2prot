@@ -52,7 +52,7 @@
                             <v-btn text @click="currentStep = 1">
                                 Go back
                             </v-btn>
-                            <v-btn class="ml-auto" color="primary" @click="currentStep = 3">
+                            <v-btn class="ml-auto" color="primary" @click="startAnalysis">
                                 Start analysis
                             </v-btn>
                         </div>
@@ -115,20 +115,28 @@ export default {
             if (this.files) {
                 const [
                     psmExp, pepPsm, pepProt, protPept, repCat
-                ] = await Parser.parseFiles(this.files, ["a", "b"], 0.05, "False");
+                ] = await Parser.parseFiles(this.files, ["a", "b"], 0.05, "decoy_");
 
                 const protPeptArray = [];
                 for (const entry of protPept.entries()) {
-                    protPeptArray.push([entry[0], set(entry[1])]);
+                    const newSet = set();
+                    for (const peptide of entry[1]) {
+                        newSet.add(peptide);
+                    }
+                    protPeptArray.push([entry[0], newSet]);
                 }
 
                 const peptProtArray = [];
-                for (const entry of peptProtArray.entries()) {
-                    peptProtArray.push([entry[0], set(entry[1])]);
+                for (const entry of pepProt.entries()) {
+                    const newSet = set();
+                    for (const prot of entry[1]) {
+                        newSet.add(prot);
+                    }
+                    peptProtArray.push([entry[0], newSet]);
                 }
 
-                const [proteinGroups, proteinSubgroups] = protein_grouping_analysis(false, dict(protPeptArray), dict(peptProtArray));
-                console.log(proteinGroups.py_values());
+                const [proteinGroups, proteinSubgroups] = protein_grouping_analysis(true, dict(protPeptArray), dict(peptProtArray));
+                console.log(proteinSubgroups);
             }
         }
     }
