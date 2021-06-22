@@ -23,7 +23,7 @@ def parse_args():
 #decoy_flag = args.decoy_flag
 #occam_flag = args.occam
 
-my_path = 'data/toy-examples4'
+my_path = '../data/toy-examples2'
 fdr_threshold = 0.01
 decoy_flag = "False"
 occam_flag = True
@@ -40,5 +40,5 @@ protein_groups, protein_subgroups = protein_grouping_analysis(occam_flag, prot_p
 # calls OutputWriter
 #write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, args.groups_output_file)
 #write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
-write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, 'output/groups.out')
-write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, 'output/subgroups.out')
+write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/groups.out')
+write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/subgroups.out')

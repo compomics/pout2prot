@@ -49,9 +49,22 @@ def occam_filter(peptides_to_proteins, proteins_to_peptides):
             if pep_test in unique_peptides:
                 has_unique = True
         if not has_unique:
-            remove_proteins.add(prot2)
+            # get the other proteins
+            # check if there is another protein with the same set of peptides
+            # if the other protein has more peptides, remove
+            other_proteins = set()
+            for pep_test2 in peps2:
+                for other_prot in peptides_to_proteins[pep_test2]:
+                    if other_prot not in remove_proteins:
+                        other_proteins.add(other_prot)
 
-    # Removing step: check which proteins should be removed, and which kept
+            for prot3 in other_proteins:
+                # check if one of these proteins has a superset of peptides to our current prot2
+                if proteins_to_peptides[prot2].issubset(proteins_to_peptides[prot3]):
+                    if proteins_to_peptides[prot2] != proteins_to_peptides[prot3]:
+                        remove_proteins.add(prot2)
+
+    # Removing step
     peptides_marked_for_update = set()
     for prot_remove in remove_proteins:
         for pep in proteins_to_peptides[prot_remove]:
