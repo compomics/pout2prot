@@ -1,0 +1,5 @@
+src/business/processing/org.transcrypt.__runtime__.js
+src/business/processing/Analyzer.js
+src/business/processing/OccamsRazorPreprocessor.js
+src/business/processing/ProteinGrouping.js
+src/business/processing/ProteinSubGrouping.js
