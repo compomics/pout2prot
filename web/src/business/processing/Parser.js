@@ -57,12 +57,12 @@ export default class Parser {
                             pepProt.set(peptide, new Set());
                         }
                         pepProt.get(peptide).add(protein);
-                    }
 
-                    if (!protPept.has(protein)) {
-                        protPept.set(protein, new Set());
+                        if (!protPept.has(protein)) {
+                            protPept.set(protein, new Set());
+                        }
+                        protPept.get(protein).add(peptide);
                     }
-                    protPept.get(protein).add(peptide);
                 }
             }
         }

@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container fluid style="max-width: 1600px;">
         <v-row>
             <v-col cols="12">
                 <h1>
@@ -19,7 +19,7 @@
                     <v-stepper-content step="1">
                         <v-file-input v-model="files" multiple></v-file-input>
                         <div class="d-flex mt-2">
-                            <v-btn class="ml-auto" color="primary" @click="currentStep = 2">
+                            <v-btn class="ml-auto" color="primary" @click="currentStep = 2" :disabled="!(files && files.length > 0)">
                                 Continue
                             </v-btn>
                         </div>
@@ -125,6 +125,15 @@
                             <v-progress-circular indeterminate color="primary"></v-progress-circular>
                             <span>Performing analysis, please wait...</span>
                         </div>
+                        <div class="d-flex align-center flex-column" v-else-if="error">
+                            <v-alert
+                                border="right"
+                                colored-border
+                                type="error"
+                                outlined>
+                                {{ errorMessage }}
+                            </v-alert>
+                        </div>
                         <div class="d-flex align-center flex-column" v-else>
                             <span>
                                 Protein grouping has successfully been performed. Click the button below to download the
@@ -168,7 +177,9 @@ export default {
         fdr: 0.05,
         decoyFlag: "decoy_",
         analysisInProgress: false,
-        zipResult: null
+        zipResult: null,
+        error: false,
+        errorMessage: ""
     }),
 
     watch: {
@@ -183,17 +194,34 @@ export default {
 
     methods: {
         startAnalysis: async function() {
+            this.error = false;
+
             if (this.files) {
                 this.currentStep = 4;
 
-                const [
-                    psmExp, pepPsm, pepProt, protPept, repCat
-                ] = await Parser.parseFiles(
-                    this.files,
-                    this.experimentNames,
-                    this.fdr,
-                    this.decoyFlag
-                );
+                let psmExp;
+                let pepPsm;
+                let pepProt;
+                let protPept;
+                let repCat;
+
+                try {
+                    [
+                        psmExp, pepPsm, pepProt, protPept, repCat
+                    ] = await Parser.parseFiles(
+                        this.files,
+                        this.experimentNames,
+                        this.fdr,
+                        this.decoyFlag
+                    );
+                } catch (error) {
+                    this.error = true;
+                    this.errorMessage = `
+                        An error occurred while parsing the input files you provided. Please make sure that the files
+                        you provided are valid .pout-files produced by Percolator.
+                    `;
+                    return;
+                }
 
                 const peptPsmArray = [];
                 for (const entry of pepPsm.entries()) {
@@ -222,19 +250,35 @@ export default {
                     peptProtArray.push([entry[0], newSet]);
                 }
 
-                const [proteinGroups, proteinSubgroups] = protein_grouping_analysis(
-                    this.occam,
-                    dict(protPeptArray),
-                    dict(peptProtArray)
-                );
+                let proteinGroups;
+                let proteinSubgroups;
 
-                const groupFile = write_to_file(dict([...repCat]), proteinGroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
-                const subGroupFile = write_to_file(dict([...repCat]), proteinSubgroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
+                try {
+                    [proteinGroups, proteinSubgroups] = protein_grouping_analysis(
+                        this.occam,
+                        dict(protPeptArray),
+                        dict(peptProtArray)
+                    );
+                } catch (e) {
+                    this.error = true;
+                    this.errorMessage = "An error occurred while performing the protein grouping analysis: " + e.message;
+                    return;
+                }
 
-                const zip = new JSZip();
-                zip.file("groups.out", groupFile);
-                zip.file("subgroups.out", subGroupFile);
-                this.zipResult = zip;
+
+                try {
+                    const groupFile = write_to_file(dict([...repCat]), proteinGroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
+                    const subGroupFile = write_to_file(dict([...repCat]), proteinSubgroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
+
+                    const zip = new JSZip();
+                    zip.file("groups.out", groupFile);
+                    zip.file("subgroups.out", subGroupFile);
+                    this.zipResult = zip;
+                } catch (e) {
+                    this.error = true;
+                    this.errorMessage = "An error occurred while trying to write the analysis results to a file."
+                    return;
+                }
             }
         },
         downloadFiles: async function() {
