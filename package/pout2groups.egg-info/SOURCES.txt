@@ -1,0 +1,13 @@
+setup.py
+pout2groups/Analyzer.py
+pout2groups/OccamsRazorPreprocessor.py
+pout2groups/OutputWriter.py
+pout2groups/Parser.py
+pout2groups/ProteinGrouping.py
+pout2groups/ProteinSubGrouping.py
+pout2groups/main.py
+pout2groups.egg-info/PKG-INFO
+pout2groups.egg-info/SOURCES.txt
+pout2groups.egg-info/dependency_links.txt
+pout2groups.egg-info/entry_points.txt
+pout2groups.egg-info/top_level.txt

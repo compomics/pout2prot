@@ -1,0 +1,3 @@
+[console_scripts]
+pout2groups = pout2groups.main
+

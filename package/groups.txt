@@ -1,0 +1,1 @@
+sample category	sample name	protein accessions	spectrum count
