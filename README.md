@@ -11,20 +11,37 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-Scripts are written in python 3. One easy way to get started is installing 
-[miniconda 3](https://docs.conda.io/en/latest/miniconda.html).
-
-On Linux..
-On MacOS
-On Windows..
+All scripts are written in Python 3. In order to start using the pout2prot package, we recommend you install the most recent version of Python 3 that's available for your system. We recommend using [miniconda 3](https://docs.conda.io/en/latest/miniconda.html) to get started quickly.
 
 ### Installing
 
-Clone the repository: 
+Installing the package is easy. Pout2prot is available for download on [PyPi](). All you need to do is to execute the following command in your terminal of choice and you're good to go:
 
-```shell script
-https://github.com/tivdnbos/pout2prot.git
+```shell
+pip3 install pout2prot
 ```
+
+### Using the script
+
+The signature of the script is 
+```
+pout2prot [-h] [--occam] [--decoy_flag DECOY_FLAG] [--fdr_threshold FDR_THRESHOLD] input_folder groups_output_file subgroups_output_file
+```
+
+Three positional arguments are always required for the script to function properly:
+* `input_folder`: This argument should point to a folder that contains one or more `*.pout`-files. All of these input files will be processed by the package. TODO write something about the replicates here
+* `groups_output_file`: Pointer to a location on the filesystem where the result file with all protein groups should be stored.
+* `subgroups_output_file`: Pointer to a location on the filesystem where the result file with all protein subgroups should be stored.
+
+Next to these mandatory arguments, the script can also be further modified by providing a value for these optional arguments:
+* `occam`: Should Occam's razor be enabled while determining protein groups? If this option is not provided, Occam's razor will be disabled.
+* `decoy_flag`: If a value is provided for this parameter, all proteins that contain this value as a substring will be considered as decoy proteins and will not be taken into account during the analyses of the input files. Default parameter value is `decoy`.
+* `fdr_threshold`: Filter out all proteins that have a FDR-threshold that's higher than the value provided here. The default FDR-threshold that's used by this package is 0.01.
+
+#### Example
+An example of using the script can be seen here:
+
+TODO add valid example
 
 ## Which protein grouping strategy to use?
 
