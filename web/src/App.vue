@@ -24,7 +24,7 @@
         </v-app-bar>
 
         <v-main>
-            <HomePage/>
+            <router-view/>
         </v-main>
         <v-footer padless>
             <v-card flat tile class="grey lighten-3 text-center" style="width: 100%;">
@@ -42,14 +42,10 @@
 </template>
 
 <script>
-import HomePage from './components/HomePage.vue';
-
 export default {
     name: 'App',
 
-    components: {
-        HomePage,
-    },
+    components: {},
 
     data: () => ({
         //
