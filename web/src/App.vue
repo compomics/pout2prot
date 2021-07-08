@@ -5,11 +5,8 @@
             color="primary"
             dark
         >
-            <div class="d-flex align-center">
-                <span class="font-weight-bold">
-                  Pout2Prot
-                </span>
-            </div>
+            <v-app-bar-nav-icon @click="navigationDrawer = !navigationDrawer"></v-app-bar-nav-icon>
+            <v-toolbar-title>Pout2Prot</v-toolbar-title>
 
             <v-spacer></v-spacer>
 
@@ -23,8 +20,36 @@
             </v-btn>
         </v-app-bar>
 
+        <v-navigation-drawer app v-model="navigationDrawer">
+            <v-list-item>
+                <v-list-item-content>
+                    <v-list-item-title class="title">
+                        MegaGO
+                    </v-list-item-title>
+                    <v-list-item-subtitle>
+                        Compute similarity
+                    </v-list-item-subtitle>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-divider></v-divider>
+
+            <v-list dense nav class="py-0 mt-4">
+                <div v-for="item of links" :key="item.title">
+                    <v-list-item v-if="'link' in item" link :to="item.link">
+                        <v-list-item-icon>
+                            <v-icon>{{ item.icon }}</v-icon>
+                        </v-list-item-icon>
+                        <v-list-item-content>
+                            <v-list-item-title>{{ item.title }}</v-list-item-title>
+                        </v-list-item-content>
+                    </v-list-item>
+                </div>
+            </v-list>
+        </v-navigation-drawer>
+
         <v-main>
-            <HomePage/>
+            <router-view/>
         </v-main>
         <v-footer padless>
             <v-card flat tile class="grey lighten-3 text-center" style="width: 100%;">
@@ -42,17 +67,25 @@
 </template>
 
 <script>
-import HomePage from './components/HomePage.vue';
-
 export default {
     name: 'App',
 
-    components: {
-        HomePage,
-    },
+    components: {},
 
     data: () => ({
-        //
+        links: [
+            {
+                icon: "mdi-home",
+                title: "Home",
+                link: "/"
+            },
+            {
+                icon: "mdi-console",
+                title: "Documentation",
+                link: "/docs"
+            }
+        ],
+        navigationDrawer: false
     }),
 };
 </script>
