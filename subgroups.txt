@@ -1,6 +1,0 @@
-sample category	sample name	protein accessions	spectrum count
-toy-examples	Examples_OccamsRazor_1	P4	1.3333333333333333
-toy-examples	Examples_OccamsRazor_1	P1,P2,P3	2.3333333333333335
-toy-examples	Examples_OccamsRazor_1	P5	2.333333333333333
-toy-examples	Examples_OccamsRazor_1	Prot3	1.5
-toy-examples	Examples_OccamsRazor_1	Prot2,Prot1	1.5

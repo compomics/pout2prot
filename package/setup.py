@@ -12,6 +12,6 @@ setup(
     packages=['pout2prot'],
     package_dir={'pout2prot': 'pout2prot'},
     entry_points={
-        'console_scripts': ['pout2prot = pout2prot:main']
+        'console_scripts': ['pout2prot = pout2prot:main.main']
     }
 )

@@ -17,28 +17,29 @@ def parse_args():
     return parser.parse_args()
 
 
-args = parse_args()
-my_path = args.input_folder  # be careful with / (linux) and \\ (windows)
-fdr_threshold = args.fdr_threshold
-decoy_flag = args.decoy_flag
-occam_flag = args.occam
-#
-# my_path = '../data/large_input'
-# fdr_threshold = 0.01
-# decoy_flag = "False"
-# occam_flag = True
+def main():
+    args = parse_args()
+    my_path = args.input_folder  # be careful with / (linux) and \\ (windows)
+    fdr_threshold = args.fdr_threshold
+    decoy_flag = args.decoy_flag
+    occam_flag = args.occam
+    #
+    # my_path = '../data/large_input'
+    # fdr_threshold = 0.01
+    # decoy_flag = "False"
+    # occam_flag = True
 
-# Parsing - input: folder, output: dicts
-# calls Parser
-psm_exp, pep_psm, pep_prot, prot_pep, rep_cat = parser(my_path, fdr_threshold, decoy_flag)
+    # Parsing - input: folder, output: dicts
+    # calls Parser
+    psm_exp, pep_psm, pep_prot, prot_pep, rep_cat = parser(my_path, fdr_threshold, decoy_flag)
 
-# Running grouping algorithm - input: dicts and parameters (occam, anti-occam), output: new dicts with groups
-# calls Analyzer
-protein_groups, protein_subgroups = protein_grouping_analysis(occam_flag, prot_pep, pep_prot)
+    # Running grouping algorithm - input: dicts and parameters (occam, anti-occam), output: new dicts with groups
+    # calls Analyzer
+    protein_groups, protein_subgroups = protein_grouping_analysis(occam_flag, prot_pep, pep_prot)
 
-# Output writer - input: all dicts, output: file
-# calls OutputWriter
-write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, args.groups_output_file)
-write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
-# write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/groups.out')
-# write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/subgroups.out')
+    # Output writer - input: all dicts, output: file
+    # calls OutputWriter
+    write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, args.groups_output_file)
+    write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
+    # write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/groups.out')
+    # write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/subgroups.out')
