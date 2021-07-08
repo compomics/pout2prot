@@ -1,0 +1,3 @@
+[console_scripts]
+pout2prot = pout2prot:main.main
+
