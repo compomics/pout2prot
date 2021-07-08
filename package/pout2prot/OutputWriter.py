@@ -1,3 +1,5 @@
+import os
+
 # Input grouping and all other dicts
 # Should produce one Prophane file for groups and one Prophane file for subgroups
 def write_to_file(rep_cat, groups, psm_exp, pep_psm, peptide_protein_map, protein_peptide_map, file):
@@ -49,6 +51,6 @@ def write_to_file(rep_cat, groups, psm_exp, pep_psm, peptide_protein_map, protei
             # write a line in output file for each experiment
             for experiment in experiments:
                 category = rep_cat[experiment]
-                category_string = category.split("\\")[-2]
-                experiment_string = experiment.split("\\")[-1].split(".")[0]
+                category_string = category.split(os.sep)[-2]
+                experiment_string = experiment.split(os.sep)[-1].split(".")[0]
                 f.write(f"{category_string}\t{experiment_string}\t{','.join(proteins)}\t{experiment_to_count[experiment]}\n")
