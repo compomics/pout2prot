@@ -1,5 +1,5 @@
 <template>
-    <v-container fluid style="max-width: 1200px;">
+    <v-container fluid style="max-width: 1600px;">
         <div>
             <h1>Help - Command Line Interface</h1>
             The Pout2Prot command line interface is a Python-package that can be easily installed using PiP. Pout2Prot
