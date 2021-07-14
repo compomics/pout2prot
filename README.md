@@ -42,7 +42,7 @@ Next to these mandatory arguments, the script can also be further modified by pr
 An example of using the script can be seen here:
 
 ```shell
-pout2prot data/toy_examples/toy_example_1 groups_out.txt subgroups_out.txt
+pout2prot data/toy-examples/grouping-examples/SimplestGroupingCases.pout SimplestGroupingCases_out.txt
 ```
 
 ## Which protein grouping strategy to use?
