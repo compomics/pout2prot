@@ -1,6 +1,6 @@
-# pout2prot
+# Pout2Prot
 
-pout2prot converts Percolator output files to protein group and subgroup files (Occam or anti-Occam) as input for Prophane. A [web service](https://pout2prot.ugent.be) is also available that allows you to convert files online (without having to install anything!).
+Pout2Prot converts Percolator output files to protein group and subgroup files (Occam or anti-Occam) as input for Prophane. A [web service](https://pout2prot.ugent.be) is also available that allows you to convert files online (without having to install anything!).
 
 Meeting notes: https://docs.google.com/document/d/12etWvbd9oKIEFXSZ44v1uHhZxaaMiZPX9JuAAHh7c7c/edit
 Manuscript: https://docs.google.com/document/d/1FNHL_Zm_ikYrPMg4ul0PANL3YFpXq346L68K7XJeMYk/edit
@@ -11,11 +11,11 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-All scripts are written in Python 3. In order to start using the pout2prot package, we recommend you install the most recent version of Python 3 that's available for your system. We recommend using [miniconda 3](https://docs.conda.io/en/latest/miniconda.html) to get started quickly.
+All scripts are written in Python 3. In order to start using the Pout2Prot package, we recommend you install the most recent version of Python 3 that's available for your system. We recommend using [miniconda 3](https://docs.conda.io/en/latest/miniconda.html) to get started quickly.
 
 ### Installing
 
-Installing the package is easy. Pout2prot is available for download on [PyPi](). All you need to do is to execute the following command in your terminal of choice and you're good to go:
+Installing the package is easy. Pout2Prot is available for download on [PyPi](). All you need to do is to execute the following command in your terminal of choice and you're good to go:
 
 ```shell
 pip3 install pout2prot
@@ -47,7 +47,7 @@ pout2prot data/toy-examples/grouping-examples/SimplestGroupingCases.pout Simples
 
 ## Which protein grouping strategy to use?
 
-In pout2prot, the user can choose between two protein grouping strategies: Occam’s razor and anti-Occam’s razor. Occam’s razor is based on the principle of maximum parsimony, and provides the smallest set of proteins that explains all observed peptides. Here, proteins and their associated taxonomy and functions are expected to be present in the sample, but proteins that by chance could not be matched to a unique peptide are falsely discarded. This algorithm is for example used in the X!TandemPipeline. On the other hand, anti-Occam’s razor is based on the maximal explanatory set of proteins. Here, any protein that contains at least one identified peptide, will be provided in the protein list. This algorithm is used in for example the MetaProteomeAnalyzer (MPA). Importantly, while it is important to mention which grouping algorithm was used, there is no way to determine which algorithm is more correct.
+In Pout2Prot, the user can choose between two protein grouping strategies: Occam’s razor and anti-Occam’s razor. Occam’s razor is based on the principle of maximum parsimony, and provides the smallest set of proteins that explains all observed peptides. Here, proteins and their associated taxonomy and functions are expected to be present in the sample, but proteins that by chance could not be matched to a unique peptide are falsely discarded. This algorithm is for example used in the X!TandemPipeline. On the other hand, anti-Occam’s razor is based on the maximal explanatory set of proteins. Here, any protein that contains at least one identified peptide, will be provided in the protein list. This algorithm is used in for example the MetaProteomeAnalyzer (MPA). Importantly, while it is important to mention which grouping algorithm was used, there is no way to determine which algorithm is more correct.
 
 ## License
 
