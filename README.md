@@ -2,9 +2,6 @@
 
 Pout2Prot converts Percolator output files to protein group and subgroup files (Occam or anti-Occam) as input for Prophane. A [web service](https://pout2prot.ugent.be) is also available that allows you to convert files online (without having to install anything!).
 
-Meeting notes: https://docs.google.com/document/d/12etWvbd9oKIEFXSZ44v1uHhZxaaMiZPX9JuAAHh7c7c/edit
-Manuscript: https://docs.google.com/document/d/1FNHL_Zm_ikYrPMg4ul0PANL3YFpXq346L68K7XJeMYk/edit
-
 ## Getting Started
 
 These instructions will get you a copy of the project up and running on your local machine.
@@ -49,7 +46,12 @@ pout2prot data/toy-examples/grouping-examples/SimplestGroupingCases.pout Simples
 
 In Pout2Prot, the user can choose between two protein grouping strategies: Occam’s razor and anti-Occam’s razor. Occam’s razor is based on the principle of maximum parsimony, and provides the smallest set of proteins that explains all observed peptides. Here, proteins and their associated taxonomy and functions are expected to be present in the sample, but proteins that by chance could not be matched to a unique peptide are falsely discarded. This algorithm is for example used in the X!TandemPipeline. On the other hand, anti-Occam’s razor is based on the maximal explanatory set of proteins. Here, any protein that contains at least one identified peptide, will be provided in the protein list. This algorithm is used in for example the MetaProteomeAnalyzer (MPA). Importantly, while it is important to mention which grouping algorithm was used, there is no way to determine which algorithm is more correct.
 
-## License
+## The Pout2Prot output file can be immediately imported into Prophane
+
+The output file is based on the [generic input table from Prophane](https://gitlab.com/s.fuchs/prophane/-/blob/master/templates/input/generic_table.txt). 
+TO DO: add explanation from manuscript.
+
+## License[
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details
 
