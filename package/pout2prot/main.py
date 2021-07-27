@@ -12,7 +12,7 @@ def parse_args():
     parser.add_argument("groups_output_file", help="File to which the found protein groups should be written to.")
     parser.add_argument("subgroups_output_file", help="File to which the found protein subgroups should be written to.")
     parser.add_argument("--occam", action="store_true", help="Use Occam's razor during the computation of the grouping process.", default=False)
-    parser.add_argument("--decoy_flag", default="decoy", help="Flag that should be used to filter out decoy proteins.", type=str)
+    parser.add_argument("--decoy_flag", default="", help="Flag that should be used to filter out decoy proteins.", type=str)
     parser.add_argument("--fdr_threshold", default=0.01, help="Maximum FDR rate. Default value is 0.01, set to 0 to disable FDR-filtering.", type=float)
     return parser.parse_args()
 
