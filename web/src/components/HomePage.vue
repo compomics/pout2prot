@@ -174,7 +174,7 @@ export default {
         experimentNames: [],
         currentStep: 1,
         occam: false,
-        fdr: 0.05,
+        fdr: 0.01,
         decoyFlag: "decoy_",
         analysisInProgress: false,
         zipResult: null,
@@ -277,7 +277,6 @@ export default {
                 } catch (e) {
                     this.error = true;
                     this.errorMessage = "An error occurred while trying to write the analysis results to a file."
-                    return;
                 }
             }
         },
