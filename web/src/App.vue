@@ -24,10 +24,10 @@
             <v-list-item>
                 <v-list-item-content>
                     <v-list-item-title class="title">
-                        MegaGO
+                        Pout2Prot
                     </v-list-item-title>
                     <v-list-item-subtitle>
-                        Compute similarity
+                        Protein grouping analysis
                     </v-list-item-subtitle>
                 </v-list-item-content>
             </v-list-item>
