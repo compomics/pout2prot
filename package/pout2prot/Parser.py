@@ -63,7 +63,7 @@ def parser(my_path, fdr_threshold, decoy_flag):
                             pass  # leave protein name just as complete header
 
                     # Normally, only decoy proteins are returned IF there's other proteins linked to a PSM as well
-                    assert not all(decoy_flag in protein for protein in proteins), \
+                    assert decoy_flag == "" or not all(decoy_flag in protein for protein in proteins), \
                         "{} is only contained in decoy proteins".format(psm_id)
 
                     # update psm_exp

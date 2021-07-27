@@ -33,14 +33,19 @@
                                 <thead>
                                     <tr>
                                         <th class="text-left">File</th>
-                                        <th class="text-left">Experiment name</th>
+                                        <th class="text-left">Sample category</th>
+                                        <th class="text-left">Sample name</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr v-for="(file, idx) in files" :key="file.name">
                                         <td>{{ file.name }}</td>
                                         <td>
-                                            <v-text-field v-model="experimentNames[idx]">
+                                            <v-text-field v-model="sampleCategories[idx]">
+                                            </v-text-field>
+                                        </td>
+                                        <td>
+                                            <v-text-field v-model="sampleNames[idx]">
                                             </v-text-field>
                                         </td>
                                     </tr>
@@ -171,7 +176,8 @@ export default {
 
     data: () => ({
         files: [],
-        experimentNames: [],
+        sampleCategories: [],
+        sampleNames: [],
         currentStep: 1,
         occam: false,
         fdr: 0.01,
@@ -185,9 +191,11 @@ export default {
     watch: {
         // Process newly uploaded file and start the parser.
         files: function() {
-            this.experimentNames.splice(0, this.experimentNames.length);
+            this.sampleNames.splice(0, this.sampleNames.length);
+            this.sampleCategories.splice(0, this.sampleCategories.length);
             for (const file of this.files) {
-                this.experimentNames.push(file.name);
+                this.sampleNames.push(file.name);
+                this.sampleCategories.push("Category 1");
             }
         }
     },
@@ -210,11 +218,12 @@ export default {
                         psmExp, pepPsm, pepProt, protPept, repCat
                     ] = await Parser.parseFiles(
                         this.files,
-                        this.experimentNames,
+                        this.sampleNames,
                         this.fdr,
                         this.decoyFlag
                     );
                 } catch (error) {
+                    console.warn(error);
                     this.error = true;
                     this.errorMessage = `
                         An error occurred while parsing the input files you provided. Please make sure that the files

@@ -41,7 +41,7 @@ export default class Parser {
                     }
                 }
 
-                Assert.assert(!proteins.every((p) => p.includes(decoyFlag)), `${psmId} is only contained in decoy proteins!`);
+                Assert.assert(decoyFlag === "" || !proteins.every((p) => p.includes(decoyFlag)), `${psmId} is only contained in decoy proteins!`);
 
                 Assert.assert(!psmExp.has(psmId), "Only one experiment should be mapped to a PSM.");
                 psmExp.set(psmId, fileNames[fileIdx]);
