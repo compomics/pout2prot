@@ -63,7 +63,7 @@
                     <li>
                         <strong>decoy_flag:</strong> If a value is provided for this parameter, all proteins that contain
                         this value as a substring will be considered as decoy proteins and will not be taken into account
-                        during the analyses of the input files. Default parameter value is decoy.
+                        during the analyses of the input files. This filter is disabled by default.
                     </li>
                     <li>
                         <strong>fdr_threshold:</strong> Filter out all proteins that have a FDR-threshold that's higher

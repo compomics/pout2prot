@@ -32,7 +32,7 @@ Three positional arguments are always required for the script to function proper
 
 Next to these mandatory arguments, the script can also be further modified by providing a value for these optional arguments:
 * `occam`: Should Occam's razor be enabled while determining protein groups? If this option is not provided, Occam's razor will be disabled.
-* `decoy_flag`: If a value is provided for this parameter, all proteins that contain this value as a substring will be considered as decoy proteins and will not be taken into account during the analyses of the input files. Default parameter value is `decoy`.
+* `decoy_flag`: If a value is provided for this parameter, all proteins that contain this value as a substring will be considered as decoy proteins and will not be taken into account during the analyses of the input files. This filter is disabled by default.
 * `fdr_threshold`: Filter out all proteins that have a FDR-threshold that's higher than the value provided here. The default FDR-threshold that's used by this package is 0.01.
 
 #### Example
