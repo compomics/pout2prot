@@ -37,8 +37,10 @@
                 Three positional arguments are always required for the script to function properly:
                 <ul>
                     <li>
-                        <strong>input_folder:</strong> This argument should point to a folder that contains one or more
-                        *.pout-files. All of these input files will be processed by the package.
+                        <strong>input_folder:</strong> This argument should point to a folder that contains (i) one or
+                        more *.pout files, or (ii) subfolders containing *.pout files in the case there are different
+                        sample categories. In the latter case, the <span class="monospace">--sample_categories</span>
+                        option should be used.
                     </li>
                     <li>
                         <strong>groups_output_file:</strong> Pointer to a location on the filesystem where the result file
