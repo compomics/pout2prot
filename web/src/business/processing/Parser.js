@@ -1,15 +1,15 @@
 import Assert from "@/business/utils/Assert";
 
 export default class Parser {
-    static async parseFiles(files, fileNames, fdrThreshold, decoyFlag) {
+    static async parseFiles(files, fileNames, sampleCategories, fdrThreshold, decoyFlag) {
         const psmExp = new Map();
         const repCat = new Map();
         const pepPsm = new Map();
         const pepProt = new Map();
         const protPept = new Map();
 
-        for (const name of fileNames) {
-            repCat.set(name, name);
+        for (const [idx, fileName] of Object.entries(fileNames)) {
+            repCat.set(fileName, sampleCategories[idx]);
         }
 
         for (const [fileIdx, file] of Object.entries(files)) {
@@ -52,7 +52,7 @@ export default class Parser {
                 pepPsm.get(peptide).add(psmId);
 
                 for (const protein of proteins) {
-                    if (!protein.includes(decoyFlag)) {
+                    if (decoyFlag === "" || !protein.includes(decoyFlag)) {
                         if (!pepProt.has(peptide)) {
                             pepProt.set(peptide, new Set());
                         }

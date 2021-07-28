@@ -14,6 +14,7 @@ def parse_args():
     parser.add_argument("--occam", action="store_true", help="Use Occam's razor during the computation of the grouping process.", default=False)
     parser.add_argument("--decoy_flag", default="", help="Flag that should be used to filter out decoy proteins. Disabled by default.", type=str)
     parser.add_argument("--fdr_threshold", default=0.01, help="Maximum FDR rate. Default value is 0.01, set to 0 to disable FDR-filtering.", type=float)
+    parser.add_argument("--sample_categories", action="store_true", help="Use subfolders as sample category names.", default=False)
     return parser.parse_args()
 
 
@@ -23,6 +24,8 @@ def main():
     fdr_threshold = args.fdr_threshold
     decoy_flag = args.decoy_flag
     occam_flag = args.occam
+    sample_categories_flag = args.sample_categories
+
     #
     # my_path = '../data/large_input'
     # fdr_threshold = 0.01
@@ -31,7 +34,7 @@ def main():
 
     # Parsing - input: folder, output: dicts
     # calls Parser
-    psm_exp, pep_psm, pep_prot, prot_pep, rep_cat = parser(my_path, fdr_threshold, decoy_flag)
+    psm_exp, pep_psm, pep_prot, prot_pep, rep_cat = parser(my_path, fdr_threshold, decoy_flag, sample_categories_flag)
 
     # Running grouping algorithm - input: dicts and parameters (occam, anti-occam), output: new dicts with groups
     # calls Analyzer

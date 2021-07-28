@@ -5,6 +5,8 @@ import {create_protein_subgroups} from './ProteinSubGrouping.js';
 import {create_protein_groups} from './ProteinGrouping.js';
 var __name__ = '__main__';
 export var protein_grouping_analysis = function (occam_flag, protein_peptide_dict, peptide_protein_dict) {
+	console.log(protein_peptide_dict);
+	console.log(peptide_protein_dict);
 	if (occam_flag) {
 		occam_filter (peptide_protein_dict, protein_peptide_dict);
 	}

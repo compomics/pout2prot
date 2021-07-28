@@ -1,8 +1,8 @@
 import glob
 import re
+import os.path
 
-
-def parser(my_path, fdr_threshold, decoy_flag):
+def parser(my_path, fdr_threshold, decoy_flag, sample_categories_flag):
 
     """Read in data from output files, return 4 dicts:
     PSM - experiment; peptide - PSMs; peptide - proteins; proteins - peptides"""
@@ -25,20 +25,26 @@ def parser(my_path, fdr_threshold, decoy_flag):
 
     ### Iterate over subdirectories (sample_categories) files and pout_files in that folder (replicates) ###
     pout_files = list()
-    sample_categories = glob.glob(my_path + "/**/")
     rep_cat = dict()  # maps all replicates or experiments to the sample category
 
     # First, map all experiments/replicates to the sample_category
-    if sample_categories:
-        for category in sample_categories:
-            pouts = glob.glob(category + "/*.pout")
+    if sample_categories_flag:
+        sample_categories = []
+        for sample_category in glob.glob(my_path + "/**/"):
+            sample_categories.append(os.path.basename(os.path.dirname(sample_category)))
+            pouts = glob.glob(sample_category + "/*.pout")
+            assert len(pouts) > 0, f"No subfolders found for category {sample_category}. Provide valid sample categories or disable --sample_categories."
             for pout in pouts:
-                rep_cat[pout] = category
+                sample_name = os.path.basename(pout).replace(".pout", "")
+                rep_cat[sample_name] = os.path.basename(os.path.dirname(sample_category))
                 pout_files.append(pout)
     else:
+        sample_categories = []
         pout_files = glob.glob(my_path + "/*.pout")
         for pout in pout_files:
-            rep_cat[pout] = pout
+            sample_name = os.path.basename(pout).replace(".pout", "")
+            rep_cat[sample_name] = sample_name
+            sample_categories.append(sample_name)
 
     # iterate over all pout_files
     for pout_file in pout_files:
@@ -68,7 +74,7 @@ def parser(my_path, fdr_threshold, decoy_flag):
 
                     # update psm_exp
                     assert psm_id not in psm_exp.keys(), "Only one experiment should be mapped to PSM"
-                    psm_exp[psm_id] = pout_file
+                    psm_exp[psm_id] = os.path.basename(pout_file).replace(".pout", "")
 
                     # update pep_psm
                     if peptide not in pep_psm.keys():
@@ -79,7 +85,7 @@ def parser(my_path, fdr_threshold, decoy_flag):
 
                     # update pep_prot and prot_pep
                     for protein in proteins:
-                        if decoy_flag not in protein:
+                        if decoy_flag == "" or decoy_flag not in protein:
                             if peptide not in pep_prot.keys():
                                 pep_prot[peptide] = set()
                                 pep_prot[peptide].add(protein)

@@ -22,8 +22,8 @@ def write_to_file(rep_cat, groups, psm_exp, pep_psm, peptide_protein_map, protei
         for proteins in groups.values():
             # there will be a separate line written for each experiment
             # here we find all experiments for this group and calculate the adjusted spectrum count for each
-            experiments = set()
-            experiment_to_count = dict()
+            samples = set()
+            sample_names_to_count = dict()
             # we also need to mark peptides that were already c
             used_peptides = set()
             # nested loop protein -> peptide -> psm
@@ -35,22 +35,20 @@ def write_to_file(rep_cat, groups, psm_exp, pep_psm, peptide_protein_map, protei
                             # then the total spectrum count will be the same as if we
                             divide_by = len(peptide_to_groups[peptide])
                             # retrieve the experiment
-                            experiment = psm_exp[psm]
+                            sample_name = psm_exp[psm]
                             # a psm can only belong to one experiment, so we can add to the count of this experiment
-                            if experiment in experiment_to_count:
+                            if sample_name in sample_names_to_count:
                                 # add count to existing entry
-                                experiment_to_count[experiment] = experiment_to_count[experiment] + 1/divide_by
+                                sample_names_to_count[sample_name] = sample_names_to_count[sample_name] + 1/divide_by
                             else:
                                 # new entry, start with current psm
-                                experiment_to_count[experiment] = 1/divide_by
+                                sample_names_to_count[sample_name] = 1/divide_by
                                 # here we can also check if we encountered this experiment before
-                                if not (experiment in experiments):
-                                    experiments.add(experiment)
+                                if not (sample_name in samples):
+                                    samples.add(sample_name)
                     used_peptides.add(peptide)
 
             # write a line in output file for each experiment
-            for experiment in experiments:
-                category = rep_cat[experiment]
-                category_string = category.split(os.sep)[-2]
-                experiment_string = experiment.split(os.sep)[-1].split(".")[0]
-                f.write(f"{category_string}\t{experiment_string}\t{','.join(proteins)}\t{experiment_to_count[experiment]}\n")
+            for sample_name in samples:
+                sample_category = rep_cat[sample_name]
+                f.write(f"{sample_category}\t{sample_name}\t{','.join(proteins)}\t{sample_names_to_count[sample_name]}\n")

@@ -17,7 +17,7 @@
                         <small>This application only accepts .pout-files</small>
                     </v-stepper-step>
                     <v-stepper-content step="1">
-                        <v-file-input v-model="files" multiple></v-file-input>
+                        <v-file-input v-model="files" multiple ></v-file-input>
                         <div class="d-flex mt-2">
                             <v-btn class="ml-auto" color="primary" @click="currentStep = 2" :disabled="!(files && files.length > 0)">
                                 Continue
@@ -25,7 +25,7 @@
                         </div>
                     </v-stepper-content>
                     <v-stepper-step :complete="currentStep > 2" step="2">
-                        Configure experiment names
+                        Configure samples
                     </v-stepper-step>
                     <v-stepper-content step="2">
                         <v-simple-table>
@@ -181,7 +181,7 @@ export default {
         currentStep: 1,
         occam: false,
         fdr: 0.01,
-        decoyFlag: "decoy_",
+        decoyFlag: "",
         analysisInProgress: false,
         zipResult: null,
         error: false,
@@ -194,8 +194,9 @@ export default {
             this.sampleNames.splice(0, this.sampleNames.length);
             this.sampleCategories.splice(0, this.sampleCategories.length);
             for (const file of this.files) {
-                this.sampleNames.push(file.name);
-                this.sampleCategories.push("Category 1");
+                const fileName = file.name.replace(/.pout$/, "");
+                this.sampleNames.push(fileName);
+                this.sampleCategories.push(fileName);
             }
         }
     },
@@ -219,9 +220,11 @@ export default {
                     ] = await Parser.parseFiles(
                         this.files,
                         this.sampleNames,
+                        this.sampleCategories,
                         this.fdr,
                         this.decoyFlag
                     );
+
                 } catch (error) {
                     console.warn(error);
                     this.error = true;
