@@ -51,7 +51,7 @@ In Pout2Prot, the user can choose between two protein grouping strategies: Occam
 The output file is based on the [generic input table from Prophane](https://gitlab.com/s.fuchs/prophane/-/blob/master/templates/input/generic_table.txt). 
 TO DO: add explanation from manuscript.
 
-## License[
+## License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details
 
