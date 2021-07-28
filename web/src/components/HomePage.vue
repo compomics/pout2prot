@@ -12,23 +12,26 @@
                     our web server and that they are only used by the browser itself to perform the requested analysis.
                 </div>
                 <v-stepper vertical v-model="currentStep">
-                    <v-stepper-step :complete="currentStep > 1" step="1">
+                    <v-stepper-step :complete="currentStep > 1" step="1" editable>
                         Select all input files
                         <small>This application only accepts .pout-files</small>
                     </v-stepper-step>
                     <v-stepper-content step="1">
-                        <v-file-input v-model="files" multiple ></v-file-input>
-                        <div class="d-flex mt-2">
-                            <v-btn class="ml-auto" color="primary" @click="currentStep = 2" :disabled="!(files && files.length > 0)">
-                                Continue
-                            </v-btn>
+                        <v-alert
+                            icon="mdi-information"
+                            text
+                            v-if="this.allFiles.length === 0"
+                            type="info"
+                        >
+                            You can add multiple files to the selection by using the input box below. Please note that
+                            it is also possible to add files multiple times (you don't need to select all files at
+                            once).
+                        </v-alert>
+                        <div class="d-flex my-4">
+                            <v-file-input v-model="files" multiple dense hide-details></v-file-input>
+                            <v-btn color="primary" class="ml-4" @click="addFiles">Add</v-btn>
                         </div>
-                    </v-stepper-content>
-                    <v-stepper-step :complete="currentStep > 2" step="2">
-                        Configure samples
-                    </v-stepper-step>
-                    <v-stepper-content step="2">
-                        <v-simple-table>
+                        <v-simple-table v-if="this.allFiles.length > 0">
                             <template v-slot:default>
                                 <thead>
                                     <tr>
@@ -38,7 +41,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr v-for="(file, idx) in files" :key="file.name">
+                                    <tr v-for="(file, idx) in allFiles" :key="file.name">
                                         <td>{{ file.name }}</td>
                                         <td>
                                             <v-text-field v-model="sampleCategories[idx]">
@@ -57,15 +60,15 @@
                             <v-btn text @click="currentStep = 1">
                                 Go back
                             </v-btn>
-                            <v-btn class="ml-auto" color="primary" @click="currentStep = 3">
+                            <v-btn class="ml-auto" color="primary" @click="currentStep = 2">
                                 Continue
                             </v-btn>
                         </div>
                     </v-stepper-content>
-                    <v-stepper-step :complete="currentStep > 3" step="3">
+                    <v-stepper-step :complete="currentStep > 2" step="2" editable>
                         Parameters
                     </v-stepper-step>
-                    <v-stepper-content step="3">
+                    <v-stepper-content step="2" >
                         <v-container fluid>
                             <v-row>
                                 <v-col cols="5">
@@ -114,7 +117,7 @@
                             </v-row>
                         </v-container>
                         <div class="d-flex mt-2">
-                            <v-btn text @click="currentStep = 2">
+                            <v-btn text @click="currentStep = 1">
                                 Go back
                             </v-btn>
                             <v-btn class="ml-auto" color="primary" @click="startAnalysis">
@@ -122,7 +125,7 @@
                             </v-btn>
                         </div>
                     </v-stepper-content>
-                    <v-stepper-step :complete="currentStep > 4" step="4">
+                    <v-stepper-step :complete="currentStep > 3" step="3" editable>
                         View results
                     </v-stepper-step>
                     <v-stepper-content step="4">
@@ -176,6 +179,7 @@ export default {
 
     data: () => ({
         files: [],
+        allFiles: [],
         sampleCategories: [],
         sampleNames: [],
         currentStep: 1,
@@ -188,24 +192,21 @@ export default {
         errorMessage: ""
     }),
 
-    watch: {
-        // Process newly uploaded file and start the parser.
-        files: function() {
-            this.sampleNames.splice(0, this.sampleNames.length);
-            this.sampleCategories.splice(0, this.sampleCategories.length);
-            for (const file of this.files) {
-                const fileName = file.name.replace(/.pout$/, "");
-                this.sampleNames.push(fileName);
-                this.sampleCategories.push(fileName);
-            }
-        }
-    },
-
     methods: {
+        addFiles: function() {
+            for (const file of this.files) {
+                if (!this.allFiles.find(f => f.name === file.name)) {
+                    this.allFiles.push(file);
+                    const fileName = file.name.replace(/.pout$/, "");
+                    this.sampleNames.push(fileName);
+                    this.sampleCategories.push(fileName);
+                }
+            }
+        },
         startAnalysis: async function() {
             this.error = false;
 
-            if (this.files) {
+            if (this.allFiles) {
                 this.currentStep = 4;
 
                 let psmExp;
@@ -218,7 +219,7 @@ export default {
                     [
                         psmExp, pepPsm, pepProt, protPept, repCat
                     ] = await Parser.parseFiles(
-                        this.files,
+                        this.allFiles,
                         this.sampleNames,
                         this.sampleCategories,
                         this.fdr,
@@ -283,8 +284,8 @@ export default {
                     const subGroupFile = write_to_file(dict([...repCat]), proteinSubgroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
 
                     const zip = new JSZip();
-                    zip.file("groups.out", groupFile);
-                    zip.file("subgroups.out", subGroupFile);
+                    zip.file("groups.tsv", groupFile);
+                    zip.file("subgroups.tsv", subGroupFile);
                     this.zipResult = zip;
                 } catch (e) {
                     this.error = true;
