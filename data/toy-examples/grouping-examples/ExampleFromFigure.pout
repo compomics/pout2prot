@@ -1,0 +1,10 @@
+PSMId	score	q-value	posterior_error_prob	peptide	proteinIds
+Fig1.01	score	0.005	pep	X.AAAAAA.X	FigP1	FigP2	FigP3	
+Fig1.02	score	0.005	pep	X.AAAAAA.X	FigP1	FigP2	FigP3	
+Fig1.03	score	0.005	pep	X.BBBBBB.X	FigP2	FigP3	FigP4	FigP5	FigP6	
+Fig1.04	score	0.005	pep	X.BBBBBB.X	FigP2	FigP3	FigP4	FigP5	FigP6	
+Fig1.05	score	0.005	pep	X.BBBBBB.X	FigP2	FigP3	FigP4	FigP5	FigP6	
+Fig1.06	score	0.005	pep	X.CCCCCC.X	FigP1
+Fig1.07	score	0.005	pep	X.DDDDDD.X	FigP4
+Fig1.08	score	0.005	pep	X.DDDDDD.X	FigP4	
+Fig1.09	score	0.005	pep	X.EEEEEE.X	FigP5	FigP6
