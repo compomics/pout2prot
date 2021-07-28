@@ -1,5 +1,7 @@
 # Pout2Prot
 
+<img src="logo.png" width="150px">
+
 Pout2Prot converts Percolator output files to protein group and subgroup files (Occam or anti-Occam) as input for Prophane. A [web service](https://pout2prot.ugent.be) is also available that allows you to convert files online (without having to install anything!).
 
 ## Getting Started
@@ -22,15 +24,16 @@ pip3 install pout2prot
 
 The signature of the script is 
 ```
-pout2prot [-h] [--occam] [--decoy_flag DECOY_FLAG] [--fdr_threshold FDR_THRESHOLD] input_folder groups_output_file subgroups_output_file
+pout2prot [-h] [--sample_categories] [--occam] [--decoy_flag DECOY_FLAG] [--fdr_threshold FDR_THRESHOLD] input_folder groups_output_file subgroups_output_file
 ```
 
 Three positional arguments are always required for the script to function properly:
-* `input_folder`: This argument should point to a folder that contains one or more `*.pout`-files. All of these input files will be processed by the package. TODO write something about the replicates here
-* `groups_output_file`: Pointer to a location on the filesystem where the result file with all protein groups should be stored.
+* `input_folder`: This argument should point to a folder that contains (i) one or more `*.pout` files, or (ii) subfolders containing `*.pout` files in the case there are different sample categories. In the latter case, the `--sample_categories` option should be used. 
+* * `groups_output_file`: Pointer to a location on the filesystem where the result file with all protein groups should be stored.
 * `subgroups_output_file`: Pointer to a location on the filesystem where the result file with all protein subgroups should be stored.
 
 Next to these mandatory arguments, the script can also be further modified by providing a value for these optional arguments:
+* `sample_categories`: If this option is provided, Pout2Prot will use the name of the subfolders (containing the .pout files) as sample category. If not, only `*.pout` files in the `input_folder` will be considered, and the sample category name will be identical to the sample name.
 * `occam`: Should Occam's razor be enabled while determining protein groups? If this option is not provided, Occam's razor will be disabled.
 * `decoy_flag`: If a value is provided for this parameter, all proteins that contain this value as a substring will be considered as decoy proteins and will not be taken into account during the analyses of the input files. This filter is disabled by default.
 * `fdr_threshold`: Filter out all proteins that have a FDR-threshold that's higher than the value provided here. The default FDR-threshold that's used by this package is 0.01.
@@ -39,7 +42,7 @@ Next to these mandatory arguments, the script can also be further modified by pr
 An example of using the script can be seen here:
 
 ```shell
-pout2prot data/toy-examples/grouping-examples/SimplestGroupingCases.pout SimplestGroupingCases_out.txt
+pout2prot data/toy-examples/grouping-examples/ groups_out.tsv subgroups_out.tsv
 ```
 
 ## Which protein grouping strategy to use?
