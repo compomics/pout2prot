@@ -29,7 +29,7 @@
                         </v-alert>
                         <div class="d-flex my-4">
                             <v-file-input v-model="files" multiple dense hide-details></v-file-input>
-                            <v-btn color="primary" class="ml-4" @click="addFiles">Add</v-btn>
+                            <v-btn color="primary" class="ml-4" @click="addFiles" :disabled="files.length === 0">Add</v-btn>
                         </div>
                         <v-simple-table v-if="this.allFiles.length > 0">
                             <template v-slot:default>
