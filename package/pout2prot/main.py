@@ -1,6 +1,6 @@
-from .Parser import parser
-from .Analyzer import protein_grouping_analysis
-from .OutputWriter import write_to_file
+from Parser import parser
+from Analyzer import protein_grouping_analysis
+from OutputWriter import write_to_file
 
 import argparse
 
@@ -46,3 +46,5 @@ def main():
     write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
     # write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/groups.out')
     # write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/subgroups.out')
+
+main()
