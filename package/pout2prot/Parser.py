@@ -50,7 +50,6 @@ def parser(my_path, fdr_threshold, decoy_flag, sample_categories_flag):
                 rep_cat[sample_name] = sample_name
                 sample_categories.append(sample_name)
     elif os.path.isfile(my_path):
-        print("it is a file")
         assert my_path.endswith(".pout"), "The provided input file is not a .pout file."
         pout_files.append(my_path)
         sample_categories = []
