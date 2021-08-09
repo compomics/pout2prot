@@ -29,7 +29,7 @@ pout2prot [-h] [--sample_categories] [--occam] [--decoy_flag DECOY_FLAG] [--fdr_
 
 Three positional arguments are always required for the script to function properly:
 * `input`: This argument should point to a either (i) a single `*.pout` file, (ii) a folder that contains one or more `*.pout` files, or (ii) a parent folder with subfolders containing `*.pout` files in the case there are different sample categories. In the latter case, the `--sample_categories` option should be used. 
-* * `groups_output_file`: Pointer to a location on the filesystem where the result file with all protein groups should be stored.
+* `groups_output_file`: Pointer to a location on the filesystem where the result file with all protein groups should be stored.
 * `subgroups_output_file`: Pointer to a location on the filesystem where the result file with all protein subgroups should be stored.
 
 Next to these mandatory arguments, the script can also be further modified by providing a value for these optional arguments:
