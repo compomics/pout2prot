@@ -52,7 +52,8 @@ In Pout2Prot, the user can choose between two protein grouping strategies: Occam
 ## The Pout2Prot output file can be immediately imported into Prophane
 
 The output file is based on the [generic input table from Prophane](https://gitlab.com/s.fuchs/prophane/-/blob/master/templates/input/generic_table.txt). 
-TO DO: add explanation from manuscript.
+
+Pout2Prot converts .pout files to protein (sub)group files that can be immediately imported in Prophane for further downstream analysis. This Prophane input file consists of four tab-separated fields: sample category, sample name, protein accessions, and spectrum count. The sample category allows users to divide their experiment in different categories (e.g. “control” and “disease”), and requires that the files are placed in different subfolders containing the sample category name. If no sample categories are provided, it will have the same name as the sample name, which means it will be quantified individually by Prophane. The sample name is the individual experiment, and will be the basename of the .pout file, so each protein (sub)group can be traced back to its origin file. The protein accessions will contain the proteins present in the protein (sub)group, based on the chosen strategy. Finally, the spectrum count contains the weighted spectrum count from all PSMs present in that protein (sub)group.
 
 ## License
 
