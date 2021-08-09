@@ -45,6 +45,7 @@ def create_protein_subgroups(occam_flag, protein_groups, protein_peptide_dict):
                                             # new subgroup for this protein, which will be done at the end
                                             add = False
                                             break
+
                     # add to subgroup
                     if add:
                         # if peptide_set_2_compare is the bigger one, replace subgroup_peptides with it
@@ -64,8 +65,8 @@ def create_protein_subgroups(occam_flag, protein_groups, protein_peptide_dict):
                                 # and compare the peptide set, we only need to check if its subset of the other
                                 peptide_set_3_other = protein_peptide_dict[other_protein]
                                 if peptide_set_2_compare < peptide_set_3_other:
-                                    if (not peptide_set_1_group < peptide_set_3_other) and \
-                                            (not peptide_set_3_other.issubset(peptide_set_1_group)):
+                                    if (not peptide_set_2_compare < peptide_set_3_other) and \
+                                            (not peptide_set_3_other < peptide_set_2_compare):
                                         # new subgroup for this protein, which will be done at the end
                                         add = False
                                         break
