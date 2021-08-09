@@ -21,61 +21,50 @@ def occam_filter(peptides_to_proteins, proteins_to_peptides):
     arguments passed will be changed.
     """
 
-    # Keep track of which proteins are marked for removal (these will be removed after the algorithm has been run).
+    # peptides that only have a single protein are unique
+    unique_peps = set()
+    # proteins that have are
+    unique_proteins = set()
+    # peptides that belong to a unique protein are explained
+    explained_peps = set()
+    for [pep1, prots1] in peptides_to_proteins.items():
+        if len(prots1) == 1:
+            # get first and only element of set as protein
+            for protein in prots1:
+                break
+            # update unique sets
+            unique_proteins.add(protein)
+            unique_peps.add(pep1)
+            # add the peptides of this unique protein to explained proteins
+            for pep in proteins_to_peptides[protein]:
+                explained_peps.add(pep)
+
+    # now that we tracked unique proteins we can check which ones should be removed
+    # we use 2 tests: 1. explained by unique proteins, 2. explained by being a subset of another protein
     remove_proteins = set()
-    unique_peptides = set()
-    # check if a peptide is unique
-    for [pep, prots] in peptides_to_proteins.items():
-        # flag inits as false
-        is_unique = False
-        if len(prots) == 1:
-            is_unique = True
-        else:
-            # TODO: this set is problematic, can contain 2 or more exact duplicate sets (case 5+6 work though)
-            exact_duplicates = set()
-            for prot1 in prots:
-                for prot2 in prots:
-                    if prot1 != prot2:
-                        if proteins_to_peptides[prot1] == proteins_to_peptides[prot2]:
-                            exact_duplicates.add(prot1)
-                            exact_duplicates.add(prot2)
-            if exact_duplicates == prots:
-                is_unique = True
-        if is_unique:
-            unique_peptides.add(pep)
-
-    # check if proteins have a unique peptide
-    for prot3, peps2 in proteins_to_peptides.items():
-        has_unique = False
-        no_uniques = True
-        for pep_test in peps2:
-            if pep_test in unique_peptides:
-                has_unique = True
-            # dont remove if none of the other proteins has a unique peptides either
-            for prot_test in peptides_to_proteins[pep_test]:
-                for related_pep in proteins_to_peptides[prot_test]:
-                    if related_pep in unique_peptides:
-                        no_uniques = False
-        if (not has_unique) and (not no_uniques):
-            remove_proteins.add(prot3)
-
-        # if not has_unique:
-        #     # get the other proteins
-        #     # check if there is another protein with the same set of peptides
-        #     # if the other protein has more peptides, remove
-        #
-        #     # this implementation doesnt work with the "unique peptides" created above
-        #     other_proteins = set()
-        #     for pep_test2 in peps2:
-        #         for other_prot in peptides_to_proteins[pep_test2]:
-        #             if other_prot not in remove_proteins:
-        #                 other_proteins.add(other_prot)
-        #
-        #     for prot3 in other_proteins:
-        #         # check if one of these proteins has a superset of peptides to our current prot2
-        #         if proteins_to_peptides[prot2].issubset(proteins_to_peptides[prot3]):
-        #             if proteins_to_peptides[prot2] != proteins_to_peptides[prot3]:
-        #                 remove_proteins.add(prot2)
+    for [prot2, peps2] in proteins_to_peptides.items():
+        # only check non-unique proteins here
+        if not (prot2 in unique_proteins):
+            # starting with True, in the first test maybe set to False, in the second test may be set back to False
+            is_explained = True
+            # the FIRST TEST checks if the peptides of this protein are fully explained by unique proteins
+            for pep_test in peps2:
+                if not (pep_test in explained_peps):
+                    is_explained = False
+            # the SECOND TEST checks if the peptides of this protein are a subset of another non-unique protein
+            # collect all other proteins that share any of this proteins peptides
+            sharing_proteins = set()
+            for pep_group in peps2:
+                for protein_share in peptides_to_proteins[pep_group]:
+                    sharing_proteins.add(protein_share)
+            # here comes the actual subset-test
+            for protein_test in sharing_proteins:
+                # the < operator tests for strict subset relation
+                if peps2 < proteins_to_peptides[protein_test]:
+                    is_explained = True
+            # finally add this protein to be removed if its peptides are explained by other proteins
+            if is_explained:
+                remove_proteins.add(prot2)
 
     # Removing step
     peptides_marked_for_update = set()
