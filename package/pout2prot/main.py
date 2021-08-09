@@ -4,23 +4,22 @@ from OutputWriter import write_to_file
 
 import argparse
 
-
 # handling of command line (or config file) arguments
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("input_folder", help="Folder containing all input files that should be processed.")
+    parser.add_argument("input", help="A single pout file, or folder containing all input pout files that should be processed.")
     parser.add_argument("groups_output_file", help="File to which the found protein groups should be written to.")
     parser.add_argument("subgroups_output_file", help="File to which the found protein subgroups should be written to.")
     parser.add_argument("--occam", action="store_true", help="Use Occam's razor during the computation of the grouping process.", default=False)
     parser.add_argument("--decoy_flag", default="", help="Flag that should be used to filter out decoy proteins. Disabled by default.", type=str)
     parser.add_argument("--fdr_threshold", default=0.01, help="Maximum FDR rate. Default value is 0.01, set to 0 to disable FDR-filtering.", type=float)
-    parser.add_argument("--sample_categories", action="store_true", help="Use subfolders as sample category names.", default=False)
+    parser.add_argument("--sample_categories", action="store_true", help="Use subfolders as sample category names. Will only be parsed if a directory is used as input.", default=False)
     return parser.parse_args()
 
 
 def main():
     args = parse_args()
-    my_path = args.input_folder  # be careful with / (linux) and \\ (windows)
+    my_path = args.input  # be careful with / (linux) and \\ (windows)
     fdr_threshold = args.fdr_threshold
     decoy_flag = args.decoy_flag
     occam_flag = args.occam

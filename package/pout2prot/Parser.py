@@ -23,28 +23,41 @@ def parser(my_path, fdr_threshold, decoy_flag, sample_categories_flag):
     # UniProtKB accession if possible, otherwise complete name
     prot_pep = dict()
 
-    ### Iterate over subdirectories (sample_categories) files and pout_files in that folder (replicates) ###
+    ### Read pout files ###
+
+    assert os.path.exists(my_path), "input file or folder does not exist"
+
     pout_files = list()
     rep_cat = dict()  # maps all replicates or experiments to the sample category
-
-    # First, map all experiments/replicates to the sample_category
-    if sample_categories_flag:
-        sample_categories = []
-        for sample_category in glob.glob(my_path + "/**/"):
-            sample_categories.append(os.path.basename(os.path.dirname(sample_category)))
-            pouts = glob.glob(sample_category + "/*.pout")
-            assert len(pouts) > 0, f"No subfolders found for category {sample_category}. Provide valid sample categories or disable --sample_categories."
-            for pout in pouts:
+    if os.path.isdir(my_path):
+        # First, map all experiments/replicates to the sample_category
+        if sample_categories_flag:
+            sample_categories = []
+            for sample_category in glob.glob(my_path + "/**/"):
+                sample_categories.append(os.path.basename(os.path.dirname(sample_category)))
+                pouts = glob.glob(sample_category + "/*.pout")
+                assert len(pouts) > 0, f"No subfolders found for category {sample_category}. Provide valid sample categories or disable --sample_categories."
+                for pout in pouts:
+                    sample_name = os.path.basename(pout).replace(".pout", "")
+                    rep_cat[sample_name] = os.path.basename(os.path.dirname(sample_category))
+                    pout_files.append(pout)
+        else:  # no sample categories (subfolders) found. The name of the sample category will be equal to the name of the pout file
+            sample_categories = []
+            pout_files = glob.glob(my_path + "/*.pout")
+            assert len(pout_files) > 0, "No .pout files found. Please provide valid pout files or enable --sample_categories."
+            for pout in pout_files:
                 sample_name = os.path.basename(pout).replace(".pout", "")
-                rep_cat[sample_name] = os.path.basename(os.path.dirname(sample_category))
-                pout_files.append(pout)
-    else:
+                rep_cat[sample_name] = sample_name
+                sample_categories.append(sample_name)
+    elif os.path.isfile(my_path):
+        print("it is a file")
+        assert my_path.endswith(".pout"), "The provided input file is not a .pout file."
+        pout_files.append(my_path)
         sample_categories = []
-        pout_files = glob.glob(my_path + "/*.pout")
-        for pout in pout_files:
-            sample_name = os.path.basename(pout).replace(".pout", "")
-            rep_cat[sample_name] = sample_name
-            sample_categories.append(sample_name)
+        sample_name = os.path.basename(my_path).replace(".pout", "")
+        rep_cat[sample_name] = sample_name
+        sample_categories.append(sample_name)
+
 
     # iterate over all pout_files
     for pout_file in pout_files:
