@@ -55,6 +55,8 @@ The output file is based on the [generic input table from Prophane](https://gitl
 
 Pout2Prot converts .pout files to protein (sub)group files that can be immediately imported in Prophane for further downstream analysis. This Prophane input file consists of four tab-separated fields: sample category, sample name, protein accessions, and spectrum count. The sample category allows users to divide their experiment in different categories (e.g. “control” and “disease”), and requires that the files are placed in different subfolders containing the sample category name. If no sample categories are provided, it will have the same name as the sample name, which means it will be quantified individually by Prophane. The sample name is the individual experiment, and will be the basename of the .pout file, so each protein (sub)group can be traced back to its origin file. The protein accessions will contain the proteins present in the protein (sub)group, based on the chosen strategy. Finally, the spectrum count contains the weighted spectrum count from all PSMs present in that protein (sub)group.
 
+Note, that for the use in Prophane, the file extensions should be ".tsv". In the command line version, this has to be manually addressed by the user in the provided options. In the web version, this is the default file extension. 
+
 ## License
 
 This project is licensed under the Apache License 2.0 - see the [LICENSE](LICENSE) file for details
