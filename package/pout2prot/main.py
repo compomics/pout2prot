@@ -7,7 +7,7 @@ import argparse
 # handling of command line (or config file) arguments
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("input", help="A single pout file, or folder containing all input pout files that should be processed.")
+    parser.add_argument("input", help="A single pout file, folder containing all input pout files, or folder with sub folders (sample categories) containing pout files.")
     parser.add_argument("groups_output_file", help="File to which the found protein groups should be written to.")
     parser.add_argument("subgroups_output_file", help="File to which the found protein subgroups should be written to.")
     parser.add_argument("--occam", action="store_true", help="Use Occam's razor during the computation of the grouping process.", default=False)
