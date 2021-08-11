@@ -57,10 +57,7 @@
                         </v-simple-table>
 
                         <div class="d-flex mt-2">
-                            <v-btn text @click="currentStep = 1">
-                                Go back
-                            </v-btn>
-                            <v-btn class="ml-auto" color="primary" @click="currentStep = 2">
+                            <v-btn class="ml-auto" color="primary" @click="currentStep = 2" :disabled="allFiles.length === 0">
                                 Continue
                             </v-btn>
                         </div>
@@ -125,7 +122,7 @@
                             </v-btn>
                         </div>
                     </v-stepper-content>
-                    <v-stepper-step :complete="currentStep > 3" step="3" editable>
+                    <v-stepper-step :complete="currentStep > 3" step="3" editable @click="startAnalysis">
                         View results
                     </v-stepper-step>
                     <v-stepper-content step="4">

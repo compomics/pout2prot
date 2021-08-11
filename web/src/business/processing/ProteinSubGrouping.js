@@ -1,4 +1,3 @@
-'use strict';
 import {
     AssertionError,
     AttributeError,
@@ -133,57 +132,83 @@ import {
 
 var __name__ = "ProteinSubGrouping";
 export var create_protein_subgroups = function (occam_flag, protein_groups, protein_peptide_dict) {
-    var protein_subgroups = dict();
-    for (var protein_group_id of protein_groups.py_keys()) {
-        var protein_subgroup_id_first_half = str(protein_group_id) +
-            "_";
-        var protein_list = protein_groups[protein_group_id].slice();
-        var subgroup_count = 0;
+    const protein_subgroups = dict();
+
+    for (const protein_group_id of protein_groups.py_keys()) {
+        const protein_subgroup_id_first_half = str(protein_group_id) + "_";
+        const protein_list = protein_groups[protein_group_id].slice();
+
+        let subgroup_count = 0;
+
         while (len(protein_list) > 0) {
-            var current_protein = protein_list.py_pop();
-            var subgroup_protein_list = new set([current_protein]);
+            const current_protein = protein_list.py_pop();
+            const subgroup_protein_list = set([current_protein]);
             subgroup_count++;
-            var subgroup_id = protein_subgroup_id_first_half + str(subgroup_count);
+
+            const subgroup_id = protein_subgroup_id_first_half + str(subgroup_count);
             protein_subgroups[subgroup_id] = subgroup_protein_list;
-            var peptide_set_1_group = protein_peptide_dict[current_protein];
-            var list_of_proteins_to_remove = set();
-            for (var compare_protein of protein_list) {
-                var peptide_set_2_compare =
-                    protein_peptide_dict[compare_protein];
+
+            let peptide_set_1_group = protein_peptide_dict[current_protein];
+            const list_of_proteins_to_remove = set();
+
+            for (const compare_protein of protein_groups[protein_group_id]) {
+                const peptide_set_2_compare = protein_peptide_dict[compare_protein];
                 if (peptide_set_1_group.issubset(peptide_set_2_compare)) {
-                    var add = true;
-                    if (!occam_flag) for (var other_protein of protein_list) if (other_protein != compare_protein) if (!__in__(other_protein, list_of_proteins_to_remove)) {
-                        var peptide_set_3_other = protein_peptide_dict[other_protein];
-                        if (peptide_set_1_group.issubset(peptide_set_3_other)) if (!(peptide_set_2_compare < peptide_set_3_other) && !(peptide_set_3_other < peptide_set_2_compare)) {
-                            var add = false;
-                            break
+                    let add = true;
+
+                    if (!occam_flag) {
+                        for (const other_protein of protein_groups[protein_group_id]) {
+                            if (other_protein !== compare_protein && !__in__(other_protein, list_of_proteins_to_remove)) {
+                                const peptide_set_3_other = protein_peptide_dict[other_protein];
+
+                                if (
+                                    peptide_set_1_group.issubset(peptide_set_3_other) &&
+                                    !(peptide_set_2_compare.issubset(peptide_set_3_other) && len(peptide_set_2_compare) < len(peptide_set_3_other)) &&
+                                    !(peptide_set_3_other.issubset(peptide_set_2_compare) && len(peptide_set_3_other) < len(peptide_set_2_compare))
+                                ) {
+                                    add = false;
+                                    break;
+                                }
+                            }
                         }
                     }
+
                     if (add) {
-                        var peptide_set_1_group =
-                            peptide_set_2_compare;
+                        peptide_set_1_group = peptide_set_2_compare;
                         subgroup_protein_list.add(compare_protein);
-                        list_of_proteins_to_remove.add(compare_protein)
+                        list_of_proteins_to_remove.add(compare_protein);
+                        console.log("Added to remove: " + compare_protein);
                     }
                 } else if (peptide_set_2_compare.issubset(peptide_set_1_group)) {
-                    var add = true;
-                    if (!occam_flag) for (var other_protein of protein_list) if (other_protein != compare_protein) {
-                        var peptide_set_3_other = protein_peptide_dict[other_protein];
-                        if (peptide_set_2_compare < peptide_set_3_other) if (!(peptide_set_1_group < peptide_set_3_other) && !peptide_set_3_other.issubset(peptide_set_1_group)) {
-                            var add = false;
-                            break
+                    let add = true;
+                    if (!occam_flag) {
+                        for (const other_protein of protein_groups[protein_group_id]) {
+                            if (other_protein !== compare_protein) {
+                                const peptide_set_3_other = protein_peptide_dict[other_protein];
+                                if (
+                                    peptide_set_2_compare.issubset(peptide_set_1_group) &&
+                                    !(peptide_set_2_compare.issubset(peptide_set_3_other) && len(peptide_set_2_compare) < len(peptide_set_3_other)) &&
+                                    !(peptide_set_3_other.issubset(peptide_set_2_compare) && len(peptide_set_3_other) < len(peptide_set_2_compare))
+                                ) {
+                                    add = false;
+                                    break;
+                                }
+                            }
                         }
                     }
+
                     if (add) {
                         subgroup_protein_list.add(compare_protein);
-                        list_of_proteins_to_remove.add(compare_protein)
+                        list_of_proteins_to_remove.add(compare_protein);
                     }
                 }
             }
-            for (var remove_protein of list_of_proteins_to_remove) protein_list.remove(remove_protein)
+
+            for (const remove_protein of list_of_proteins_to_remove) {
+                protein_list.remove(remove_protein);
+            }
         }
     }
-    return protein_subgroups
-};
 
-//# sourceMappingURL=ProteinSubGrouping.map
+    return protein_subgroups;
+}
