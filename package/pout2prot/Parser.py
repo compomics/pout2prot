@@ -63,7 +63,14 @@ def parser(my_path, fdr_threshold, decoy_flag, sample_categories_flag):
         with open(pout_file, "r") as f:
             next(f)  # skip header
             for line in f:
-                psm_id, _, q, _, peptide, proteins = line.rstrip().split("\t", maxsplit=5)
+                # skip empty lines
+                if line.rstrip() == "":
+                    continue
+
+                splitted_line = line.rstrip().split("\t", maxsplit=5)
+                assert len(splitted_line) >= 6, "Input file is wrongly formatted. Make sure that the input is a valid .pout file."
+
+                psm_id, _, q, _, peptide, proteins = splitted_line
                 if float(q) < fdr_threshold:
                     # retrieving all information
                     peptide = re.sub("\[.*?\]", "", peptide)
