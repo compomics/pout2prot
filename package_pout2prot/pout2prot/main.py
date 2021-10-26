@@ -10,6 +10,7 @@ def parse_args():
     parser.add_argument("input", help="A single pout file, folder containing all input pout files, or folder with sub folders (sample categories) containing pout files.")
     parser.add_argument("groups_output_file", help="File to which the found protein groups should be written to.")
     parser.add_argument("subgroups_output_file", help="File to which the found protein subgroups should be written to.")
+    parser.add_argument("--export-type", default="csv", help="What type should the output be formatted as? Options: prophane, csv (= human readable).", type=str)
     parser.add_argument("--occam", action="store_true", help="Use Occam's razor during the computation of the grouping process.", default=False)
     parser.add_argument("--decoy_flag", default="", help="Flag that should be used to filter out decoy proteins. Disabled by default.", type=str)
     parser.add_argument("--fdr_threshold", default=0.01, help="Maximum FDR rate. Default value is 0.01, set to 0 to disable FDR-filtering.", type=float)
