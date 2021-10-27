@@ -111,6 +111,17 @@
                                     <v-text-field single-line filled v-model="decoyFlag">
                                     </v-text-field>
                                 </v-col>
+                                <v-col cols="5">
+                                    <div class="settings-title">Output format</div>
+                                    <span class="settings-text">
+                                        Which file format should be used to write the output to? Tsv is a human-readable
+                                        format that can easily be parsed with other applications. Prophane is a specific
+                                        format, only suitable to be used with the Prophane application.
+                                    </span>
+                                </v-col>
+                                <v-col cols="1">
+                                    <v-select :items="fileFormats" v-model="selectedFileFormat"></v-select>
+                                </v-col>
                             </v-row>
                         </v-container>
                         <div class="d-flex mt-2">
@@ -186,7 +197,9 @@ export default {
         analysisInProgress: false,
         zipResult: null,
         error: false,
-        errorMessage: ""
+        errorMessage: "",
+        fileFormats: ["tsv", "prophane"],
+        selectedFileFormat: "tsv"
     }),
 
     methods: {

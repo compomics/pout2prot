@@ -113,4 +113,4 @@ def write_tsv(rep_cat, groups, psm_exp, pep_psm, peptide_protein_map, protein_pe
             # write a line for each group (including all of the different headers)
             sample_values = "\t".join(str(sample_names_to_count[sample_name] if sample_name in sample_names_to_count else 0) for sample_name in sample_names)
             sample_category = rep_cat[sample_name]
-            f.write(f"{sample_category}\t{sample_name}\t{','.join(proteins)}\t{sample_values}\n")
+            f.write(f"{sample_category}\t{','.join(proteins)}\t{sample_values}\n")
