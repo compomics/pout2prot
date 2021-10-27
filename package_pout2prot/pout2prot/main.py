@@ -4,6 +4,7 @@ from OutputWriter import write_to_file
 
 import argparse
 
+
 # handling of command line (or config file) arguments
 def parse_args():
     parser = argparse.ArgumentParser(description=__doc__)

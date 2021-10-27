@@ -2,8 +2,6 @@ from glob import glob
 import os.path
 import string
 
-pd_data = "C:\\Users\\tvdbo\\OneDrive\\Documents\\Projecten\\pout2prot-Lydia\\pd-data"
-pout_files = "C:\\Users\\tvdbo\\OneDrive\\Documents\\Projecten\\pout2prot-Lydia\\pout-files"
 
 def pd_to_pout2prot(pd_data, pout_files):
     """
@@ -20,7 +18,6 @@ def pd_to_pout2prot(pd_data, pout_files):
             os.mkdir(my_dir)
         except FileExistsError:
             pass
-        print(my_dir)
 
         # check for the conditions
         with open(pd_file, "r") as in_f:
@@ -59,6 +56,3 @@ def pd_to_pout2prot(pd_data, pout_files):
                         pass
 
         pd_file_no += 1
-
-
-pd_to_pout2prot(pd_data, pout_files)
