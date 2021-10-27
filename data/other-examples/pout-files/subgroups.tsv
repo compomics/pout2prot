@@ -1,0 +1,7 @@
+sample category	protein accessions	Experiment1	Experiment2
+Experiment1	Experiment1	AntiOccam_P1	1.0	0.3333333333333333
+Experiment2	Experiment2	AntiOccam_P3	0	0.3333333333333333
+Experiment1	Experiment1	AntiOccam_P2	1.0	0.3333333333333333
+Experiment2	Experiment2	Occam_P1	1.3333333333333333	0.3333333333333333
+Experiment2	Experiment2	Occam_P2	0.3333333333333333	1.3333333333333333
+Experiment2	Experiment2	Occam_P3	1.3333333333333333	0.3333333333333333

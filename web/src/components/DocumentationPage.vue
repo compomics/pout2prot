@@ -2,11 +2,12 @@
     <v-container fluid style="max-width: 1600px;">
         <div>
             <h1>Help - Command Line Interface</h1>
+            <h2>pout2prot</h2>
             The Pout2Prot command line interface is a Python-package that can be easily installed using PiP. Pout2Prot
             requires at least Python 3.6 to work. All required dependencies will automatically be installed when using
             PiP, but you can also install the package from source by cloning our
             <a href="https://github.com/tivdnbos/pout2prot">GitHub repository</a>.
-            <h2 class="mt-6">Installation</h2>
+            <h3 class="mt-6">Installation</h3>
             <ul>
                 <li>
                     First, make sure that a valid Python 3.6 installation is available on your system. If you're using
@@ -23,7 +24,7 @@
                     Now, run <span class="monospace">pip install pout2prot</span> to install the application.
                 </li>
             </ul>
-            <h2 class="mt-6">Usage</h2>
+            <h3 class="mt-6">Usage</h3>
             <div class="mb-4">
                 The signature of the script is
                 <div class="monospace code-block">
@@ -103,6 +104,29 @@
                     toy-examples	Examples_OccamsRazor_1	P5	2.3333333333333335<br>
                     toy-examples	Examples_OccamsRazor_1	P4	1.3333333333333333<br>
                 </div>
+            </div>
+
+            <h2 class="mt-12">pd2pout</h2>
+            The <span class="monospace">pd2pout</span> command is a helper command provided by us that can be used to
+            convert ProteomeDiscoverer files to pout-files, which can then be analysed by the
+            <span class="monospace">pout2prot</span> command. This command is very easy to use.
+
+            <h3 class="mt-6">Installation</h3>
+            To install <span class="monospace">pd2pout</span> a valid Python 3.6 (or higher) installation is required,
+            as well as pip. Installation of the package itself is then as simple as running
+            <span class="monospace">pip install pd2pout</span>.
+
+            <h3 class="mt-6">Usage</h3>
+            <div class="mb-4">
+                The signature of the script is
+                <div class="monospace code-block mb-2">
+                    <span class="font-weight-black">
+                        $ pd2pout [-h] input_folder output_folder
+                    </span>
+                </div>
+
+                All <span class="monospace">files</span> in the input_folder will be converted to
+                <span class="monospace">pout</span> files that are stored in the output_folder.
             </div>
         </div>
     </v-container>

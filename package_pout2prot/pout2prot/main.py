@@ -1,6 +1,6 @@
 from .Parser import parser
 from .Analyzer import protein_grouping_analysis
-from .OutputWriter import write_to_file
+from .OutputWriter import write_tsv, write_prophane
 
 import argparse
 
@@ -11,7 +11,7 @@ def parse_args():
     parser.add_argument("input", help="A single pout file, folder containing all input pout files, or folder with sub folders (sample categories) containing pout files.")
     parser.add_argument("groups_output_file", help="File to which the found protein groups should be written to.")
     parser.add_argument("subgroups_output_file", help="File to which the found protein subgroups should be written to.")
-    parser.add_argument("--export-type", default="csv", help="What type should the output be formatted as? Options: prophane, csv (= human readable).", type=str)
+    parser.add_argument("--export-type", default="tsv", help="What type should the output be formatted as? Options: prophane, tsv (= human readable).", type=str)
     parser.add_argument("--occam", action="store_true", help="Use Occam's razor during the computation of the grouping process.", default=False)
     parser.add_argument("--decoy_flag", default="", help="Flag that should be used to filter out decoy proteins. Disabled by default.", type=str)
     parser.add_argument("--fdr_threshold", default=0.01, help="Maximum FDR rate. Default value is 0.01, set to 0 to disable FDR-filtering.", type=float)
@@ -43,8 +43,13 @@ def main():
 
     # Output writer - input: all dicts, output: file
     # calls OutputWriter
-    write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, args.groups_output_file)
-    write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
+    if args.export_type == "tsv":
+        write_tsv(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, args.groups_output_file)
+        write_tsv(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
+    else:
+        write_prophane(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, args.groups_output_file)
+        write_prophane(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, args.subgroups_output_file)
+
     # write_to_file(rep_cat, protein_groups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/groups.out')
     # write_to_file(rep_cat, protein_subgroups, psm_exp, pep_psm, pep_prot, prot_pep, '../../output/subgroups.out')
 
