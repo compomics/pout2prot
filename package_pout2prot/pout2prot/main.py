@@ -1,6 +1,6 @@
-from Parser import parser
-from Analyzer import protein_grouping_analysis
-from OutputWriter import write_tsv, write_prophane
+from .Parser import parser
+from .Analyzer import protein_grouping_analysis
+from .OutputWriter import write_tsv, write_prophane
 
 import argparse
 
