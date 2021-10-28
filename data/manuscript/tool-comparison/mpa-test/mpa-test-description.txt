@@ -1,0 +1,26 @@
+MPA
+
+To run the test-cases on MPA, an SQL-file with the test data was created (grouping_test_modified.sql).
+A new SQL database was created (metaprot_groupingtest) and the SQL file was used to add the data to this
+database: "mysql -u $USERNAME -p metaprot_groupingtest < grouping_test_modified.sql". The MPA config file was set
+to use the new database (metaprot_groupingtest) and MPA GUI was started. The data is found in an Project and Experiment
+with the name GroupingTest (for both). The "Fetch Results" button in this experiment will load the proteins.
+The "Process Results" button creates the protein grouping. To create protein groups the option "shared peptide" was used,
+to create subgroups the option "shared peptide set" was used. The option Export->Export CSV->Export Metaproteins was used
+to export the results found in mpa-results-groups.csv and mpa-results-subgroups.csv.
+
+
+CASE 1 - G OK, SG OK
+CASE 2 - G OK, SG OK
+CASE 3 - G OK, SG OK
+CASE 4 - G OK, SG OK
+CASE 5 - G OK, SG OK
+CASE 6 - G OK, SG OK
+CASE 7 - G OK, SG OK
+CASE 8 - G OK, SG FAILED
+CASE 9 - G OK, SG OK
+CASE 10 - G OK, SG OK
+CASE 11 - G OK, SG OK
+CASE 12 - G OK, SG OK
+CASE 13 - G OK, SG FAILED
+CASE 14 - G OK, SG FAILED
