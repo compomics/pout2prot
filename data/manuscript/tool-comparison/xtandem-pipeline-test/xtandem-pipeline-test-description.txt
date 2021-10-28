@@ -17,13 +17,13 @@ CASE 3 OK
 CASE 4 OK
 CASE 5 OK
 CASE 6 OK
-CASE 7 FAILED
+CASE 7 FAILED Group and subgroup
 CASE 8 OK
-CASE 9 FAILED
-CASE 10 OK? --> other order of input
+CASE 9 FAILED Group and subgroup
+CASE 10 OK
 CASE 11 OK
-CASE 12 FAILED
-CASE 13 FAILED
+CASE 12 FAILED Group and subgroup
+CASE 13 FAILED Group and subgroup
 CASE 14 OK
 
 
