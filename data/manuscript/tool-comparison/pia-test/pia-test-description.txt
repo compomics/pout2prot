@@ -1,0 +1,25 @@
+PIA
+
+To run PIA, Knime was installed and the package for PIA was installed
+(as instructed in the very nice Tutorial). The knime workflow
+01-PIA_first_analysis.knwf (from tutorial) was loaded and additional
+required packages were installed. As suggested in this workflow, the
+Input-File node was connected to the URI-to-port node to skip X!Tandem
+searches. The artifical data file GroupingTest.idXML was used as input
+and PIA was run once with the Occam's Razor setting and once with the
+Report All setting. The resulting tables were saved as
+pia-results-occam.csv and pia-results-reportall.csv.
+
+Occam + Groups / Anti-Occam + Groups
+-> not implemented
+Occam + Subgroup
+-> Case 12 failed, randomly chooses a protein to remove (2 or 3)
+Anti-Occam + Subgroup (Report All)
+-> Case 3 failed, 2 groups instead of one (cannot detect the subset)
+-> Case 10 failed, P2+3 are not grouped (cannot detect the subset)
+
+The third method (Spectrum) produces weird results (order of PSMs relevant)
+... maybe it needs some value that is not properly set in the test data
+(i.e. SpectrumID, now equal for all - which is not normal). It should
+be noted that this advanced 3rd grouping method is there, even if not
+part of this test.

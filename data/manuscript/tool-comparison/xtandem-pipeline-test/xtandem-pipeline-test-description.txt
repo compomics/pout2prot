@@ -1,0 +1,29 @@
+X!Tandem-Pipeline
+
+The file GroupingTest.mzid was run with xtpcpp.exe;
+1. Load identification results (mzIdentML = mzid)
+2. Add files (GroupingTest.mzid)
+3. OK (default paramters)
+4. Export As ODS file
+
+The exported file (X!Tandem-Pipeline-Results.ods) contains the resulting
+protein groups in the format X.Y.Z where X represents
+the group and Y represents the subgroup while Z should represent the
+protein.
+
+CASE 1 OK
+CASE 2 OK
+CASE 3 OK
+CASE 4 OK
+CASE 5 OK
+CASE 6 OK
+CASE 7 FAILED
+CASE 8 OK
+CASE 9 FAILED
+CASE 10 OK? --> other order of input
+CASE 11 OK
+CASE 12 FAILED
+CASE 13 FAILED
+CASE 14 OK
+
+

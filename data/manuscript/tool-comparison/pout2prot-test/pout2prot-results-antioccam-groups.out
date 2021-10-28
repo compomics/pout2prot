@@ -1,0 +1,15 @@
+sample category	protein accessions	SimplestGroupingCases
+SimplestGroupingCases	Case7_P1,Case7_P3,Case7_P2	3.0
+SimplestGroupingCases	Case3_P2,Case3_P1	2.0
+SimplestGroupingCases	Case2_P2,Case2_P1	2.0
+SimplestGroupingCases	Case9_P2,Case9_P1,Case9_P3	4.0
+SimplestGroupingCases	Case8_P1,Case8_P3,Case8_P2	3.0
+SimplestGroupingCases	Case12_P2,Case12_P4,Case12_P3,Case12_P1	5.0
+SimplestGroupingCases	Case5_P3,Case5_P2,Case5_P1	3.0
+SimplestGroupingCases	Case14_P2,Case14_P5,Case14_P3,Case14_P1,Case14_P4	5.0
+SimplestGroupingCases	Case4_P1,Case4_P2	3.0
+SimplestGroupingCases	Case6_P2,Case6_P1,Case6_P3,Case6_P4	3.0
+SimplestGroupingCases	Case10_P3,Case10_P2,Case10_P1	4.0
+SimplestGroupingCases	Case11_P3,Case11_P1,Case11_P2	4.0
+SimplestGroupingCases	Case13_P4,Case13_P1,Case13_P3,Case13_P5,Case13_P2,Case13_P6	3.0
+SimplestGroupingCases	Case1_P2,Case1_P1	1.0
