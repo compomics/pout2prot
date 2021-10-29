@@ -175,7 +175,7 @@
 
 <script>
 import { protein_grouping_analysis } from "@/business/processing/Analyzer";
-import { write_to_file } from "@/business/processing/OutputWriter";
+import { write_prophane, write_tsv } from "@/business/processing/OutputWriter";
 import { set, dict } from '@/business/processing/org.transcrypt.__runtime__.js'
 import Parser from "@/business/processing/Parser";
 
@@ -290,13 +290,23 @@ export default {
 
 
                 try {
-                    const groupFile = write_to_file(dict([...repCat]), proteinGroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
-                    const subGroupFile = write_to_file(dict([...repCat]), proteinSubgroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
+                    if (this.selectedFileFormat === "prophane") {
+                        const groupFile = write_prophane(dict([...repCat]), proteinGroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
+                        const subGroupFile = write_prophane(dict([...repCat]), proteinSubgroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
 
-                    const zip = new JSZip();
-                    zip.file("groups.tsv", groupFile);
-                    zip.file("subgroups.tsv", subGroupFile);
-                    this.zipResult = zip;
+                        const zip = new JSZip();
+                        zip.file("groups.prophane", groupFile);
+                        zip.file("subgroups.prophane", subGroupFile);
+                        this.zipResult = zip;
+                    } else {
+                        const groupFile = write_tsv(dict([...repCat]), proteinGroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
+                        const subGroupFile = write_tsv(dict([...repCat]), proteinSubgroups, dict([...psmExp.entries()]), dict(peptPsmArray), dict(peptProtArray), dict(protPeptArray));
+
+                        const zip = new JSZip();
+                        zip.file("groups.tsv", groupFile);
+                        zip.file("subgroups.tsv", subGroupFile);
+                        this.zipResult = zip;
+                    }
                 } catch (e) {
                     this.error = true;
                     this.errorMessage = "An error occurred while trying to write the analysis results to a file."
