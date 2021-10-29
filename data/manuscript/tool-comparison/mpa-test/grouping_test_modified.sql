@@ -1,0 +1,1098 @@
+-- MySQL dump 10.13  Distrib 5.7.18, for Linux (x86_64)
+--
+-- Host: localhost    Database: metaprot_workshopdemo
+-- ------------------------------------------------------
+-- Server version	5.7.18-0ubuntu0.16.10.1
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
+
+--
+-- Table structure for table `experiment`
+--
+
+DROP TABLE IF EXISTS `experiment`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `experiment` (
+  `experimentid` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_projectid` int(11) NOT NULL,
+  `fk_settingsid` int(11) DEFAULT NULL,
+  `title` varchar(255) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`experimentid`),
+  KEY `fk_experiment_project1` (`fk_projectid`),
+  KEY `fk_experiment_settings1` (`fk_settingsid`),
+  CONSTRAINT `fk_experiment_project1` FOREIGN KEY (`fk_projectid`) REFERENCES `project` (`projectid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `experiment`
+--
+
+LOCK TABLES `experiment` WRITE;
+/*!40000 ALTER TABLE `experiment` DISABLE KEYS */;
+INSERT INTO `experiment` VALUES (47,13,0,'GroupingTest','2021-10-08 12:50:57','2021-10-28 10:25:39');
+/*!40000 ALTER TABLE `experiment` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `expproperty`
+--
+
+DROP TABLE IF EXISTS `expproperty`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `expproperty` (
+  `exppropertyid` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_experimentid` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `value` varchar(45) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`exppropertyid`),
+  KEY `fk_expproperty_experiment1` (`fk_experimentid`),
+  CONSTRAINT `fk_expproperty_experiment1` FOREIGN KEY (`fk_experimentid`) REFERENCES `experiment` (`experimentid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `expproperty`
+--
+
+LOCK TABLES `expproperty` WRITE;
+/*!40000 ALTER TABLE `expproperty` DISABLE KEYS */;
+/*!40000 ALTER TABLE `expproperty` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `exptaxmascot`
+--
+
+DROP TABLE IF EXISTS `exptaxmascot`;
+/*!50001 DROP VIEW IF EXISTS `exptaxmascot`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `exptaxmascot` AS SELECT 
+ 1 AS `taxonomyid`,
+ 1 AS `keywords`,
+ 1 AS `experimentid`,
+ 1 AS `accession`,
+ 1 AS `spectrumid`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `exptaxomssa`
+--
+
+DROP TABLE IF EXISTS `exptaxomssa`;
+/*!50001 DROP VIEW IF EXISTS `exptaxomssa`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `exptaxomssa` AS SELECT 
+ 1 AS `taxonomyid`,
+ 1 AS `keywords`,
+ 1 AS `experimentid`,
+ 1 AS `accession`,
+ 1 AS `spectrumid`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Temporary table structure for view `exptaxxtandem`
+--
+
+DROP TABLE IF EXISTS `exptaxxtandem`;
+/*!50001 DROP VIEW IF EXISTS `exptaxxtandem`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `exptaxxtandem` AS SELECT 
+ 1 AS `taxonomyid`,
+ 1 AS `keywords`,
+ 1 AS `experimentid`,
+ 1 AS `accession`,
+ 1 AS `spectrumid`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `mascothit`
+--
+
+DROP TABLE IF EXISTS `mascothit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `mascothit` (
+  `mascothitid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fk_searchspectrumid` int(10) unsigned NOT NULL,
+  `fk_peptideid` int(11) NOT NULL,
+  `fk_proteinid` int(11) NOT NULL,
+  `charge` int(3) NOT NULL,
+  `ionscore` decimal(12,8) NOT NULL,
+  `evalue` decimal(12,8) NOT NULL,
+  `delta` decimal(12,8) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`mascothitid`),
+  KEY `fk_mascothit_peptide1` (`fk_peptideid`),
+  KEY `fk_mascothit_protein1` (`fk_proteinid`),
+  KEY `fk_mascothit_searchspectrum1` (`fk_searchspectrumid`),
+  CONSTRAINT `mascothit_ibfk_1` FOREIGN KEY (`fk_searchspectrumid`) REFERENCES `searchspectrum` (`searchspectrumid`),
+  CONSTRAINT `mascothit_ibfk_2` FOREIGN KEY (`fk_peptideid`) REFERENCES `peptide` (`peptideid`),
+  CONSTRAINT `mascothit_ibfk_3` FOREIGN KEY (`fk_proteinid`) REFERENCES `protein` (`proteinid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `mascothit`
+--
+
+LOCK TABLES `mascothit` WRITE;
+/*!40000 ALTER TABLE `mascothit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `mascothit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `mascotresult`
+--
+
+DROP TABLE IF EXISTS `mascotresult`;
+/*!50001 DROP VIEW IF EXISTS `mascotresult`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `mascotresult` AS SELECT 
+ 1 AS `mascothitid`,
+ 1 AS `fk_searchspectrumid`,
+ 1 AS `fk_peptideid`,
+ 1 AS `fk_proteinid`,
+ 1 AS `charge`,
+ 1 AS `ionscore`,
+ 1 AS `searchspectrumid`,
+ 1 AS `fk_experimentid`,
+ 1 AS `spectrumid`,
+ 1 AS `titlehash`,
+ 1 AS `precursor_charge`,
+ 1 AS `proteinid`,
+ 1 AS `accession`,
+ 1 AS `protseq`,
+ 1 AS `description`,
+ 1 AS `fk_uniprotentryid`,
+ 1 AS `peptideid`,
+ 1 AS `pepseq`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `omssahit`
+--
+
+DROP TABLE IF EXISTS `omssahit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `omssahit` (
+  `omssahitid` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_searchspectrumid` int(10) unsigned NOT NULL,
+  `fk_peptideid` int(11) NOT NULL,
+  `fk_proteinid` int(11) NOT NULL,
+  `hitsetnumber` int(10) NOT NULL,
+  `evalue` decimal(12,8) NOT NULL,
+  `pvalue` decimal(12,8) NOT NULL,
+  `charge` int(2) NOT NULL,
+  `mass` decimal(12,2) NOT NULL,
+  `theomass` decimal(12,2) NOT NULL,
+  `start` varchar(45) DEFAULT NULL,
+  `end` varchar(45) DEFAULT NULL,
+  `qvalue` decimal(12,8) DEFAULT NULL,
+  `pep` decimal(12,8) DEFAULT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` varchar(45) NOT NULL,
+  PRIMARY KEY (`omssahitid`),
+  KEY `fk_omssahit_peptide1` (`fk_peptideid`),
+  KEY `fk_omssahit_protein1` (`fk_proteinid`),
+  KEY `fk_omssahit_searchspectrum1` (`fk_searchspectrumid`),
+  CONSTRAINT `fk_omssahit_peptide1` FOREIGN KEY (`fk_peptideid`) REFERENCES `peptide` (`peptideid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_omssahit_protein1` FOREIGN KEY (`fk_proteinid`) REFERENCES `protein` (`proteinid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_omssahit_searchspectrum1` FOREIGN KEY (`fk_searchspectrumid`) REFERENCES `searchspectrum` (`searchspectrumid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `omssahit`
+--
+
+LOCK TABLES `omssahit` WRITE;
+/*!40000 ALTER TABLE `omssahit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `omssahit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `omssaresult`
+--
+
+DROP TABLE IF EXISTS `omssaresult`;
+/*!50001 DROP VIEW IF EXISTS `omssaresult`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `omssaresult` AS SELECT 
+ 1 AS `omssahitid`,
+ 1 AS `fk_searchspectrumid`,
+ 1 AS `fk_peptideid`,
+ 1 AS `fk_proteinid`,
+ 1 AS `charge`,
+ 1 AS `qvalue`,
+ 1 AS `searchspectrumid`,
+ 1 AS `fk_experimentid`,
+ 1 AS `spectrumid`,
+ 1 AS `titlehash`,
+ 1 AS `precursor_charge`,
+ 1 AS `proteinid`,
+ 1 AS `accession`,
+ 1 AS `description`,
+ 1 AS `fk_uniprotentryid`,
+ 1 AS `protseq`,
+ 1 AS `peptideid`,
+ 1 AS `pepseq`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Table structure for table `pep2prot`
+--
+
+DROP TABLE IF EXISTS `pep2prot`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `pep2prot` (
+  `pep2protid` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_peptideid` int(11) NOT NULL,
+  `fk_proteinid` int(11) NOT NULL,
+  PRIMARY KEY (`pep2protid`),
+  KEY `fk_peptide2proteins_peptide1` (`fk_peptideid`),
+  KEY `fk_peptide2proteins_proteins1` (`fk_proteinid`),
+  CONSTRAINT `fk_peptide2proteins_peptide1` FOREIGN KEY (`fk_peptideid`) REFERENCES `peptide` (`peptideid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_peptide2proteins_proteins1` FOREIGN KEY (`fk_proteinid`) REFERENCES `protein` (`proteinid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `pep2prot`
+--
+
+LOCK TABLES `pep2prot` WRITE;
+/*!40000 ALTER TABLE `pep2prot` DISABLE KEYS */;
+/*!40000 ALTER TABLE `pep2prot` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `peptide`
+--
+
+DROP TABLE IF EXISTS `peptide`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `peptide` (
+  `peptideid` int(11) NOT NULL AUTO_INCREMENT,
+  `sequence` varchar(100) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`peptideid`)
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `peptide`
+--
+
+LOCK TABLES `peptide` WRITE;
+/*!40000 ALTER TABLE `peptide` DISABLE KEYS */;
+INSERT INTO `peptide` VALUES 
+(1,'AAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(2,'BAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(3,'BBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(4,'CAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(5,'CBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(6,'DAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(7,'DBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(8,'DCCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(9,'EAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(10,'EBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(11,'ECCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(12,'FAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(13,'FBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(14,'FCCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(15,'GAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(16,'GBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(17,'GCCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(18,'HAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(19,'HBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(20,'HCCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(21,'IAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(22,'IBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(23,'ICCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(24,'IDDDDD','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(25,'PAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(26,'PBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(27,'PCCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(28,'PDDDDD','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(29,'KAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(30,'KBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(31,'KCCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(32,'KDDDDD','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(33,'QAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(34,'QBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(35,'QCCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(36,'QDDDDD','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(37,'QEEEEE','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(38,'MAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(39,'MBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(40,'MCCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(41,'NAAAAA','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(42,'NBBBBB','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(43,'NCCCCC','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(44,'NDDDDD','2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(45,'NEEEEE','2021-10-28 10:43:33','2021-10-28 10:43:33');
+/*!40000 ALTER TABLE `peptide` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `project`
+--
+
+DROP TABLE IF EXISTS `project`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `project` (
+  `projectid` int(11) NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`projectid`)
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `project`
+--
+
+LOCK TABLES `project` WRITE;
+/*!40000 ALTER TABLE `project` DISABLE KEYS */;
+INSERT INTO `project` VALUES (13,'Grouping Test','2021-10-08 12:50:47','2021-10-28 10:25:28');
+/*!40000 ALTER TABLE `project` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `property`
+--
+
+DROP TABLE IF EXISTS `property`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `property` (
+  `propertyid` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_projectid` int(11) NOT NULL,
+  `name` varchar(150) NOT NULL,
+  `value` varchar(45) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`propertyid`),
+  KEY `fk_property_project1` (`fk_projectid`),
+  CONSTRAINT `fk_property_project1` FOREIGN KEY (`fk_projectid`) REFERENCES `project` (`projectid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `property`
+--
+
+LOCK TABLES `property` WRITE;
+/*!40000 ALTER TABLE `property` DISABLE KEYS */;
+/*!40000 ALTER TABLE `property` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `protein`
+--
+
+DROP TABLE IF EXISTS `protein`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `protein` (
+  `proteinid` int(11) NOT NULL AUTO_INCREMENT,
+  `accession` varchar(45) DEFAULT NULL,
+  `description` text,
+  `sequence` text,
+  `fk_uniprotentryid` int(11) DEFAULT NULL,
+  `source` varchar(45) DEFAULT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`proteinid`),
+  UNIQUE KEY `accession` (`accession`),
+  KEY `fk_uniprotentryid` (`fk_uniprotentryid`),
+  KEY `accession_2` (`accession`)
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `protein`
+--
+
+LOCK TABLES `protein` WRITE;
+/*!40000 ALTER TABLE `protein` DISABLE KEYS */;
+INSERT INTO `protein` VALUES 
+(1,'Case1_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(2,'Case1_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(3,'Case2_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(4,'Case2_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(5,'Case3_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(6,'Case3_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(7,'Case4_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(8,'Case4_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(9,'Case5_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(10,'Case5_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(11,'Case5_P3','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(12,'Case6_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(13,'Case6_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(14,'Case6_P3','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(15,'Case6_P4','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(16,'Case7_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(17,'Case7_P3','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(18,'Case7_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(19,'Case8_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(20,'Case8_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(21,'Case8_P3','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(22,'Case9_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(23,'Case9_P3','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(24,'Case9_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(25,'Case10_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(26,'Case10_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(27,'Case10_P3','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(28,'Case11_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(29,'Case11_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(30,'Case12_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(31,'Case12_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(32,'Case12_P3','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(33,'Case12_P4','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(34,'Case13_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(35,'Case13_P3','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(36,'Case13_P4','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(37,'Case13_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(38,'Case13_P5','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(39,'Case13_P6','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(40,'Case14_P1','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(41,'Case14_P2','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(42,'Case14_P3','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(43,'Case14_P4','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01'),
+(44,'Case14_P5','UNKNOWN','PKLVVSTQTALA',-1,'METAGENOME1','2021-10-28 10:43:01','2021-10-28 10:43:01');
+/*!40000 ALTER TABLE `protein` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `searchspectrum`
+--
+
+DROP TABLE IF EXISTS `searchspectrum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `searchspectrum` (
+  `searchspectrumid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fk_spectrumid` int(10) unsigned NOT NULL,
+  `fk_experimentid` int(11) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`searchspectrumid`),
+  KEY `fk_spectrum_experiment1` (`fk_experimentid`),
+  KEY `fk_searchspectrum_spectrum1` (`fk_spectrumid`),
+  CONSTRAINT `fk_searchspectrum_spectrum1` FOREIGN KEY (`fk_spectrumid`) REFERENCES `spectrum` (`spectrumid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spectrum_experiment10` FOREIGN KEY (`fk_experimentid`) REFERENCES `experiment` (`experimentid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `searchspectrum`
+--
+
+LOCK TABLES `searchspectrum` WRITE;
+/*!40000 ALTER TABLE `searchspectrum` DISABLE KEYS */;
+INSERT INTO `searchspectrum` VALUES 
+(1,1,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(2,2,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(3,3,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(4,4,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(5,5,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(6,6,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(7,7,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(8,8,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(9,9,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(10,10,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(11,11,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(12,12,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(13,13,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(14,14,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(15,15,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(16,16,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(17,17,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(18,18,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(19,19,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(20,20,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(21,21,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(22,22,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(23,23,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(24,24,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(25,25,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(26,26,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(27,27,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(28,28,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(29,29,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(30,30,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(31,31,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(32,32,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(33,33,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(34,34,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(35,35,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(36,36,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(37,37,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(38,38,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(39,39,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(40,40,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(41,41,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(42,42,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(43,43,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(44,44,47,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(45,45,47,'2021-10-28 10:43:33','2021-10-28 10:43:33');
+/*!40000 ALTER TABLE `searchspectrum` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spec2pep`
+--
+
+DROP TABLE IF EXISTS `spec2pep`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spec2pep` (
+  `spec2pepid` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_spectrumid` int(10) unsigned NOT NULL,
+  `fk_peptideid` int(11) NOT NULL,
+  PRIMARY KEY (`spec2pepid`),
+  KEY `fk_spectrum1` (`fk_spectrumid`),
+  KEY `fk_peptide1` (`fk_peptideid`),
+  CONSTRAINT `fk_peptide1` FOREIGN KEY (`fk_peptideid`) REFERENCES `peptide` (`peptideid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_spectrum1` FOREIGN KEY (`fk_spectrumid`) REFERENCES `spectrum` (`spectrumid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=37 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spec2pep`
+--
+
+LOCK TABLES `spec2pep` WRITE;
+/*!40000 ALTER TABLE `spec2pep` DISABLE KEYS */;
+INSERT INTO `spec2pep` VALUES 
+(1,1,1),
+(2,2,2),
+(3,3,3),
+(4,4,4),
+(5,5,5),
+(6,6,6),
+(7,7,7),
+(8,8,8),
+(9,9,9),
+(10,10,10),
+(11,11,11),
+(12,12,12),
+(13,13,13),
+(14,14,14),
+(15,15,15),
+(16,16,16),
+(17,17,17),
+(18,18,18),
+(19,19,19),
+(20,20,20),
+(21,21,21),
+(22,22,22),
+(23,23,23),
+(24,24,24),
+(25,25,25),
+(26,26,26),
+(27,27,27),
+(28,28,28),
+(29,29,29),
+(30,30,30),
+(31,31,31),
+(32,32,32),
+(33,33,33),
+(34,34,34),
+(35,35,35),
+(36,36,36),
+(37,37,37),
+(38,38,38),
+(39,39,39),
+(40,40,40),
+(41,41,41),
+(42,42,42),
+(43,43,43),
+(44,44,44),
+(45,45,45);
+/*!40000 ALTER TABLE `spec2pep` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `specsearchhit`
+--
+
+DROP TABLE IF EXISTS `specsearchhit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `specsearchhit` (
+  `specsearchhitid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `fk_searchspectrumid` int(10) unsigned NOT NULL,
+  `fk_libspectrumid` int(10) unsigned NOT NULL,
+  `similarity` decimal(12,4) NOT NULL,
+  `creationdate` varchar(45) NOT NULL,
+  `modificationdate` varchar(45) NOT NULL,
+  PRIMARY KEY (`specsearchhitid`),
+  KEY `fk_specsearchhit_searchspectrum1` (`fk_searchspectrumid`),
+  KEY `fk_specsearchhit_libspectrum1` (`fk_libspectrumid`),
+  CONSTRAINT `fk_specsearchhit_searchspectrum1` FOREIGN KEY (`fk_searchspectrumid`) REFERENCES `searchspectrum` (`searchspectrumid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `specsearchhit`
+--
+
+LOCK TABLES `specsearchhit` WRITE;
+/*!40000 ALTER TABLE `specsearchhit` DISABLE KEYS */;
+/*!40000 ALTER TABLE `specsearchhit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `spectrum`
+--
+
+DROP TABLE IF EXISTS `spectrum`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `spectrum` (
+  `spectrumid` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `title` varchar(255) NOT NULL,
+  `titlehash` bigint(20) DEFAULT NULL,
+  `precursor_mz` decimal(20,4) NOT NULL,
+  `precursor_int` decimal(20,4) NOT NULL,
+  `precursor_charge` int(3) NOT NULL,
+  `mzarray` text NOT NULL,
+  `intarray` text NOT NULL,
+  `chargearray` text NOT NULL,
+  `total_int` decimal(20,4) NOT NULL,
+  `maximum_int` decimal(16,4) NOT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`spectrumid`),
+  UNIQUE KEY `titlehash` (`titlehash`),
+  KEY `fk_spectrumfile_libspectrum1` (`spectrumid`)
+) ENGINE=InnoDB AUTO_INCREMENT=61 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `spectrum`
+--
+
+LOCK TABLES `spectrum` WRITE;
+/*!40000 ALTER TABLE `spectrum` DISABLE KEYS */;
+INSERT INTO `spectrum` VALUES 
+(1,'Cmpd762101 IMYGLPNR, +2 y- and b-series',7621012,482.2577,2000000.0000,2,'QFyF2X9itq5AZePO2RaHK0BupDiGWUr1QHISlyR0U49AeCNvaURnOEB5gx+KCQLeQH0Td5prULFA\r\nfzTHeaa1C0CBYo/FBIFvQIISZ9Vmz0JAhRrT987ZF0CGexFocrAhQIirK9PDYRNAipNkWhysCECN\r\ni/rhR64UQI4cEJa7mMg=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(2,'Cmpd762201 IMYGLPNR, +2 y- and b-series',7622012,482.2577,2000000.0000,2,'QFyF2X9itq5AZePO2RaHK0BupDiGWUr1QHISlyR0U49AeCNvaURnOEB5gx+KCQLeQH0Td5prULFA\r\nfzTHeaa1C0CBYo/FBIFvQIISZ9Vmz0JAhRrT987ZF0CGexFocrAhQIirK9PDYRNAipNkWhysCECN\r\ni/rhR64UQI4cEJa7mMg=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(3,'Cmpd762301 IMYGLPNR, +2 y- and b-series',7623012,482.2577,2000000.0000,2,'QFyF2X9itq5AZePO2RaHK0BupDiGWUr1QHISlyR0U49AeCNvaURnOEB5gx+KCQLeQH0Td5prULFA\r\nfzTHeaa1C0CBYo/FBIFvQIISZ9Vmz0JAhRrT987ZF0CGexFocrAhQIirK9PDYRNAipNkWhysCECN\r\ni/rhR64UQI4cEJa7mMg=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(4,'Cmpd762401 IMYGLPNR, +2 y- and b-series',7624012,482.2577,2000000.0000,2,'QFyF2X9itq5AZePO2RaHK0BupDiGWUr1QHISlyR0U49AeCNvaURnOEB5gx+KCQLeQH0Td5prULFA\r\nfzTHeaa1C0CBYo/FBIFvQIISZ9Vmz0JAhRrT987ZF0CGexFocrAhQIirK9PDYRNAipNkWhysCECN\r\ni/rhR64UQI4cEJa7mMg=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(5,'Cmpd762102 VGACGLAWGAFSQK, +2 y- and b-series',7621022,726.3480,2000000.0000,2,'QFkE2ETQE6lAYmOc4HX2/UBjoxxDLKV6QGyETC+De0pAcTK+De0ojUB2o0EgW8AaQHhCS8an755A\r\ne9Kj1wo9cUB/1Fmz0HyFQIFx/fO2RaJAgiJ41P3ztkCDqknuy/sWQIPqpKjBVMpAiXrsi0OVgUCJ\r\nu0dFOO81QItDGF8G9pRAi/OTQE6kqUCNe2RaHKwIQI98P0h/y5JAkKI1qFh5PkCRCfg3tKI0QJJm\r\nGRaHKwJAkyI/FBIFvECUPmURnOB2QJRmVP3ztkZAlSJ7FbVz60CWZrZFocrBQJauwSBbwBo=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(6,'Cmpd762202 VGACGLAWGAFSQK, +2 y- and b-series',7622022,726.3480,2000000.0000,2,'QFkE2ETQE6lAYmOc4HX2/UBjoxxDLKV6QGyETC+De0pAcTK+De0ojUB2o0EgW8AaQHhCS8an755A\r\ne9Kj1wo9cUB/1Fmz0HyFQIFx/fO2RaJAgiJ41P3ztkCDqknuy/sWQIPqpKjBVMpAiXrsi0OVgUCJ\r\nu0dFOO81QItDGF8G9pRAi/OTQE6kqUCNe2RaHKwIQI98P0h/y5JAkKI1qFh5PkCRCfg3tKI0QJJm\r\nGRaHKwJAkyI/FBIFvECUPmURnOB2QJRmVP3ztkZAlSJ7FbVz60CWZrZFocrBQJauwSBbwBo=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(7,'Cmpd762302 VGACGLAWGAFSQK, +2 y- and b-series',7623022,726.3480,2000000.0000,2,'QFkE2ETQE6lAYmOc4HX2/UBjoxxDLKV6QGyETC+De0pAcTK+De0ojUB2o0EgW8AaQHhCS8an755A\r\ne9Kj1wo9cUB/1Fmz0HyFQIFx/fO2RaJAgiJ41P3ztkCDqknuy/sWQIPqpKjBVMpAiXrsi0OVgUCJ\r\nu0dFOO81QItDGF8G9pRAi/OTQE6kqUCNe2RaHKwIQI98P0h/y5JAkKI1qFh5PkCRCfg3tKI0QJJm\r\nGRaHKwJAkyI/FBIFvECUPmURnOB2QJRmVP3ztkZAlSJ7FbVz60CWZrZFocrBQJauwSBbwBo=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(8,'Cmpd762402 VGACGLAWGAFSQK, +2 y- and b-series',7624022,726.3480,2000000.0000,2,'QFkE2ETQE6lAYmOc4HX2/UBjoxxDLKV6QGyETC+De0pAcTK+De0ojUB2o0EgW8AaQHhCS8an755A\r\ne9Kj1wo9cUB/1Fmz0HyFQIFx/fO2RaJAgiJ41P3ztkCDqknuy/sWQIPqpKjBVMpAiXrsi0OVgUCJ\r\nu0dFOO81QItDGF8G9pRAi/OTQE6kqUCNe2RaHKwIQI98P0h/y5JAkKI1qFh5PkCRCfg3tKI0QJJm\r\nGRaHKwJAkyI/FBIFvECUPmURnOB2QJRmVP3ztkZAlSJ7FbVz60CWZrZFocrBQJauwSBbwBo=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(9,'Cmpd762103 GACGIDMLGHNGR, +2 y- and b-series',7621032,679.2979,2000000.0000,2,'QE0Dr7fpD/lAYCIb2lEZzkBl487ZFocrQG0EfvnbItFAchEznA6+4EB1oYtDlYEGQHWi7zTWoWJA\r\nfLLjvNNahkB+M+B19v0iQIDiHEMspXpAgfGo9cKPXECEashLXcxkQIYJ++dsi0RAiIMbPQfIS0CJ\r\nkqgkC3gDQIta1Cw8nu1AjBtSiM5wO0CPo0zMzMzNQI+j/pD/lyRAkLYVTJhfB0CRmdJUYKplQJJ9\r\n6Fh5PdlAkzYeuFHrhUCUUkS13MY/QJTuT987ZFpAlTZan752yQ==\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAA==\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAE=\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(10,'Cmpd762203 GACGIDMLGHNGR, +2 y- and b-series',7622032,679.2979,2000000.0000,2,'QE0Dr7fpD/lAYCIb2lEZzkBl487ZFocrQG0EfvnbItFAchEznA6+4EB1oYtDlYEGQHWi7zTWoWJA\r\nfLLjvNNahkB+M+B19v0iQIDiHEMspXpAgfGo9cKPXECEashLXcxkQIYJ++dsi0RAiIMbPQfIS0CJ\r\nkqgkC3gDQIta1Cw8nu1AjBtSiM5wO0CPo0zMzMzNQI+j/pD/lyRAkLYVTJhfB0CRmdJUYKplQJJ9\r\n6Fh5PdlAkzYeuFHrhUCUUkS13MY/QJTuT987ZFpAlTZan752yQ==\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAA==\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAE=\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(11,'Cmpd762303 GACGIDMLGHNGR, +2 y- and b-series',7623032,679.2979,2000000.0000,2,'QE0Dr7fpD/lAYCIb2lEZzkBl487ZFocrQG0EfvnbItFAchEznA6+4EB1oYtDlYEGQHWi7zTWoWJA\r\nfLLjvNNahkB+M+B19v0iQIDiHEMspXpAgfGo9cKPXECEashLXcxkQIYJ++dsi0RAiIMbPQfIS0CJ\r\nkqgkC3gDQIta1Cw8nu1AjBtSiM5wO0CPo0zMzMzNQI+j/pD/lyRAkLYVTJhfB0CRmdJUYKplQJJ9\r\n6Fh5PdlAkzYeuFHrhUCUUkS13MY/QJTuT987ZFpAlTZan752yQ==\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAA==\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAE=\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(12,'Cmpd762403 GACGIDMLGHNGR, +2 y- and b-series',7624032,679.2979,2000000.0000,2,'QE0Dr7fpD/lAYCIb2lEZzkBl487ZFocrQG0EfvnbItFAchEznA6+4EB1oYtDlYEGQHWi7zTWoWJA\r\nfLLjvNNahkB+M+B19v0iQIDiHEMspXpAgfGo9cKPXECEashLXcxkQIYJ++dsi0RAiIMbPQfIS0CJ\r\nkqgkC3gDQIta1Cw8nu1AjBtSiM5wO0CPo0zMzMzNQI+j/pD/lyRAkLYVTJhfB0CRmdJUYKplQJJ9\r\n6Fh5PdlAkzYeuFHrhUCUUkS13MY/QJTuT987ZFpAlTZan752yQ==\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAA==\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAE=\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(13,'Cmpd762104 ALISKNYDDEK, +2 y- and b-series',7621042,648.3276,2000000.0000,2,'QFIC13MY/FBAYmOc4HX2/UBnJBysCDEnQHFCfIS13MZAcqNmz0HyE0B4E+nhsImgQHhy6xxDLKVA\r\nf6NZSvTw2ECACreANG3GQIObD1wo9cNAhOoufVZs9ECIeoZZSvTxQIizkP+XJHRAjEvIS13MZECM\r\ne0i0OVgQQI8zinHeaa1Aj+P/YraufUCRXhs9B8hLQJH2K1Cw8nxAkyJxW1c+q0CT9ox+KCQLQJQ+\r\nl1jiGWU=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(14,'Cmpd762204 ALISKNYDDEK, +2 y- and b-series',7622042,648.3276,2000000.0000,2,'QFIC13MY/FBAYmOc4HX2/UBnJBysCDEnQHFCfIS13MZAcqNmz0HyE0B4E+nhsImgQHhy6xxDLKVA\r\nf6NZSvTw2ECACreANG3GQIObD1wo9cNAhOoufVZs9ECIeoZZSvTxQIizkP+XJHRAjEvIS13MZECM\r\ne0i0OVgQQI8zinHeaa1Aj+P/YraufUCRXhs9B8hLQJH2K1Cw8nxAkyJxW1c+q0CT9ox+KCQLQJQ+\r\nl1jiGWU=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(15,'Cmpd762304 ALISKNYDDEK, +2 y- and b-series',7623042,648.3276,2000000.0000,2,'QFIC13MY/FBAYmOc4HX2/UBnJBysCDEnQHFCfIS13MZAcqNmz0HyE0B4E+nhsImgQHhy6xxDLKVA\r\nf6NZSvTw2ECACreANG3GQIObD1wo9cNAhOoufVZs9ECIeoZZSvTxQIizkP+XJHRAjEvIS13MZECM\r\ne0i0OVgQQI8zinHeaa1Aj+P/YraufUCRXhs9B8hLQJH2K1Cw8nxAkyJxW1c+q0CT9ox+KCQLQJQ+\r\nl1jiGWU=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(16,'Cmpd762404 ALISKNYDDEK, +2 y- and b-series',7624042,648.3276,2000000.0000,2,'QFIC13MY/FBAYmOc4HX2/UBnJBysCDEnQHFCfIS13MZAcqNmz0HyE0B4E+nhsImgQHhy6xxDLKVA\r\nf6NZSvTw2ECACreANG3GQIObD1wo9cNAhOoufVZs9ECIeoZZSvTxQIizkP+XJHRAjEvIS13MZECM\r\ne0i0OVgQQI8zinHeaa1Aj+P/YraufUCRXhs9B8hLQJH2K1Cw8nxAkyJxW1c+q0CT9ox+KCQLQJQ+\r\nl1jiGWU=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(17,'Cmpd762105 DLGPMGPSAWPGLATYR, +2 y- and b-series',7621052,894.9406,2000000.0000,2,'QF0CMfigkC5AZePO2RaHK0Bso8kdFOO9QHHiPJ7sv7FAdSLqs2eg+UB38xTjvNNbQHtzrhR64UhA\r\nf+RGCqZMMECAEd0vGp++QIHaCTdLxqhAg3rPQfIS10CE4nVZs9B9QIVC+xW1c+tAh5q24uscQ0CI\r\nS2c4HX2/QInTAt4A0bdAjhwJoCdSVECPo6VGCqZMQJAqKs2eg+RAkVYItDlYEECRhkuscQyzQJI6\r\nHrhR64VAkwqBo24uskCT7penhsInQJP+dLxqfvpAlRqaufVZtECV+sEgW8AaQJauy5I6KcdAl373\r\nF1jiGUCYYw0bcXWOQJk7DGPxQSBAmidjOcDr7kCbq3Pqs2ehQJvzfsVtXPs=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(18,'Cmpd762205 DLGPMGPSAWPGLATYR, +2 y- and b-series',7622052,894.9406,2000000.0000,2,'QF0CMfigkC5AZePO2RaHK0Bso8kdFOO9QHHiPJ7sv7FAdSLqs2eg+UB38xTjvNNbQHtzrhR64UhA\r\nf+RGCqZMMECAEd0vGp++QIHaCTdLxqhAg3rPQfIS10CE4nVZs9B9QIVC+xW1c+tAh5q24uscQ0CI\r\nS2c4HX2/QInTAt4A0bdAjhwJoCdSVECPo6VGCqZMQJAqKs2eg+RAkVYItDlYEECRhkuscQyzQJI6\r\nHrhR64VAkwqBo24uskCT7penhsInQJP+dLxqfvpAlRqaufVZtECV+sEgW8AaQJauy5I6KcdAl373\r\nF1jiGUCYYw0bcXWOQJk7DGPxQSBAmidjOcDr7kCbq3Pqs2ehQJvzfsVtXPs=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(19,'Cmpd762305 DLGPMGPSAWPGLATYR, +2 y- and b-series',7623052,894.9406,2000000.0000,2,'QF0CMfigkC5AZePO2RaHK0Bso8kdFOO9QHHiPJ7sv7FAdSLqs2eg+UB38xTjvNNbQHtzrhR64UhA\r\nf+RGCqZMMECAEd0vGp++QIHaCTdLxqhAg3rPQfIS10CE4nVZs9B9QIVC+xW1c+tAh5q24uscQ0CI\r\nS2c4HX2/QInTAt4A0bdAjhwJoCdSVECPo6VGCqZMQJAqKs2eg+RAkVYItDlYEECRhkuscQyzQJI6\r\nHrhR64VAkwqBo24uskCT7penhsInQJP+dLxqfvpAlRqaufVZtECV+sEgW8AaQJauy5I6KcdAl373\r\nF1jiGUCYYw0bcXWOQJk7DGPxQSBAmidjOcDr7kCbq3Pqs2ehQJvzfsVtXPs=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(20,'Cmpd762405 DLGPMGPSAWPGLATYR, +2 y- and b-series',7624052,894.9406,2000000.0000,2,'QF0CMfigkC5AZePO2RaHK0Bso8kdFOO9QHHiPJ7sv7FAdSLqs2eg+UB38xTjvNNbQHtzrhR64UhA\r\nf+RGCqZMMECAEd0vGp++QIHaCTdLxqhAg3rPQfIS10CE4nVZs9B9QIVC+xW1c+tAh5q24uscQ0CI\r\nS2c4HX2/QInTAt4A0bdAjhwJoCdSVECPo6VGCqZMQJAqKs2eg+RAkVYItDlYEECRhkuscQyzQJI6\r\nHrhR64VAkwqBo24uskCT7penhsInQJP+dLxqfvpAlRqaufVZtECV+sEgW8AaQJauy5I6KcdAl373\r\nF1jiGUCYYw0bcXWOQJk7DGPxQSBAmidjOcDr7kCbq3Pqs2ehQJvzfsVtXPs=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(21,'Cmpd762106 SGLPDVIVVDEQCVR, +2 y- and b-series',7621062,843.4193,2000000.0000,2,'QFYCg+QlruZAYiHyEtdzGUBl487ZFocrQHAiUYKpkwxAcSL/lyR0VEB2MylenhsJQHsjJUYKpkxA\r\nfWOX9itq6ECBkgqmTC+DQIHKWBBiTdNAhVMETQE6k0CFmmHk92X+QIhrkGJN0vJAiTKY/FBIF0CL\r\nhBx3mmtRQIxLJRGc4HZAjxxTjvNNakCPY7Em6XjVQJF2LrHEMspAkZJVZs9B8kCTAnS8an76QJOS\r\nkWhysCFAlM6QYk3S8kCWEprULDyfQJZSxllK9PFAl57g3tKIzkCYFxx3mmtRQJj7Mnuy/sVAmg9I\r\nZZSvT0CaV1NATqSp\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(22,'Cmpd762206 SGLPDVIVVDEQCVR, +2 y- and b-series',7622062,843.4193,2000000.0000,2,'QFYCg+QlruZAYiHyEtdzGUBl487ZFocrQHAiUYKpkwxAcSL/lyR0VEB2MylenhsJQHsjJUYKpkxA\r\nfWOX9itq6ECBkgqmTC+DQIHKWBBiTdNAhVMETQE6k0CFmmHk92X+QIhrkGJN0vJAiTKY/FBIF0CL\r\nhBx3mmtRQIxLJRGc4HZAjxxTjvNNakCPY7Em6XjVQJF2LrHEMspAkZJVZs9B8kCTAnS8an76QJOS\r\nkWhysCFAlM6QYk3S8kCWEprULDyfQJZSxllK9PFAl57g3tKIzkCYFxx3mmtRQJj7Mnuy/sVAmg9I\r\nZZSvT0CaV1NATqSp\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(23,'Cmpd762306 SGLPDVIVVDEQCVR, +2 y- and b-series',7623062,843.4193,2000000.0000,2,'QFYCg+QlruZAYiHyEtdzGUBl487ZFocrQHAiUYKpkwxAcSL/lyR0VEB2MylenhsJQHsjJUYKpkxA\r\nfWOX9itq6ECBkgqmTC+DQIHKWBBiTdNAhVMETQE6k0CFmmHk92X+QIhrkGJN0vJAiTKY/FBIF0CL\r\nhBx3mmtRQIxLJRGc4HZAjxxTjvNNakCPY7Em6XjVQJF2LrHEMspAkZJVZs9B8kCTAnS8an76QJOS\r\nkWhysCFAlM6QYk3S8kCWEprULDyfQJZSxllK9PFAl57g3tKIzkCYFxx3mmtRQJj7Mnuy/sVAmg9I\r\nZZSvT0CaV1NATqSp\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(24,'Cmpd762406 SGLPDVIVVDEQCVR, +2 y- and b-series',7624062,843.4193,2000000.0000,2,'QFYCg+QlruZAYiHyEtdzGUBl487ZFocrQHAiUYKpkwxAcSL/lyR0VEB2MylenhsJQHsjJUYKpkxA\r\nfWOX9itq6ECBkgqmTC+DQIHKWBBiTdNAhVMETQE6k0CFmmHk92X+QIhrkGJN0vJAiTKY/FBIF0CL\r\nhBx3mmtRQIxLJRGc4HZAjxxTjvNNakCPY7Em6XjVQJF2LrHEMspAkZJVZs9B8kCTAnS8an76QJOS\r\nkWhysCFAlM6QYk3S8kCWEprULDyfQJZSxllK9PFAl57g3tKIzkCYFxx3mmtRQJj7Mnuy/sVAmg9I\r\nZZSvT0CaV1NATqSp\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(25,'Cmpd762107 SGMPDVIVVDEQCVR, +2 y- and b-series',7621072,852.3975,2000000.0000,2,'QFYCg+QlruZAYiHyEtdzGUBl487ZFocrQHEi/5ckdFRAcUGe7L+xW0B3Uncxj8UFQHsjJUYKpkxA\r\nfoLlYEGJN0CBkgqmTC+DQIJZ/sVtXPtAhZph5Pdl/kCF4qsCDEm6QIj7NxdY4hlAiTKY/FBIF0CM\r\nE8MspXp4QIxLJRGc4HZAj2OxJul41UCPq/p4bCJoQJF2LrHEMspAkdoowVTJhkCTAnS8an76QJPa\r\nZML4N7VAlM6QYk3S8kCWUsZZSvTxQJZabi6xxDNAl+a0OVgQYkCYXu/SH/LlQJlDBdY4hllAmlcb\r\nwBo240Canyaa1Cw9\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(26,'Cmpd762207 SGMPDVIVVDEQCVR, +2 y- and b-series',7622072,852.3975,2000000.0000,2,'QFYCg+QlruZAYiHyEtdzGUBl487ZFocrQHEi/5ckdFRAcUGe7L+xW0B3Uncxj8UFQHsjJUYKpkxA\r\nfoLlYEGJN0CBkgqmTC+DQIJZ/sVtXPtAhZph5Pdl/kCF4qsCDEm6QIj7NxdY4hlAiTKY/FBIF0CM\r\nE8MspXp4QIxLJRGc4HZAj2OxJul41UCPq/p4bCJoQJF2LrHEMspAkdoowVTJhkCTAnS8an76QJPa\r\nZML4N7VAlM6QYk3S8kCWUsZZSvTxQJZabi6xxDNAl+a0OVgQYkCYXu/SH/LlQJlDBdY4hllAmlcb\r\nwBo240Canyaa1Cw9\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(27,'Cmpd762307 SGMPDVIVVDEQCVR, +2 y- and b-series',7623072,852.3975,2000000.0000,2,'QFYCg+QlruZAYiHyEtdzGUBl487ZFocrQHEi/5ckdFRAcUGe7L+xW0B3Uncxj8UFQHsjJUYKpkxA\r\nfoLlYEGJN0CBkgqmTC+DQIJZ/sVtXPtAhZph5Pdl/kCF4qsCDEm6QIj7NxdY4hlAiTKY/FBIF0CM\r\nE8MspXp4QIxLJRGc4HZAj2OxJul41UCPq/p4bCJoQJF2LrHEMspAkdoowVTJhkCTAnS8an76QJPa\r\nZML4N7VAlM6QYk3S8kCWUsZZSvTxQJZabi6xxDNAl+a0OVgQYkCYXu/SH/LlQJlDBdY4hllAmlcb\r\nwBo240Canyaa1Cw9\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(28,'Cmpd762407 SGMPDVIVVDEQCVR, +2 y- and b-series',7624072,852.3975,2000000.0000,2,'QFYCg+QlruZAYiHyEtdzGUBl487ZFocrQHEi/5ckdFRAcUGe7L+xW0B3Uncxj8UFQHsjJUYKpkxA\r\nfoLlYEGJN0CBkgqmTC+DQIJZ/sVtXPtAhZph5Pdl/kCF4qsCDEm6QIj7NxdY4hlAiTKY/FBIF0CM\r\nE8MspXp4QIxLJRGc4HZAj2OxJul41UCPq/p4bCJoQJF2LrHEMspAkdoowVTJhkCTAnS8an76QJPa\r\nZML4N7VAlM6QYk3S8kCWUsZZSvTxQJZabi6xxDNAl+a0OVgQYkCYXu/SH/LlQJlDBdY4hllAmlcb\r\nwBo240Canyaa1Cw9\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(29,'Cmpd762108 ELVNAGPTLFAGLESYR, +2 y- and b-series',7621082,918.9782,2000000.0000,2,'QGBBmMfigkFAZePO2RaHK0BuZEm6XjU/QHUi6rNnoPlAdWM9B8hLXkB6k24uscQzQHyD7L+xW1dA\r\ngHpCWu5jIECBUg4hllK9QIJCbmMfiglAhNq6XjU/fUCFStqFh5PeQIai5mZmZmZAiHM8AaNuL0CI\r\n2zJhfBvaQIv76D5CWu5AjXO+dsi0OUCQSjopx3mnQJB+NVmz0H1AkWZgJ1JUYUCSEmYXwb2lQJJK\r\nditq59VAk5acKPXCj0CUDsxJul41QJR6si0OVgRAlZbYKpkwvkCWEvfpD/lyQJdfBBiTdLxAl28Y\r\nraufVkCY60ojOcDsQJn7WX9itq5Amq+gQYk3TECca8EGJN0vQJyzy+De0ok=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(30,'Cmpd762208 ELVNAGPTLFAGLESYR, +2 y- and b-series',7622082,918.9782,2000000.0000,2,'QGBBmMfigkFAZePO2RaHK0BuZEm6XjU/QHUi6rNnoPlAdWM9B8hLXkB6k24uscQzQHyD7L+xW1dA\r\ngHpCWu5jIECBUg4hllK9QIJCbmMfiglAhNq6XjU/fUCFStqFh5PeQIai5mZmZmZAiHM8AaNuL0CI\r\n2zJhfBvaQIv76D5CWu5AjXO+dsi0OUCQSjopx3mnQJB+NVmz0H1AkWZgJ1JUYUCSEmYXwb2lQJJK\r\nditq59VAk5acKPXCj0CUDsxJul41QJR6si0OVgRAlZbYKpkwvkCWEvfpD/lyQJdfBBiTdLxAl28Y\r\nraufVkCY60ojOcDsQJn7WX9itq5Amq+gQYk3TECca8EGJN0vQJyzy+De0ok=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(31,'Cmpd762308 ELVNAGPTLFAGLESYR, +2 y- and b-series',7623082,918.9782,2000000.0000,2,'QGBBmMfigkFAZePO2RaHK0BuZEm6XjU/QHUi6rNnoPlAdWM9B8hLXkB6k24uscQzQHyD7L+xW1dA\r\ngHpCWu5jIECBUg4hllK9QIJCbmMfiglAhNq6XjU/fUCFStqFh5PeQIai5mZmZmZAiHM8AaNuL0CI\r\n2zJhfBvaQIv76D5CWu5AjXO+dsi0OUCQSjopx3mnQJB+NVmz0H1AkWZgJ1JUYUCSEmYXwb2lQJJK\r\nditq59VAk5acKPXCj0CUDsxJul41QJR6si0OVgRAlZbYKpkwvkCWEvfpD/lyQJdfBBiTdLxAl28Y\r\nraufVkCY60ojOcDsQJn7WX9itq5Amq+gQYk3TECca8EGJN0vQJyzy+De0ok=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(32,'Cmpd762408 ELVNAGPTLFAGLESYR, +2 y- and b-series',7624082,918.9782,2000000.0000,2,'QGBBmMfigkFAZePO2RaHK0BuZEm6XjU/QHUi6rNnoPlAdWM9B8hLXkB6k24uscQzQHyD7L+xW1dA\r\ngHpCWu5jIECBUg4hllK9QIJCbmMfiglAhNq6XjU/fUCFStqFh5PeQIai5mZmZmZAiHM8AaNuL0CI\r\n2zJhfBvaQIv76D5CWu5AjXO+dsi0OUCQSjopx3mnQJB+NVmz0H1AkWZgJ1JUYUCSEmYXwb2lQJJK\r\nditq59VAk5acKPXCj0CUDsxJul41QJR6si0OVgRAlZbYKpkwvkCWEvfpD/lyQJdfBBiTdLxAl28Y\r\nraufVkCY60ojOcDsQJn7WX9itq5Amq+gQYk3TECca8EGJN0vQJyzy+De0ok=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAEAAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(33,'Cmpd762109 LTMEMAPIR, +2 y- and b-series',7621092,531.2778,2000000.0000,2,'QFyF2X9itq5AZePO2RaHK0Bq5HOB19v1QHIDP+XJHRVAdaLfpD/lyUB4FBfBvaUSQHyEr7fpD/lA\r\nfbONuLrHEUCCWqrNnoPkQILyGc4HX3BAhSplyR0U5ECGYwIMSbpeQIgy0euFHrhAintU/fO2RkCL\r\nu34oJAt4QI2jtq59Vm1AkE4mmtQsPUCQljFbVz6r\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(34,'Cmpd762209 LTMEMAPIR, +2 y- and b-series',7622092,531.2778,2000000.0000,2,'QFyF2X9itq5AZePO2RaHK0Bq5HOB19v1QHIDP+XJHRVAdaLfpD/lyUB4FBfBvaUSQHyEr7fpD/lA\r\nfbONuLrHEUCCWqrNnoPkQILyGc4HX3BAhSplyR0U5ECGYwIMSbpeQIgy0euFHrhAintU/fO2RkCL\r\nu34oJAt4QI2jtq59Vm1AkE4mmtQsPUCQljFbVz6r\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(35,'Cmpd762309 LTMEMAPIR, +2 y- and b-series',7623092,531.2778,2000000.0000,2,'QFyF2X9itq5AZePO2RaHK0Bq5HOB19v1QHIDP+XJHRVAdaLfpD/lyUB4FBfBvaUSQHyEr7fpD/lA\r\nfbONuLrHEUCCWqrNnoPkQILyGc4HX3BAhSplyR0U5ECGYwIMSbpeQIgy0euFHrhAintU/fO2RkCL\r\nu34oJAt4QI2jtq59Vm1AkE4mmtQsPUCQljFbVz6r\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(36,'Cmpd762409 LTMEMAPIR, +2 y- and b-series',7624092,531.2778,2000000.0000,2,'QFyF2X9itq5AZePO2RaHK0Bq5HOB19v1QHIDP+XJHRVAdaLfpD/lyUB4FBfBvaUSQHyEr7fpD/lA\r\nfbONuLrHEUCCWqrNnoPkQILyGc4HX3BAhSplyR0U5ECGYwIMSbpeQIgy0euFHrhAintU/fO2RkCL\r\nu34oJAt4QI2jtq59Vm1AkE4mmtQsPUCQljFbVz6r\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(37,'Cmpd338101 AEFVEVTK +2 y- and b-series',3381012,461.7476,2000000.0000,2,'QFIC13MY/FBAYmOc4HX2/UBpIsi0OVgQQG8FItDlYEJAdbOpkwvg30B1wnyEtdzGQHvzlRgqmTFA\r\nfcRYEGJN00CB+rhR64UfQIICIZZSvTxAhRqt4A0bcUCGk0RnOB1+QIhDD1wo9cNAipubpeNT+ECM\r\nQ9HrhR64QIzT56D5CWw=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(38,'Cmpd338102 AEFVEVTK +2 y- and b-series',3381022,461.7476,2000000.0000,2,'QFIC13MY/FBAYmOc4HX2/UBpIsi0OVgQQG8FItDlYEJAdbOpkwvg30B1wnyEtdzGQHvzlRgqmTFA\r\nfcRYEGJN00CB+rhR64UfQIICIZZSvTxAhRqt4A0bcUCGk0RnOB1+QIhDD1wo9cNAipubpeNT+ECM\r\nQ9HrhR64QIzT56D5CWw=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(39,'Cmpd338103 AEFVEVTK +2 y- and b-series',3381032,461.7476,2000000.0000,2,'QFIC13MY/FBAYmOc4HX2/UBpIsi0OVgQQG8FItDlYEJAdbOpkwvg30B1wnyEtdzGQHvzlRgqmTFA\r\nfcRYEGJN00CB+rhR64UfQIICIZZSvTxAhRqt4A0bcUCGk0RnOB1+QIhDD1wo9cNAipubpeNT+ECM\r\nQ9HrhR64QIzT56D5CWw=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(40,'Cmpd338104 AEFVEVTK +2 y- and b-series',3381042,461.7476,2000000.0000,2,'QFIC13MY/FBAYmOc4HX2/UBpIsi0OVgQQG8FItDlYEJAdbOpkwvg30B1wnyEtdzGQHvzlRgqmTFA\r\nfcRYEGJN00CB+rhR64UfQIICIZZSvTxAhRqt4A0bcUCGk0RnOB1+QIhDD1wo9cNAipubpeNT+ECM\r\nQ9HrhR64QIzT56D5CWw=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(41,'Cmpd338105 RHPYFYAPELLYYANK +2 y- and b-series',3381052,1023.0177,2000000.0000,2,'QGJjnOB19v1AY6N4A0bcXUBwUn4oJAt4QHJirULDye9AdMMWHk92YEB4c4WHk92YQH70GWUr08NA\r\ngVJEZzgdfkCEko6Kcd5qQIXq0LDye7NAiBs6kqMFU0CLA1JUYKplQIuj5s9B8hNAjTueT3Zf2UCP\r\nrD4N7SiNQJAiBR64UexAkVpU/fO2RkCSJjC+De0pQJJ2evt+kQBAk+qG3F1jiECVArvnbItEQJWu\r\n3Pqs2ehAl08B8hLXc0CYOx3MY/FBQJnbQsPJ7sxAmsdenhsImkCbX3jU/fO2QJvjhJul41RAnYO1\r\nJUYKpkCdq7Cj1wo9QJ+sEdFOO81An/QcrAgxJw==\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAA==\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAE=\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(42,'Cmpd338106 RHPYFYAPELLYYANK +2 y- and b-series',3381062,1023.0177,2000000.0000,2,'QGJjnOB19v1AY6N4A0bcXUBwUn4oJAt4QHJirULDye9AdMMWHk92YEB4c4WHk92YQH70GWUr08NA\r\ngVJEZzgdfkCEko6Kcd5qQIXq0LDye7NAiBs6kqMFU0CLA1JUYKplQIuj5s9B8hNAjTueT3Zf2UCP\r\nrD4N7SiNQJAiBR64UexAkVpU/fO2RkCSJjC+De0pQJJ2evt+kQBAk+qG3F1jiECVArvnbItEQJWu\r\n3Pqs2ehAl08B8hLXc0CYOx3MY/FBQJnbQsPJ7sxAmsdenhsImkCbX3jU/fO2QJvjhJul41RAnYO1\r\nJUYKpkCdq7Cj1wo9QJ+sEdFOO81An/QcrAgxJw==\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAA==\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAE=\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(43,'Cmpd338107 RHPYFYAPELLYYANK +2 y- and b-series',3381072,1023.0177,2000000.0000,2,'QGJjnOB19v1AY6N4A0bcXUBwUn4oJAt4QHJirULDye9AdMMWHk92YEB4c4WHk92YQH70GWUr08NA\r\ngVJEZzgdfkCEko6Kcd5qQIXq0LDye7NAiBs6kqMFU0CLA1JUYKplQIuj5s9B8hNAjTueT3Zf2UCP\r\nrD4N7SiNQJAiBR64UexAkVpU/fO2RkCSJjC+De0pQJJ2evt+kQBAk+qG3F1jiECVArvnbItEQJWu\r\n3Pqs2ehAl08B8hLXc0CYOx3MY/FBQJnbQsPJ7sxAmsdenhsImkCbX3jU/fO2QJvjhJul41RAnYO1\r\nJUYKpkCdq7Cj1wo9QJ+sEdFOO81An/QcrAgxJw==\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAA==\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAE=\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(44,'Cmpd338108 RHPYFYAPELLYYANK +2 y- and b-series',3381082,1023.0177,2000000.0000,2,'QGJjnOB19v1AY6N4A0bcXUBwUn4oJAt4QHJirULDye9AdMMWHk92YEB4c4WHk92YQH70GWUr08NA\r\ngVJEZzgdfkCEko6Kcd5qQIXq0LDye7NAiBs6kqMFU0CLA1JUYKplQIuj5s9B8hNAjTueT3Zf2UCP\r\nrD4N7SiNQJAiBR64UexAkVpU/fO2RkCSJjC+De0pQJJ2evt+kQBAk+qG3F1jiECVArvnbItEQJWu\r\n3Pqs2ehAl08B8hLXc0CYOx3MY/FBQJnbQsPJ7sxAmsdenhsImkCbX3jU/fO2QJvjhJul41RAnYO1\r\nJUYKpkCdq7Cj1wo9QJ+sEdFOO81An/QcrAgxJw==\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAA==\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAABAAAAAQAAAAE=\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(45,'Cmpd338109 HPYFYAPELLYYANK +2 y- and b-series',3381092,944.9671,2000000.0000,2,'QGFCHk92X9lAYmOc4HX2/UBtY87ZFocrQHBSfigkC3hAdMMWHk92YEB44uqzZ6D5QH70GWUr08NA\r\ngQoBbwBo3ECEko6Kcd5qQIYig0bcXWRAiBs6kqMFU0CIWs9B8hLXQItjOy/sVtZAi6Pmz0HyE0CP\r\na5Jul41QQI+sPg3tKI1AkVpU/fO2RkCReh9Vmz0IQJJ2evt+kQBAkz51c+qzaECVArvnbItEQJXK\r\ntkWhysFAl08B8hLXc0CYVvcXWOIZQJlzHRTjvNNAmdtCw8nuzECbO0kdFOO9QJtfeNT987ZAnTuq\r\nSowVTUCdg7UlRgqm\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(46,'Cmpd338110 HPYFYAPELLYYANK +2 y- and b-series',3381102,944.9671,2000000.0000,2,'QGFCHk92X9lAYmOc4HX2/UBtY87ZFocrQHBSfigkC3hAdMMWHk92YEB44uqzZ6D5QH70GWUr08NA\r\ngQoBbwBo3ECEko6Kcd5qQIYig0bcXWRAiBs6kqMFU0CIWs9B8hLXQItjOy/sVtZAi6Pmz0HyE0CP\r\na5Jul41QQI+sPg3tKI1AkVpU/fO2RkCReh9Vmz0IQJJ2evt+kQBAkz51c+qzaECVArvnbItEQJXK\r\ntkWhysFAl08B8hLXc0CYVvcXWOIZQJlzHRTjvNNAmdtCw8nuzECbO0kdFOO9QJtfeNT987ZAnTuq\r\nSowVTUCdg7UlRgqm\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(47,'Cmpd338111 HPYFYAPELLYYANK +2 y- and b-series',3381112,944.9671,2000000.0000,2,'QGFCHk92X9lAYmOc4HX2/UBtY87ZFocrQHBSfigkC3hAdMMWHk92YEB44uqzZ6D5QH70GWUr08NA\r\ngQoBbwBo3ECEko6Kcd5qQIYig0bcXWRAiBs6kqMFU0CIWs9B8hLXQItjOy/sVtZAi6Pmz0HyE0CP\r\na5Jul41QQI+sPg3tKI1AkVpU/fO2RkCReh9Vmz0IQJJ2evt+kQBAkz51c+qzaECVArvnbItEQJXK\r\ntkWhysFAl08B8hLXc0CYVvcXWOIZQJlzHRTjvNNAmdtCw8nuzECbO0kdFOO9QJtfeNT987ZAnTuq\r\nSowVTUCdg7UlRgqm\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(48,'Cmpd338112 HPYFYAPELLYYANK +2 y- and b-series',3381122,944.9671,2000000.0000,2,'QGFCHk92X9lAYmOc4HX2/UBtY87ZFocrQHBSfigkC3hAdMMWHk92YEB44uqzZ6D5QH70GWUr08NA\r\ngQoBbwBo3ECEko6Kcd5qQIYig0bcXWRAiBs6kqMFU0CIWs9B8hLXQItjOy/sVtZAi6Pmz0HyE0CP\r\na5Jul41QQI+sPg3tKI1AkVpU/fO2RkCReh9Vmz0IQJJ2evt+kQBAkz51c+qzaECVArvnbItEQJXK\r\ntkWhysFAl08B8hLXc0CYVvcXWOIZQJlzHRTjvNNAmdtCw8nuzECbO0kdFOO9QJtfeNT987ZAnTuq\r\nSowVTUCdg7UlRgqm\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoA\r\nAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAA\r\nAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(49,'Cmpd338113 RHPEYAVSVLLR +2 y- and b-series',3381132,720.4096,2000000.0000,2,'QGOjeANG3F1AZePO2RaHK0ByAz/lyR0VQHJirULDye9AeHOFh5PdmEB5FJf2K2roQH9FsCDEm6ZA\r\ngEIaAnUlRkCCWxnOB19wQIVam6XjU/hAhXOl41P3z0CHkueg+QlsQIer8d5prUNAiqtz6rNnoUCM\r\nxHOB19v1QI1jtXPqs2hAkD4gxJul40CQZmVgQYk3QJHqm3F1jiJAkgJ24uscQ0CTxsznA6+4QJQO\r\n18G9pRJAljc0bcXWOUCWfz9If8uS\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(50,'Cmpd338114 RHPEYAVSVLLR +2 y- and b-series',3381142,720.4096,2000000.0000,2,'QGOjeANG3F1AZePO2RaHK0ByAz/lyR0VQHJirULDye9AeHOFh5PdmEB5FJf2K2roQH9FsCDEm6ZA\r\ngEIaAnUlRkCCWxnOB19wQIVam6XjU/hAhXOl41P3z0CHkueg+QlsQIer8d5prUNAiqtz6rNnoUCM\r\nxHOB19v1QI1jtXPqs2hAkD4gxJul40CQZmVgQYk3QJHqm3F1jiJAkgJ24uscQ0CTxsznA6+4QJQO\r\n18G9pRJAljc0bcXWOUCWfz9If8uS\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(51,'Cmpd338115 RHPEYAVSVLLR +2 y- and b-series',3381152,720.4096,2000000.0000,2,'QGOjeANG3F1AZePO2RaHK0ByAz/lyR0VQHJirULDye9AeHOFh5PdmEB5FJf2K2roQH9FsCDEm6ZA\r\ngEIaAnUlRkCCWxnOB19wQIVam6XjU/hAhXOl41P3z0CHkueg+QlsQIer8d5prUNAiqtz6rNnoUCM\r\nxHOB19v1QI1jtXPqs2hAkD4gxJul40CQZmVgQYk3QJHqm3F1jiJAkgJ24uscQ0CTxsznA6+4QJQO\r\n18G9pRJAljc0bcXWOUCWfz9If8uS\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(52,'Cmpd338116 RHPEYAVSVLLR +2 y- and b-series',3381162,720.4096,2000000.0000,2,'QGOjeANG3F1AZePO2RaHK0ByAz/lyR0VQHJirULDye9AeHOFh5PdmEB5FJf2K2roQH9FsCDEm6ZA\r\ngEIaAnUlRkCCWxnOB19wQIVam6XjU/hAhXOl41P3z0CHkueg+QlsQIer8d5prUNAiqtz6rNnoUCM\r\nxHOB19v1QI1jtXPqs2hAkD4gxJul40CQZmVgQYk3QJHqm3F1jiJAkgJ24uscQ0CTxsznA6+4QJQO\r\n18G9pRJAljc0bcXWOUCWfz9If8uS\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhq\r\nAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(53,'Cmpd338117 ALKAWSVAR +2 y- and b-series',3381172,501.2982,2000000.0000,2,'QFIC13MY/FBAZePO2RaHK0BnJBysCDEnQG7E/sVtXPtAc5OTdLxqf0B1k5eNT987QHgEK2rn1WdA\r\newQbCJoCdUCB0rgdfb9IQINSr+xW1dBAhIr5prULD0CFivvnbItEQIejhbwBo25AiYu+QlruY0CJ\r\n29G3F1jiQI0Uan752yNAjrygxJul40CPTLZ6D5CX\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(54,'Cmpd338118 ALKAWSVAR +2 y- and b-series',3381182,501.2982,2000000.0000,2,'QFIC13MY/FBAZePO2RaHK0BnJBysCDEnQG7E/sVtXPtAc5OTdLxqf0B1k5eNT987QHgEK2rn1WdA\r\newQbCJoCdUCB0rgdfb9IQINSr+xW1dBAhIr5prULD0CFivvnbItEQIejhbwBo25AiYu+QlruY0CJ\r\n29G3F1jiQI0Uan752yNAjrygxJul40CPTLZ6D5CX\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(55,'Cmpd338119 ALKAWSVAR +2 y- and b-series',3381192,501.2982,2000000.0000,2,'QFIC13MY/FBAZePO2RaHK0BnJBysCDEnQG7E/sVtXPtAc5OTdLxqf0B1k5eNT987QHgEK2rn1WdA\r\newQbCJoCdUCB0rgdfb9IQINSr+xW1dBAhIr5prULD0CFivvnbItEQIejhbwBo25AiYu+QlruY0CJ\r\n29G3F1jiQI0Uan752yNAjrygxJul40CPTLZ6D5CX\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(56,'Cmpd338120 ALKAWSVAR +2 y- and b-series',3381202,501.2982,2000000.0000,2,'QFIC13MY/FBAZePO2RaHK0BnJBysCDEnQG7E/sVtXPtAc5OTdLxqf0B1k5eNT987QHgEK2rn1WdA\r\newQbCJoCdUCB0rgdfb9IQINSr+xW1dBAhIr5prULD0CFivvnbItEQIejhbwBo25AiYu+QlruY0CJ\r\n29G3F1jiQI0Uan752yNAjrygxJul40CPTLZ6D5CX\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAA\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQAAAAEAAAAB\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(57,'Cmpd338121 DLGEEHFK +2 y- and b-series',3381212,487.7326,2000000.0000,2,'QF0CMfigkC5AYmOc4HX2/UBso8kdFOO9QHHiPJ7sv7FAcmLmmtQsPUB58uscQyylQHrz19v0h/1A\r\ngQHMzMzMzUCBgkMspXp4QIVKRW1c+q1AhYqaa1Cw8kCHUsY/FBIGQIni0YKpkwxAittye7L+xUCN\r\n45QSBbwCQI5zqZML4N8=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(58,'Cmpd338122 DLGEEHFK +2 y- and b-series',3381222,487.7326,2000000.0000,2,'QF0CMfigkC5AYmOc4HX2/UBso8kdFOO9QHHiPJ7sv7FAcmLmmtQsPUB58uscQyylQHrz19v0h/1A\r\ngQHMzMzMzUCBgkMspXp4QIVKRW1c+q1AhYqaa1Cw8kCHUsY/FBIGQIni0YKpkwxAittye7L+xUCN\r\n45QSBbwCQI5zqZML4N8=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),(59,'Cmpd338123 DLGEEHFK +2 y- and b-series',3381232,487.7326,2000000.0000,2,'QF0CMfigkC5AYmOc4HX2/UBso8kdFOO9QHHiPJ7sv7FAcmLmmtQsPUB58uscQyylQHrz19v0h/1A\r\ngQHMzMzMzUCBgkMspXp4QIVKRW1c+q1AhYqaa1Cw8kCHUsY/FBIGQIni0YKpkwxAittye7L+xUCN\r\n45QSBbwCQI5zqZML4N8=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(60,'Cmpd338124 DLGEEHFK +2 y- and b-series',3381242,487.7326,2000000.0000,2,'QF0CMfigkC5AYmOc4HX2/UBso8kdFOO9QHHiPJ7sv7FAcmLmmtQsPUB58uscQyylQHrz19v0h/1A\r\ngQHMzMzMzUCBgkMspXp4QIVKRW1c+q1AhYqaa1Cw8kCHUsY/FBIGQIni0YKpkwxAittye7L+xUCN\r\n45QSBbwCQI5zqZML4N8=\r\n','QPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA\r\n+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4agAAAAAAQPhqAAAAAABA+GoAAAAAAED4\r\nagAAAAAAQPhqAAAAAAA=\r\n','AAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEAAAABAAAAAQAAAAEA\r\nAAABAAAAAQ==\r\n',0.0000,0.0000,'2021-10-28 10:43:33','2021-10-28 10:43:33');
+/*!40000 ALTER TABLE `spectrum` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `taxonomy`
+--
+
+DROP TABLE IF EXISTS `taxonomy`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `taxonomy` (
+  `taxonomyid` int(11) NOT NULL,
+  `parentid` int(11) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `rank` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`taxonomyid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `taxonomy`
+--
+
+LOCK TABLES `taxonomy` WRITE;
+/*!40000 ALTER TABLE `taxonomy` DISABLE KEYS */;
+INSERT INTO `taxonomy` VALUES (1,1,'root','superkingdom');
+/*!40000 ALTER TABLE `taxonomy` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `uniprotentry`
+--
+
+DROP TABLE IF EXISTS `uniprotentry`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `uniprotentry` (
+  `uniprotentryid` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `taxid` int(11) unsigned NOT NULL,
+  `ecnumber` varchar(255) DEFAULT NULL,
+  `konumber` varchar(255) DEFAULT NULL,
+  `keywords` text NOT NULL,
+  `uniref100` varchar(255) DEFAULT NULL,
+  `uniref90` varchar(255) DEFAULT NULL,
+  `uniref50` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`uniprotentryid`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `uniprotentry`
+--
+
+LOCK TABLES `uniprotentry` WRITE;
+/*!40000 ALTER TABLE `uniprotentry` DISABLE KEYS */;
+/*!40000 ALTER TABLE `uniprotentry` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `xtandemhit`
+--
+
+DROP TABLE IF EXISTS `xtandemhit`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `xtandemhit` (
+  `xtandemhitid` int(11) NOT NULL AUTO_INCREMENT,
+  `fk_searchspectrumid` int(10) unsigned NOT NULL,
+  `fk_peptideid` int(11) NOT NULL,
+  `fk_proteinid` int(11) NOT NULL,
+  `domainid` varchar(45) NOT NULL,
+  `start` int(10) unsigned NOT NULL,
+  `end` int(10) unsigned NOT NULL,
+  `evalue` decimal(12,8) NOT NULL,
+  `delta` decimal(12,8) NOT NULL,
+  `hyperscore` decimal(12,8) NOT NULL,
+  `pre` varchar(45) NOT NULL,
+  `post` varchar(45) NOT NULL,
+  `misscleavages` int(10) NOT NULL,
+  `qvalue` decimal(12,8) DEFAULT NULL,
+  `pep` decimal(12,8) DEFAULT NULL,
+  `creationdate` datetime NOT NULL,
+  `modificationdate` datetime NOT NULL,
+  PRIMARY KEY (`xtandemhitid`),
+  KEY `fk_xtandemhit_peptide1` (`fk_peptideid`),
+  KEY `fk_xtandemhit_protein1` (`fk_proteinid`),
+  KEY `fk_xtandemhit_searchspectrum1` (`fk_searchspectrumid`),
+  CONSTRAINT `fk_xtandemhit_peptide1` FOREIGN KEY (`fk_peptideid`) REFERENCES `peptide` (`peptideid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_xtandemhit_protein1` FOREIGN KEY (`fk_proteinid`) REFERENCES `protein` (`proteinid`) ON DELETE NO ACTION ON UPDATE NO ACTION,
+  CONSTRAINT `fk_xtandemhit_searchspectrum1` FOREIGN KEY (`fk_searchspectrumid`) REFERENCES `searchspectrum` (`searchspectrumid`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `xtandemhit`
+--
+
+LOCK TABLES `xtandemhit` WRITE;
+/*!40000 ALTER TABLE `xtandemhit` DISABLE KEYS */;
+INSERT INTO `xtandemhit` VALUES 
+(1,1,1,1,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(2,1,1,2,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(3,2,2,3,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(4,2,2,4,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(5,3,3,3,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(6,3,3,4,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(7,4,4,5,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(8,4,4,6,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(9,5,5,5,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(10,6,6,7,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(11,7,7,7,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(12,7,7,8,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(13,8,8,8,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(14,9,9,9,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(15,10,10,9,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(16,10,10,10,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(17,10,10,11,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(18,11,11,10,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(19,11,11,11,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(20,12,12,12,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(21,12,12,13,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(22,13,13,12,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(23,13,13,13,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(24,13,13,14,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(25,13,13,15,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(26,14,14,14,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(27,14,14,15,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(28,15,15,16,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(29,15,15,17,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(30,16,16,16,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(31,16,16,18,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(32,17,17,18,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(33,17,17,17,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(34,18,18,19,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(35,19,19,19,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(36,19,19,20,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(37,19,19,21,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(38,20,20,21,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(39,21,21,22,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(40,21,21,23,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(41,22,22,22,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(42,22,22,24,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(43,23,23,23,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(44,23,23,24,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(45,24,24,22,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(46,25,25,25,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(47,25,25,26,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(48,25,25,27,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(49,26,26,25,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(50,26,26,26,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(51,27,27,25,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(52,28,28,26,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(53,28,28,27,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(54,29,29,28,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(55,30,30,28,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(56,30,30,29,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(57,31,31,29,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(58,31,31,30,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(59,32,32,30,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(60,33,33,31,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(61,34,34,31,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(62,34,34,32,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(63,35,35,32,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(64,35,35,33,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(65,36,36,33,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(66,36,36,34,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(67,37,37,34,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(68,38,38,35,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(69,38,38,36,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(70,38,38,37,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(71,39,39,35,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(72,39,39,38,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(73,39,39,39,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(74,40,40,36,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(75,40,40,38,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(76,40,40,40,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(77,41,41,41,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(78,41,41,42,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(79,41,41,43,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(80,41,41,44,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(81,41,41,45,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(82,42,42,42,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(83,42,42,43,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+(84,42,42,44,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(85,43,43,43,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(86,44,44,44,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33'),
+
+(87,45,45,45,'1.1.1',346,353,0.0,0.0,41.0,'SNAK','DEQD',0,0.0,0.0,'2021-10-28 10:43:33','2021-10-28 10:43:33');
+/*!40000 ALTER TABLE `xtandemhit` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Temporary table structure for view `xtandemresult`
+--
+
+DROP TABLE IF EXISTS `xtandemresult`;
+/*!50001 DROP VIEW IF EXISTS `xtandemresult`*/;
+SET @saved_cs_client     = @@character_set_client;
+SET character_set_client = utf8;
+/*!50001 CREATE VIEW `xtandemresult` AS SELECT 
+ 1 AS `xtandemhitid`,
+ 1 AS `fk_searchspectrumid`,
+ 1 AS `fk_peptideid`,
+ 1 AS `fk_proteinid`,
+ 1 AS `qvalue`,
+ 1 AS `searchspectrumid`,
+ 1 AS `fk_experimentid`,
+ 1 AS `spectrumid`,
+ 1 AS `titlehash`,
+ 1 AS `precursor_charge`,
+ 1 AS `proteinid`,
+ 1 AS `accession`,
+ 1 AS `description`,
+ 1 AS `protseq`,
+ 1 AS `fk_uniprotentryid`,
+ 1 AS `peptideid`,
+ 1 AS `pepseq`*/;
+SET character_set_client = @saved_cs_client;
+
+--
+-- Final view structure for view `exptaxmascot`
+--
+
+/*!50001 DROP VIEW IF EXISTS `exptaxmascot`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `exptaxmascot` AS select `taxonomy`.`taxonomyid` AS `taxonomyid`,`uniprotentry`.`keywords` AS `keywords`,`experiment`.`experimentid` AS `experimentid`,`protein`.`accession` AS `accession`,`spectrum`.`spectrumid` AS `spectrumid` from ((((((`taxonomy` join `uniprotentry` on((`taxonomy`.`taxonomyid` = `uniprotentry`.`taxid`))) join `protein` on((`protein`.`fk_uniprotentryid` = `uniprotentry`.`uniprotentryid`))) join `mascothit` on((`mascothit`.`fk_proteinid` = `protein`.`proteinid`))) join `searchspectrum` on((`searchspectrum`.`searchspectrumid` = `mascothit`.`fk_searchspectrumid`))) join `spectrum` on((`spectrum`.`spectrumid` = `searchspectrum`.`fk_spectrumid`))) join `experiment` on((`experiment`.`experimentid` = `searchspectrum`.`fk_experimentid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `exptaxomssa`
+--
+
+/*!50001 DROP VIEW IF EXISTS `exptaxomssa`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `exptaxomssa` AS select `taxonomy`.`taxonomyid` AS `taxonomyid`,`uniprotentry`.`keywords` AS `keywords`,`experiment`.`experimentid` AS `experimentid`,`protein`.`accession` AS `accession`,`spectrum`.`spectrumid` AS `spectrumid` from ((((((`taxonomy` join `uniprotentry` on((`taxonomy`.`taxonomyid` = `uniprotentry`.`taxid`))) join `protein` on((`protein`.`fk_uniprotentryid` = `uniprotentry`.`uniprotentryid`))) join `omssahit` on((`omssahit`.`fk_proteinid` = `protein`.`proteinid`))) join `searchspectrum` on((`searchspectrum`.`searchspectrumid` = `omssahit`.`fk_searchspectrumid`))) join `spectrum` on((`spectrum`.`spectrumid` = `searchspectrum`.`fk_spectrumid`))) join `experiment` on((`experiment`.`experimentid` = `searchspectrum`.`fk_experimentid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `exptaxxtandem`
+--
+
+/*!50001 DROP VIEW IF EXISTS `exptaxxtandem`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `exptaxxtandem` AS select `taxonomy`.`taxonomyid` AS `taxonomyid`,`uniprotentry`.`keywords` AS `keywords`,`experiment`.`experimentid` AS `experimentid`,`protein`.`accession` AS `accession`,`spectrum`.`spectrumid` AS `spectrumid` from ((((((`taxonomy` join `uniprotentry` on((`taxonomy`.`taxonomyid` = `uniprotentry`.`taxid`))) join `protein` on((`protein`.`fk_uniprotentryid` = `uniprotentry`.`uniprotentryid`))) join `xtandemhit` on((`xtandemhit`.`fk_proteinid` = `protein`.`proteinid`))) join `searchspectrum` on((`searchspectrum`.`searchspectrumid` = `xtandemhit`.`fk_searchspectrumid`))) join `spectrum` on((`spectrum`.`spectrumid` = `searchspectrum`.`fk_spectrumid`))) join `experiment` on((`experiment`.`experimentid` = `searchspectrum`.`fk_experimentid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `mascotresult`
+--
+
+/*!50001 DROP VIEW IF EXISTS `mascotresult`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `mascotresult` AS select `mascothit`.`mascothitid` AS `mascothitid`,`mascothit`.`fk_searchspectrumid` AS `fk_searchspectrumid`,`mascothit`.`fk_peptideid` AS `fk_peptideid`,`mascothit`.`fk_proteinid` AS `fk_proteinid`,`mascothit`.`charge` AS `charge`,`mascothit`.`ionscore` AS `ionscore`,`searchspectrum`.`searchspectrumid` AS `searchspectrumid`,`searchspectrum`.`fk_experimentid` AS `fk_experimentid`,`spectrum`.`spectrumid` AS `spectrumid`,`spectrum`.`titlehash` AS `titlehash`,`spectrum`.`precursor_charge` AS `precursor_charge`,`protein`.`proteinid` AS `proteinid`,`protein`.`accession` AS `accession`,`protein`.`sequence` AS `protseq`,`protein`.`description` AS `description`,`protein`.`fk_uniprotentryid` AS `fk_uniprotentryid`,`peptide`.`peptideid` AS `peptideid`,`peptide`.`sequence` AS `pepseq` from ((((`mascothit` join `searchspectrum` on((`mascothit`.`fk_searchspectrumid` = `searchspectrum`.`searchspectrumid`))) join `spectrum` on((`searchspectrum`.`fk_spectrumid` = `spectrum`.`spectrumid`))) join `protein` on((`mascothit`.`fk_proteinid` = `protein`.`proteinid`))) join `peptide` on((`mascothit`.`fk_peptideid` = `peptide`.`peptideid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `omssaresult`
+--
+
+/*!50001 DROP VIEW IF EXISTS `omssaresult`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `omssaresult` AS select `omssahit`.`omssahitid` AS `omssahitid`,`omssahit`.`fk_searchspectrumid` AS `fk_searchspectrumid`,`omssahit`.`fk_peptideid` AS `fk_peptideid`,`omssahit`.`fk_proteinid` AS `fk_proteinid`,`omssahit`.`charge` AS `charge`,`omssahit`.`qvalue` AS `qvalue`,`searchspectrum`.`searchspectrumid` AS `searchspectrumid`,`searchspectrum`.`fk_experimentid` AS `fk_experimentid`,`spectrum`.`spectrumid` AS `spectrumid`,`spectrum`.`titlehash` AS `titlehash`,`spectrum`.`precursor_charge` AS `precursor_charge`,`protein`.`proteinid` AS `proteinid`,`protein`.`accession` AS `accession`,`protein`.`description` AS `description`,`protein`.`fk_uniprotentryid` AS `fk_uniprotentryid`,`protein`.`sequence` AS `protseq`,`peptide`.`peptideid` AS `peptideid`,`peptide`.`sequence` AS `pepseq` from ((((`omssahit` join `searchspectrum` on((`omssahit`.`fk_searchspectrumid` = `searchspectrum`.`searchspectrumid`))) join `spectrum` on((`searchspectrum`.`fk_spectrumid` = `spectrum`.`spectrumid`))) join `protein` on((`omssahit`.`fk_proteinid` = `protein`.`proteinid`))) join `peptide` on((`omssahit`.`fk_peptideid` = `peptide`.`peptideid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+
+--
+-- Final view structure for view `xtandemresult`
+--
+
+/*!50001 DROP VIEW IF EXISTS `xtandemresult`*/;
+/*!50001 SET @saved_cs_client          = @@character_set_client */;
+/*!50001 SET @saved_cs_results         = @@character_set_results */;
+/*!50001 SET @saved_col_connection     = @@collation_connection */;
+/*!50001 SET character_set_client      = utf8mb4 */;
+/*!50001 SET character_set_results     = utf8mb4 */;
+/*!50001 SET collation_connection      = utf8mb4_unicode_ci */;
+/*!50001 CREATE ALGORITHM=UNDEFINED */
+/*!50013 DEFINER=`root`@`localhost` SQL SECURITY DEFINER */
+/*!50001 VIEW `xtandemresult` AS select `xtandemhit`.`xtandemhitid` AS `xtandemhitid`,`xtandemhit`.`fk_searchspectrumid` AS `fk_searchspectrumid`,`xtandemhit`.`fk_peptideid` AS `fk_peptideid`,`xtandemhit`.`fk_proteinid` AS `fk_proteinid`,`xtandemhit`.`qvalue` AS `qvalue`,`searchspectrum`.`searchspectrumid` AS `searchspectrumid`,`searchspectrum`.`fk_experimentid` AS `fk_experimentid`,`spectrum`.`spectrumid` AS `spectrumid`,`spectrum`.`titlehash` AS `titlehash`,`spectrum`.`precursor_charge` AS `precursor_charge`,`protein`.`proteinid` AS `proteinid`,`protein`.`accession` AS `accession`,`protein`.`description` AS `description`,`protein`.`sequence` AS `protseq`,`protein`.`fk_uniprotentryid` AS `fk_uniprotentryid`,`peptide`.`peptideid` AS `peptideid`,`peptide`.`sequence` AS `pepseq` from ((((`xtandemhit` join `searchspectrum` on((`xtandemhit`.`fk_searchspectrumid` = `searchspectrum`.`searchspectrumid`))) join `spectrum` on((`searchspectrum`.`fk_spectrumid` = `spectrum`.`spectrumid`))) join `protein` on((`xtandemhit`.`fk_proteinid` = `protein`.`proteinid`))) join `peptide` on((`xtandemhit`.`fk_peptideid` = `peptide`.`peptideid`))) */;
+/*!50001 SET character_set_client      = @saved_cs_client */;
+/*!50001 SET character_set_results     = @saved_cs_results */;
+/*!50001 SET collation_connection      = @saved_col_connection */;
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2021-10-28 10:46:39

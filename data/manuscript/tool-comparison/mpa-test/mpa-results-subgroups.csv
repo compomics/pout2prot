@@ -1,0 +1,33 @@
+Meta-Protein No.	Meta-Protein Accession	Peptide Count	Spectral Count	Proteins	Peptides	
+1	Meta-Protein 1	1	Case1_P1, Case1_P2	AAAAAA	
+2	Meta-Protein 2	2	Case2_P1, Case2_P2	BBBBBBBAAAAA	
+3	Meta-Protein 3	2	Case3_P1, Case3_P2	CAAAAACBBBBB	
+4	Meta-Protein 13	2	Case4_P1	DAAAAADBBBBB	
+5	Meta-Protein 14	2	Case4_P2	DBBBBBDCCCCC	
+6	Meta-Protein 15	2	Case5_P1	EBBBBBEAAAAA	
+7	Meta-Protein 4	2	Case5_P2, Case5_P3	ECCCCCEBBBBB	
+8	Meta-Protein 5	2	Case6_P1, Case6_P2	FBBBBBFAAAAA	
+9	Meta-Protein 6	2	Case6_P3, Case6_P4	FBBBBBFCCCCC	
+10	Meta-Protein 16	2	Case7_P1	GAAAAAGBBBBB	
+11	Meta-Protein 17	2	Case7_P3	GAAAAAGCCCCC	
+12	Meta-Protein 18	2	Case7_P2	GBBBBBGCCCCC	
+13	Meta-Protein 7	2	Case8_P1, Case8_P2	HAAAAAHBBBBB	
+14	Meta-Protein 19	2	Case8_P3	HCCCCCHBBBBB	
+15	Meta-Protein 20	3	Case9_P1	LDDDDD, LBBBBBLAAAAA	
+16	Meta-Protein 21	2	Case9_P3	LAAAAALCCCCC	
+17	Meta-Protein 22	2	Case9_P2	LBBBBBLCCCCC	
+18	Meta-Protein 23	3	Case10_P1	PCCCCC, PBBBBBPAAAAA	
+19	Meta-Protein 8	3	Case10_P2, Case10_P3	PDDDDD, PBBBBBPAAAAA	
+20	Meta-Protein 24	2	Case11_P1	KBBBBBKAAAAA	
+21	Meta-Protein 25	2	Case11_P2	KCCCCCKBBBBB	
+22	Meta-Protein 26	2	Case11_P3	KDDDDDKCCCCC	
+23	Meta-Protein 27	2	Case12_P1	QBBBBBQAAAAA	
+24	Meta-Protein 28	2	Case12_P2	QBBBBBQCCCCC	
+25	Meta-Protein 29	2	Case12_P3	QDDDDDQCCCCC	
+26	Meta-Protein 30	2	Case12_P4	QEEEEEQDDDDD	
+27	Meta-Protein 9	2	Case13_P1, Case13_P4	MBBBBBMAAAAA	
+28	Meta-Protein 10	2	Case13_P3, Case13_P6	MCCCCCMAAAAA	
+29	Meta-Protein 11	2	Case13_P2, Case13_P5	MCCCCCMBBBBB	
+30	Meta-Protein 12	3	Case14_P1, Case14_P2, Case14_P3	NCCCCC, NAAAAANBBBBB	
+31	Meta-Protein 31	3	Case14_P4	NDDDDD, NBBBBBNAAAAA	
+32	Meta-Protein 32	2	Case14_P5	NEEEEENAAAAA	
