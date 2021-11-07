@@ -132,50 +132,56 @@ import {
 } from "./org.transcrypt.__runtime__.js";
 
 var __name__ = "ProteinSubGrouping";
-export var create_protein_subgroups = function (occam_flag, protein_groups, protein_peptide_dict) {
+export var anti_occam_create_protein_subgroups = function (protein_groups, protein_peptide_dict) {
     var protein_subgroups = dict();
+    var subgroup_count = 0;
     for (var protein_group_id of protein_groups.py_keys()) {
-        var protein_subgroup_id_first_half = str(protein_group_id) +
-            "_";
-        var protein_list = protein_groups[protein_group_id].slice();
-        var subgroup_count = 0;
-        while (len(protein_list) > 0) {
-            var current_protein = protein_list.py_pop();
-            var subgroup_protein_list = set([current_protein]);
+        var the_protein_list = list();
+        for (var protein of protein_groups[protein_group_id]) the_protein_list.append(protein);
+        var protein_2_possible_grouping_set = dict();
+        for (var protein_1 of the_protein_list) {
+            var protein_1_grouping_set = set();
+            protein_1_grouping_set.add(protein_1);
+            for (var protein_2 of the_protein_list) if (protein_peptide_dict[protein_1].issubset(protein_peptide_dict[protein_2]) || protein_peptide_dict[protein_2].issubset(protein_peptide_dict[protein_1])) if (protein_1 != protein_2) protein_1_grouping_set.add(protein_2);
+            protein_2_possible_grouping_set[protein_1] =
+                protein_1_grouping_set
+        }
+        var already_used = list();
+        for (var protein_test1 of protein_2_possible_grouping_set.py_keys()) if (!__in__(protein_test1, already_used)) {
+            var subgroup = list();
+            subgroup.append(protein_test1);
+            already_used.append(protein_test1);
+            for (var protein_test2 of protein_2_possible_grouping_set.py_keys()) if (!__in__(protein_test2, already_used)) if (protein_2_possible_grouping_set[protein_test1] == protein_2_possible_grouping_set[protein_test2]) {
+                subgroup.append(protein_test2);
+                already_used.append(protein_test2)
+            }
+            subgroup_count++;
+            var protein_subgroup_id_first_half = str(protein_group_id) + "_";
+            var subgroup_id = protein_subgroup_id_first_half + str(subgroup_count);
+            protein_subgroups[subgroup_id] = subgroup
+        }
+    }
+    return protein_subgroups
+};
+export var occam_create_protein_subgroups = function (protein_groups, protein_peptide_dict) {
+    var protein_subgroups = dict();
+    var subgroup_count = 0;
+    for (var protein_group_id of protein_groups.py_keys()) {
+        var protein_subgroup_id_first_half = str(protein_group_id) + "_";
+        var the_protein_list = list();
+        for (var protein of protein_groups[protein_group_id]) the_protein_list.append(protein);
+        var already_used = set();
+        for (var protein_1 of the_protein_list) if (!__in__(protein_1, already_used)) {
+            var subgroup = list();
+            subgroup.append(protein_1);
+            already_used.add(protein_1);
+            for (var protein_2 of the_protein_list) if (!__in__(protein_2, already_used)) if (protein_peptide_dict[protein_1] == protein_peptide_dict[protein_2]) {
+                subgroup.append(protein_2);
+                already_used.add(protein_2)
+            }
             subgroup_count++;
             var subgroup_id = protein_subgroup_id_first_half + str(subgroup_count);
-            protein_subgroups[subgroup_id] = subgroup_protein_list;
-            var peptide_set_1_group = protein_peptide_dict[current_protein];
-            var list_of_proteins_to_remove = set();
-            for (var compare_protein of protein_list) {
-                var peptide_set_2_compare =
-                    protein_peptide_dict[compare_protein];
-                let add = false;
-                if (peptide_set_1_group.issubset(peptide_set_2_compare)) {
-                    add = true;
-                    if (!occam_flag) for (var other_protein of protein_groups[protein_group_id]) if (other_protein != compare_protein && other_protein != current_protein) {
-                        var peptide_set_3_other = protein_peptide_dict[other_protein];
-                        if (peptide_set_1_group.issubset(peptide_set_3_other) && !peptide_set_2_compare.issubset(peptide_set_3_other) && !peptide_set_2_compare.issuperset(peptide_set_3_other)) {
-                            add = false;
-                            break
-                        }
-                    }
-                } else if (peptide_set_2_compare.issubset(peptide_set_1_group)) {
-                    add = true;
-                    if (!occam_flag) for (var other_protein of protein_groups[protein_group_id]) if (other_protein != compare_protein && other_protein != current_protein) {
-                        var peptide_set_3_other = protein_peptide_dict[other_protein];
-                        if (peptide_set_2_compare.issubset(peptide_set_3_other) && !peptide_set_1_group.issubset(peptide_set_3_other) && !peptide_set_1_group.issuperset(peptide_set_3_other)) {
-                            add = false;
-                            break
-                        }
-                    }
-                }
-                if (add) {
-                    subgroup_protein_list.add(compare_protein);
-                    list_of_proteins_to_remove.add(compare_protein)
-                }
-            }
-            for (var remove_protein of list_of_proteins_to_remove) protein_list.remove(remove_protein)
+            protein_subgroups[subgroup_id] = subgroup
         }
     }
     return protein_subgroups

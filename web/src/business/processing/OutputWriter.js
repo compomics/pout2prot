@@ -132,47 +132,73 @@ import {
 } from "./org.transcrypt.__runtime__.js";
 
 var __name__ = "__main__";
-export var write_to_file = function (rep_cat, groups, psm_exp, pep_psm, peptide_protein_map, protein_peptide_map) {
-    var output = "";
-    output += "sample category\tsample name\tprotein accessions\tspectrum count\n";
-    var peptide_to_groups = dict();
-    for (var [group, proteins] of groups.py_items()) {
-        for (var protein of proteins) {
-            for (var peptide of protein_peptide_map[protein]) {
-                if (__in__(peptide, peptide_to_groups)) {
-                    peptide_to_groups[peptide].add(group);
-                } else {
-                    peptide_to_groups[peptide] = new set([group]);
-                }
-            }
-        }
-    }
+export var write_prophane = function (rep_cat, groups, psm_exp, pep_psm, peptide_protein_map, protein_peptide_map) {
+    var f = "";
+    f += "sample category\tsample name\tprotein accessions\tspectrum count\n";
+    var peptide_to_groups =
+        dict();
+    for (var [group, proteins] of groups.py_items()) for (var protein of proteins) for (var peptide of protein_peptide_map[protein]) if (__in__(peptide, peptide_to_groups)) peptide_to_groups[peptide].add(group); else peptide_to_groups[peptide] = new set([group]);
     for (var proteins of groups.py_values()) {
-        var experiments = set();
-        var experiment_to_count = dict();
+        var samples = set();
+        var sample_names_to_count = dict();
         var used_peptides = set();
         for (var protein of proteins) for (var peptide of protein_peptide_map[protein]) {
             if (!__in__(peptide, used_peptides)) for (var psm of pep_psm[peptide]) {
                 var divide_by =
                     len(peptide_to_groups[peptide]);
-                var experiment = psm_exp[psm];
-                if (__in__(experiment, experiment_to_count)) experiment_to_count[experiment] = experiment_to_count[experiment] + 1 / divide_by; else {
-                    experiment_to_count[experiment] = 1 / divide_by;
-                    if (!__in__(experiment, experiments)) experiments.add(experiment)
+                var sample_name = psm_exp[psm];
+                if (__in__(sample_name, sample_names_to_count)) sample_names_to_count[sample_name] = sample_names_to_count[sample_name] + 1 / divide_by; else {
+                    sample_names_to_count[sample_name] = 1 / divide_by;
+                    if (!__in__(sample_name, samples)) samples.add(sample_name)
                 }
             }
             used_peptides.add(peptide)
         }
-
-        for (var experiment of experiments) {
-            var category = rep_cat[experiment];
-            const experimentStrings = experiment.split("\\");
-            const experimentString = experimentStrings[experimentStrings.length - 1].split(".")[0];
-            output += `${category}\t${experimentString}\t${proteins.join(',')}\t${experiment_to_count[experiment]}\n`
+        for (var sample_name of samples) {
+            var sample_category = rep_cat[sample_name];
+            f += "{}\t{}\t{}\t{}\n".format(sample_category, sample_name, ",".join(proteins), sample_names_to_count[sample_name]);
         }
     }
 
-    return output;
+    return f;
+};
+export var write_tsv = function (rep_cat, groups, psm_exp, pep_psm, peptide_protein_map, protein_peptide_map) {
+    var f = "";
+    var sample_names = set();
+    for (var value of psm_exp.py_values()) sample_names.add(value);
+    var sample_names = list(sample_names);
+    var sample_headers = "\t".join(sample_names);
+    var header = "sample category\tprotein accessions\t{}\n".format(sample_headers);
+    f += header;
+    var peptide_to_groups = dict();
+    for (var [group, proteins] of groups.py_items()) for (var protein of proteins) for (var peptide of protein_peptide_map[protein]) if (__in__(peptide,
+        peptide_to_groups)) peptide_to_groups[peptide].add(group); else peptide_to_groups[peptide] = new set([group]);
+    for (var proteins of groups.py_values()) {
+        var samples = set();
+        var sample_names_to_count = dict();
+        var used_peptides = set();
+        for (var protein of proteins) for (var peptide of protein_peptide_map[protein]) {
+            if (!__in__(peptide, used_peptides)) for (var psm of pep_psm[peptide]) {
+                var divide_by = len(peptide_to_groups[peptide]);
+                var sample_name = psm_exp[psm];
+                if (__in__(sample_name, sample_names_to_count)) sample_names_to_count[sample_name] =
+                    sample_names_to_count[sample_name] + 1 / divide_by; else {
+                    sample_names_to_count[sample_name] = 1 / divide_by;
+                    if (!__in__(sample_name, samples)) samples.add(sample_name)
+                }
+            }
+            used_peptides.add(peptide)
+        }
+        var sample_values = "\t".join(function () {
+            var __accu0__ = [];
+            for (var sample_name of sample_names) __accu0__.append(str(__in__(sample_name, sample_names_to_count) ? sample_names_to_count[sample_name] : 0));
+            return py_iter(__accu0__)
+        }());
+        var sample_category = rep_cat[sample_name];
+        f += "{}\t{}\t{}\n".format(sample_category, ",".join(proteins), sample_values);
+    }
+
+    return f;
 };
 
 //# sourceMappingURL=OutputWriter.map

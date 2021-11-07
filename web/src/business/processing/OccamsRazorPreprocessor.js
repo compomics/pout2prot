@@ -149,7 +149,7 @@ export var occam_filter = function (peptides_to_proteins, proteins_to_peptides) 
         for (var pep_test of peps2) if (!__in__(pep_test, explained_peps)) var is_explained = false;
         var sharing_proteins = set();
         for (var pep_group of peps2) for (var protein_share of peptides_to_proteins[pep_group]) sharing_proteins.add(protein_share);
-        for (var protein_test of sharing_proteins) if (peps2.issubset(proteins_to_peptides[protein_test]) && len(peps2) < len(proteins_to_peptides[protein_test])) var is_explained = true;
+        for (var protein_test of sharing_proteins) if (peps2 < proteins_to_peptides[protein_test]) var is_explained = true;
         if (is_explained) remove_proteins.add(prot2)
     }
     var peptides_marked_for_update = set();

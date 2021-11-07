@@ -1,6 +1,3 @@
-import os
-
-
 # Input grouping and all other dicts
 # Should produce one Prophane file for groups and one Prophane file for subgroups
 def write_prophane(rep_cat, groups, psm_exp, pep_psm, peptide_protein_map, protein_peptide_map, file):
