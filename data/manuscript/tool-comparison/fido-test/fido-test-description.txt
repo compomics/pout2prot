@@ -1,0 +1,42 @@
+FIDO (Percolator integrated)
+
+To run the test cases with FIDO, the peptide identifications had to be added to a larger search, since Percolator
+refuses to run if all PSMs are valid. The file percolatorinput includes target+decoy PSMs from a normal search mixed
+in with the test cases. The file was curated to make sure the cases are properly represented and no e.coli PSMs are
+interfering with the test cases. To do the grouping percolator was run with the command shown below: where -A for FIDO
+-g for reporting all proteins per group -l write to file (protgroups.txt). For easier analysis the lines with the
+test case proteins were moved to the top of the file. Percolator only offers subgroup-level grouping with Anti-Occam.
+The proteingroup-id shows which proteins were grouped together.
+
+Running the following command:
+percolator.exe -X pout.pout -A -g -l protgroups.txt percolatorinput
+
+Anti-Occam+Subgroups only, -c option is on database level (and like Occam)
+percolator.exe -X pout.pout -A -c -g -l protgroups.txt percolatorinput
+
+More:
+
+In order to produce the data set, MSGF+ was run; then msgf2pin.
+Details: A MGF was created (java code) that contains perfect spectra for randomly generated test peptides (all y+,y++,b+,b++ ions).
+A target and decoy (reverse) fasta were created (java code) that contain proteins with the correct peptides contained in the
+sequences exactly reflecting the test cases.
+
+An ecoli sample (timsTOF) was selected and an ecoli protein database (uniprot/swissprot) was downloaded. Any normal
+MGF and an appropriate database are sufficient, since these data are only used to trick Percolator into running.
+
+A decoy database (reverse) was created using a script (java code).
+The artifical MGF and the ecoli MGF were concatenated. The artificial target database and the ecoli database were
+concatenated. The artificial decoy database and the created (java code) ecoli decoy database were concatenated.
+
+MSGF+ was run twice with the following commands producing out_target.mzid and out_decoy.mzid. The Modification file
+was modified to exclude all modifications (A file that contains the line: "NumMods=0").
+
+java -jar MSGFPlus.jar -s EcoliPlusCases.mgf -o out_target.mzid -d EcoliPlusCases_target.fasta -mod MSGFPlus_Mods1.txt -t 10ppm -m 0 -inst 1 -e 1 -ti -1,2 -ntt 2 -tda 0 -minLength 6 -maxLength 50 -n 1 -thread 7 -addFeatures 1
+java -jar MSGFPlus.jar -s EcoliPlusCases.mgf -o out_decoy.mzid -d EcoliPlusCases_decoy.fasta -mod MSGFPlus_Mods1.txt  -t 10ppm -m 0 -inst 1 -e 1 -ti -1,2 -ntt 2 -tda 0 -minLength 6 -maxLength 50 -n 1 -thread 7 -addFeatures 1
+
+msgf2pin was run on the MSGF+ output resulting in the file percolatorinput.
+
+msgf2pin.exe -F EcoliPlusCases_target.fasta,EcoliPlusCases_decoy.fasta out_target.mzid out_decoy.mzid -o percolatorinput
+
+As described above, the file pecolatorinput was curated to remove (false/poor quality) hits that were included as
+a result of the unfiltered search with MSGF+.
