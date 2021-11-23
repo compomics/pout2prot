@@ -9,6 +9,9 @@ The "Process Results" button creates the protein grouping. To create protein gro
 to create subgroups the option "shared peptide set" was used. The option Export->Export CSV->Export Metaproteins was used
 to export the results found in mpa-results-groups.csv and mpa-results-subgroups.csv.
 
+Since this is our tool, we do not take extra steps to verify
+that the grouping actually fails - a look at the code tells us this
+is the case. compomics/metaproteomeanalyzer
 
 CASE 1 - G OK, SG OK
 CASE 2 - G OK, SG OK
@@ -17,10 +20,10 @@ CASE 4 - G OK, SG OK
 CASE 5 - G OK, SG OK
 CASE 6 - G OK, SG OK
 CASE 7 - G OK, SG OK
-CASE 8 - G OK, SG FAILED
+CASE 8 - G OK, SG ANTI-OCCAM UNDECIDED,
 CASE 9 - G OK, SG OK
 CASE 10 - G OK, SG OK
 CASE 11 - G OK, SG OK
 CASE 12 - G OK, SG OK
-CASE 13 - G OK, SG FAILED
-CASE 14 - G OK, SG FAILED
+CASE 13 - G OK, SG ANTI-OCCAM UNDECIDED
+CASE 14 - G OK, SG ANTI-OCCAM UNDECIDED

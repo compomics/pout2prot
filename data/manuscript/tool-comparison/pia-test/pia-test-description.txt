@@ -13,7 +13,8 @@ pia-results-occam.csv and pia-results-reportall.csv.
 Occam + Groups / Anti-Occam + Groups
 -> not implemented
 Occam + Subgroup
--> Case 12 failed, randomly chooses a protein to remove (2 or 3)
+-> Case 12 undecided occam, randomly chooses a protein to remove (2 or 3)
+--> retrying with the same file will result in different results
 Anti-Occam + Subgroup (Report All)
 -> Case 3 failed, 2 groups instead of one (cannot detect the subset)
 -> Case 10 failed, P2+3 are not grouped (cannot detect the subset)
