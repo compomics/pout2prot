@@ -1,4 +1,4 @@
-X!Tandem-Pipeline
+X!Tandem-Pipeline 0.4.34
 
 The file GroupingTest.mzid was run with xtpcpp.exe;
 1. Load identification results (mzIdentML = mzid)
@@ -17,13 +17,19 @@ CASE 3 OK
 CASE 4 OK
 CASE 5 OK
 CASE 6 OK
-CASE 7 FAILED Group and subgroup
+CASE 7 UNDECIDED OCCAM Group and subgroup
 CASE 8 OK
-CASE 9 FAILED Group and subgroup
+CASE 9 UNDECIDED OCCAM Group and subgroup
 CASE 10 OK
 CASE 11 OK
-CASE 12 FAILED Group and subgroup
-CASE 13 FAILED Group and subgroup
+CASE 12 UNDECIDED OCCAM Group and subgroup
+CASE 13 FAILED Group and subgroup,
+        Only one protein is kept completely ignoring one peptide!
 CASE 14 OK
 
+Rearranged:
+Case7: Protein Case7_P1 renamed to Case7_PX1
+Case9: Protein Case9_P2 renamed to Case9_PX2
+Case12: Protein Case12_P2 renamed to Case12_PX2
+Case13: No difference
 
