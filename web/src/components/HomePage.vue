@@ -199,7 +199,7 @@ export default {
         error: false,
         errorMessage: "",
         fileFormats: ["tsv", "prophane"],
-        selectedFileFormat: "tsv"
+        selectedFileFormat: "tsv",
     }),
 
     methods: {
@@ -277,6 +277,8 @@ export default {
                 let proteinSubgroups;
 
                 try {
+                    this.analysisInProgress = true;
+
                     [proteinGroups, proteinSubgroups] = protein_grouping_analysis(
                         this.occam,
                         dict(protPeptArray),
@@ -286,6 +288,8 @@ export default {
                     this.error = true;
                     this.errorMessage = "An error occurred while performing the protein grouping analysis: " + e.message;
                     return;
+                } finally {
+                    this.analysisInProgress = false;
                 }
 
 

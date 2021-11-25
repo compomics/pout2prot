@@ -1,6 +1,6 @@
-from ProteinGrouping import create_protein_groups
-from ProteinSubGrouping import anti_occam_create_protein_subgroups, occam_create_protein_subgroups
-from OccamsRazorPreprocessor import occam_filter
+from .ProteinGrouping import create_protein_groups
+from .ProteinSubGrouping import anti_occam_create_protein_subgroups, occam_create_protein_subgroups
+from .OccamsRazorPreprocessor import occam_filter
 
 
 def protein_grouping_analysis(occam_flag, protein_peptide_dict, peptide_protein_dict):

@@ -142,18 +142,28 @@ export var anti_occam_create_protein_subgroups = function (protein_groups, prote
         for (var protein_1 of the_protein_list) {
             var protein_1_grouping_set = set();
             protein_1_grouping_set.add(protein_1);
-            for (var protein_2 of the_protein_list) if (protein_peptide_dict[protein_1].issubset(protein_peptide_dict[protein_2]) || protein_peptide_dict[protein_2].issubset(protein_peptide_dict[protein_1])) if (protein_1 != protein_2) protein_1_grouping_set.add(protein_2);
-            protein_2_possible_grouping_set[protein_1] =
-                protein_1_grouping_set
+            for (var protein_2 of the_protein_list) {
+                if (protein_peptide_dict[protein_1].issubset(protein_peptide_dict[protein_2]) || protein_peptide_dict[protein_2].issubset(protein_peptide_dict[protein_1])) {
+                    if (protein_1 != protein_2) {
+                        protein_1_grouping_set.add(protein_2);
+                    }
+                }
+            }
+            protein_2_possible_grouping_set[protein_1] = protein_1_grouping_set;
         }
+
         var already_used = list();
         for (var protein_test1 of protein_2_possible_grouping_set.py_keys()) if (!__in__(protein_test1, already_used)) {
             var subgroup = list();
             subgroup.append(protein_test1);
             already_used.append(protein_test1);
-            for (var protein_test2 of protein_2_possible_grouping_set.py_keys()) if (!__in__(protein_test2, already_used)) if (protein_2_possible_grouping_set[protein_test1] == protein_2_possible_grouping_set[protein_test2]) {
-                subgroup.append(protein_test2);
-                already_used.append(protein_test2)
+            for (var protein_test2 of protein_2_possible_grouping_set.py_keys()) {
+                if (!__in__(protein_test2, already_used)) {
+                    if (compareSets(protein_2_possible_grouping_set[protein_test1], protein_2_possible_grouping_set[protein_test2])) {
+                        subgroup.append(protein_test2);
+                        already_used.append(protein_test2)
+                    }
+                }
             }
             subgroup_count++;
             var protein_subgroup_id_first_half = str(protein_group_id) + "_";
@@ -175,9 +185,13 @@ export var occam_create_protein_subgroups = function (protein_groups, protein_pe
             var subgroup = list();
             subgroup.append(protein_1);
             already_used.add(protein_1);
-            for (var protein_2 of the_protein_list) if (!__in__(protein_2, already_used)) if (protein_peptide_dict[protein_1] == protein_peptide_dict[protein_2]) {
-                subgroup.append(protein_2);
-                already_used.add(protein_2)
+            for (var protein_2 of the_protein_list) {
+                if (!__in__(protein_2, already_used)) {
+                    if (compareSets(protein_peptide_dict[protein_1], protein_peptide_dict[protein_2])) {
+                        subgroup.append(protein_2);
+                        already_used.add(protein_2)
+                    }
+                }
             }
             subgroup_count++;
             var subgroup_id = protein_subgroup_id_first_half + str(subgroup_count);
@@ -186,5 +200,9 @@ export var occam_create_protein_subgroups = function (protein_groups, protein_pe
     }
     return protein_subgroups
 };
+
+function compareSets(a1, a2) {
+    return a1.every(p1 => a2.includes(p1)) && a2.every(p2 => a1.includes(p2));
+}
 
 //# sourceMappingURL=ProteinSubGrouping.map
